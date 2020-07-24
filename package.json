@@ -6,8 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "export": "next export",
-    "deploy": "rm -rf node_modules/.cache && rimraf out && next build && next export && touch out/.nojekyll && echo \"stimbox.space\" >> out/CNAME && gh-pages -d out -t true"
+    "export": "rimraf dist && next export -o dist && echo stimbox.space > dist/CNAME",
+    "gh-pages-deploy": "node scripts/gh-pages-deploy.js"
   },
   "dependencies": {
     "next": "9.3.5",

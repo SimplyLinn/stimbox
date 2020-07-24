@@ -3,12 +3,6 @@
 // (But you could use ES2015 features supported by your Node.js version)
 
 module.exports = {
-  exportPathMap: function () {
-    return {
-      "/": { page: "/" },
-      "/about": { page: "/about" },
-    }
-  },
   assetPrefix: '',
   webpack: (config, { dev }) => {
     // Perform customizations to webpack config
