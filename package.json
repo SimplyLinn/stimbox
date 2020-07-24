@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "export": "rimraf dist && next export -o dist && echo stimbox.space > dist/CNAME",
+    "export": "rimraf dist && next export -o dist && echo -n stimbox.space > dist/CNAME",
     "gh-pages-deploy": "node scripts/gh-pages-deploy.js"
   },
   "dependencies": {
