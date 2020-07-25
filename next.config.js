@@ -1,8 +1,13 @@
+/* eslint-disable */
 // This file is not going through babel transformation.
 // So, we write it in vanilla JS
 // (But you could use ES2015 features supported by your Node.js version)
+const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
+const path = require('path');
 
 module.exports = {
+  // Workaround for console error on every pageload
+  exportTrailingSlash: process.env.NODE_ENV === 'development' ? false : true,
   assetPrefix: '',
   webpack: (config, { dev }) => {
     // Perform customizations to webpack config
@@ -14,14 +19,17 @@ module.exports = {
       }
       return rule
     })
+    if (config.resolve.plugins) {
+      config.resolve.plugins.push(new TsconfigPathsPlugin());
+    } else {
+      config.resolve.plugins = [new TsconfigPathsPlugin()];
+    }
     // Important: return the modified config
-    return config
-  }/*,
-  webpackDevMiddleware: (config) => {
-    // Perform customizations to webpack dev middleware config
-    // console.log('webpackDevMiddleware');
-    // console.log(config);
-    // Important: return the modified config
-    return config
-  }, */
+    if (config.node == null) {
+      config.node = {};
+    }
+    config.node.__filename = true;
+    config.node.__dirname = true;
+    return config;
+  }
 }
