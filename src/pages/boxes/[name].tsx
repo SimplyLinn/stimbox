@@ -2,7 +2,8 @@ import { NextPage, GetStaticProps, GetStaticPaths } from 'next';
 import dynamic from 'next/dynamic';
 import { MetaData } from 'boxd';
 import { useMemo } from 'react';
-import getBoxes from '../../utils/getBoxes';
+import Head from 'next/head';
+import getBoxes from 'utils/getBoxes';
 
 const StimLoading = () => (
   <div>
@@ -33,6 +34,9 @@ const Box: NextPage<StaticProps> = ({ metadata }: StaticProps) => {
   );
   return (
     <div>
+      <Head>
+        <title>{metadata.name} | Stimbox</title>
+      </Head>
       {metadata.name}
       <Component />
     </div>

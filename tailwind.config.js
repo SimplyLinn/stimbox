@@ -1,0 +1,81 @@
+const colorSchemes = {
+  'dark-theme': {
+    'heading-primary': '#fff',
+    'heading-secondary': '#b9bbbe',
+    'text-normal': '#dcddde',
+    'text-muted': '#72767d',
+    'text-link': '#00b0f4',
+    'text-link-hover': '#52c7f4',
+    'interactive-normal': '#b9bbbe',
+    'interactive-hover': '#dcddde',
+    'interactive-active': '#fff',
+    'interactive-muted': '#4f545c',
+    'background-primary': '#3a3d42',
+    'background-secondary': '#63515d',
+    'background-tertiary': '#846c7c',
+    'background-accent': '#556461',
+    'background-floating': '#3b3b3b',
+  },
+  'light-theme': {
+    'heading-primary': '#fff',
+    'heading-secondary': '#b9bbbe',
+    'text-normal': '#dcddde',
+    'text-muted': '#72767d',
+    'text-link': '#00b0f4',
+    'text-link-hover': '#52c7f4',
+    'interactive-normal': '#b9bbbe',
+    'interactive-hover': '#dcddde',
+    'interactive-active': '#fff',
+    'interactive-muted': '#4f545c',
+    'background-primary': '#3a3d42',
+    'background-secondary': '#63515d',
+    'background-tertiary': '#846c7c',
+    'background-accent': '#556461',
+    'background-floating': '#3b3b3b',
+  },
+};
+
+module.exports = {
+  purge: [
+    './boxes/**/*.ts',
+    './boxes/**/*.tsx',
+    './boxes/**/*.js',
+    './boxes/**/*.jsm',
+    './boxes/**/*.jsx',
+    './src/**/*.ts',
+    './src/**/*.tsx',
+    './src/**/*.js',
+    './src/**/*.jsm',
+    './src/**/*.jsx',
+  ],
+  theme: {
+    screens: {
+      sm: '640px',
+      md: '768px',
+      lg: '1024px',
+      xl: '1280px',
+    },
+    fontFamily: {
+      display: ['Gilroy', 'sans-serif'],
+      body: ['Graphik', 'sans-serif'],
+    },
+    borderWidth: {
+      default: '1px',
+      '0': '0',
+      '2': '2px',
+      '4': '4px',
+    },
+    extend: {
+      colors: {
+        cyan: '#9cdbff',
+        ...colorSchemes,
+      },
+      spacing: {
+        '96': '24rem',
+        '128': '32rem',
+      },
+    },
+  },
+  variants: {},
+  plugins: [],
+};

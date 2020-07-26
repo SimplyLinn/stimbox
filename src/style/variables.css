@@ -1,0 +1,23 @@
+:root {
+  @mixin default-theme;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    @mixin dark-theme;
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    @mixin light-theme;
+  }
+}
+
+body.light-theme {
+  @mixin light-theme;
+}
+
+body.dark-theme {
+  @mixin dark-theme;
+}

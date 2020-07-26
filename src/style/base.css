@@ -1,0 +1,34 @@
+body {
+  @mixin theme-color background-color, background-primary;
+  @mixin theme-color color, text-normal;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  @mixin theme-color color, heading-primary;
+}
+
+h1.secondary,
+h2.secondary,
+h3.secondary,
+h4.secondary,
+h5.secondary,
+h6.secondary {
+  @mixin theme-color color, heading-secondary;
+}
+
+h1 {
+  font-size: 2rem;
+}
+
+a {
+  @mixin theme-color color, text-link;
+}
+
+a:hover {
+  @mixin theme-color color, text-link-hover;
+}

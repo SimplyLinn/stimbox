@@ -1,0 +1,17 @@
+.layout {
+  @apply flex flex-col min-h-screen;
+}
+
+.layout-header {
+  @mixin theme-color background-color, background-secondary;
+  @apply p-4 flex flex-shrink-0;
+}
+
+.layout-main {
+  @apply p-4 flex-grow;
+}
+
+.layout-footer {
+  @mixin theme-color background-color, background-tertiary;
+  @apply p-4 flex-shrink-0;
+}

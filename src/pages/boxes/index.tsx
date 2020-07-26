@@ -1,7 +1,9 @@
 import { NextPage, GetStaticProps } from 'next';
 import { MetaData } from 'boxd';
 import Link from 'next/link';
-import getBoxes from '../../utils/getBoxes';
+import Layout from 'Components/Layout';
+import getBoxes from 'utils/getBoxes';
+import Head from 'next/head';
 
 type StaticProps = {
   boxes: readonly MetaData[];
@@ -9,7 +11,10 @@ type StaticProps = {
 
 const Box: NextPage<StaticProps> = ({ boxes }: StaticProps) => {
   return (
-    <div>
+    <Layout>
+      <Head>
+        <title>Boxlist | Stimbox</title>
+      </Head>
       {boxes.map((box) => (
         <div key={box.moduleName}>
           <Link
@@ -20,7 +25,7 @@ const Box: NextPage<StaticProps> = ({ boxes }: StaticProps) => {
           </Link>
         </div>
       ))}
-    </div>
+    </Layout>
   );
 };
 
