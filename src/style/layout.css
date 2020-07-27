@@ -2,11 +2,6 @@
   @apply flex flex-col min-h-screen;
 }
 
-.layout-header {
-  @mixin theme-color background-color, background-secondary;
-  @apply p-4 flex flex-shrink-0;
-}
-
 .layout-main {
   @apply p-4 flex-grow;
 }
@@ -14,4 +9,65 @@
 .layout-footer {
   @mixin theme-color background-color, background-tertiary;
   @apply p-4 flex-shrink-0;
+}
+
+.boxlayout-header,
+.layout-header {
+  @apply relative h-20;
+  @mixin theme-color background-color, background-secondary;
+}
+
+.boxlayout-header {
+  transition: height 0.4s ease;
+}
+
+.boxlayout-header_closed {
+  height: 0;
+}
+
+.boxlayout-header-button {
+  @apply block absolute h-6;
+  @mixin theme-color background-color, background-secondary;
+
+  transform: translateX(-50%);
+  top: 100%;
+  left: 50%;
+  width: 40px;
+}
+
+.boxlayout-header-button::after,
+.boxlayout-header-button::before {
+  @apply absolute;
+  @mixin theme-color background-color, heading-primary;
+
+  content: '';
+  width: 4px;
+  height: 20px;
+  transition: transform 0.4s ease;
+}
+
+.boxlayout-header-button::before {
+  transform: rotateZ(45deg);
+  left: 12px;
+}
+
+.boxlayout-header-button::after {
+  transform: rotateZ(-45deg);
+  right: 12px;
+}
+
+.boxlayout-header.closed {
+  height: 0;
+}
+
+.boxlayout-header.closed > .boxlayout-header-button::before {
+  transform: rotateZ(-45deg);
+}
+
+.boxlayout-header.closed > .boxlayout-header-button::after {
+  transform: rotateZ(45deg);
+}
+
+.header-container {
+  @apply px-4 flex flex-shrink-0 items-center absolute w-full h-20 bottom-0;
 }
