@@ -1,4 +1,5 @@
 {
   "name": "ToneMatrix",
-  "description": "Play with tones"
+  "description": "Play with tones",
+  "upstream": "https://github.com/MaxLaumeister/ToneMatrixRedux"
 }

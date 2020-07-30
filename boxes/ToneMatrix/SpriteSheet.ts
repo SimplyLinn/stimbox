@@ -102,7 +102,7 @@ export default class SpriteSheet {
     context: CanvasRenderingContext2D,
     x: number,
     y: number,
-  ) {
+  ): void {
     context.drawImage(
       this.spriteSheet,
       spriteId * this.tileWidth,

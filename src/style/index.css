@@ -4,3 +4,4 @@
 @import "./base.css";
 @import "./layout.css";
 @import "tailwindcss/utilities";
+@import "./themeswitcher.css";

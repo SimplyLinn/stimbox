@@ -1,5 +1,5 @@
-const colorSchemes = {
-  'dark-theme': {
+const colorModes = {
+  dark: {
     'heading-primary': '#fff',
     'heading-secondary': '#b9bbbe',
     'text-normal': '#dcddde',
@@ -16,7 +16,7 @@ const colorSchemes = {
     'background-accent': '#556461',
     'background-floating': '#3b3b3b',
   },
-  'light-theme': {
+  light: {
     'heading-primary': '#fff',
     'heading-secondary': '#b9bbbe',
     'text-normal': '#dcddde',
@@ -27,7 +27,7 @@ const colorSchemes = {
     'interactive-hover': '#dcddde',
     'interactive-active': '#fff',
     'interactive-muted': '#4f545c',
-    'background-primary': '#3a3d42',
+    'background-primary': '#ffffff',
     'background-secondary': '#63515d',
     'background-tertiary': '#846c7c',
     'background-accent': '#556461',
@@ -68,7 +68,7 @@ module.exports = {
     extend: {
       colors: {
         cyan: '#9cdbff',
-        ...colorSchemes,
+        modes: colorModes,
       },
       spacing: {
         '96': '24rem',

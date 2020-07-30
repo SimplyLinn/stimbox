@@ -1,6 +1,6 @@
 /** A static class that provides pure functions */
 export default class Util {
-  static DEBUG = process.env.NODE_ENV === 'development';
+  static DEBUG = false && process.env.NODE_ENV === 'development';
 
   /**
    * Converts coordinates in "pixel space" to coordinates in "tile space".
@@ -22,7 +22,7 @@ export default class Util {
     gridHeight: number,
     canvasWidth: number,
     canvasHeight: number,
-  ) {
+  ): { x: number; y: number } | false {
     const dx = canvasWidth / gridWidth;
     const dy = canvasHeight / gridHeight;
     const xCoord = Math.floor(x / dx);
@@ -45,7 +45,7 @@ export default class Util {
    * @param gridHeight - The width of the 2-D representation (the grid height)
    * @returns The corresponding index
    */
-  static coordToIndex(x: number, y: number, gridHeight: number) {
+  static coordToIndex(x: number, y: number, gridHeight: number): number {
     return x * gridHeight + y;
   }
 
@@ -55,7 +55,10 @@ export default class Util {
    * @param gridHeight - The width of the 2-D representation (the grid height)
    * @returns - The corresponding x and y coordinates
    */
-  static indexToCoord(index: number, gridHeight: number) {
+  static indexToCoord(
+    index: number,
+    gridHeight: number,
+  ): { x: number; y: number } {
     return { x: Math.floor(index / gridHeight), y: index % gridHeight };
   }
 
@@ -77,10 +80,10 @@ export default class Util {
     y: number,
     width: number,
     height: number,
-    radius: number = 5,
-    fill: boolean = false,
-    stroke: boolean = true,
-  ) {
+    radius = 5,
+    fill = false,
+    stroke = true,
+  ): void {
     ctx.beginPath();
     ctx.moveTo(x + radius, y);
     ctx.lineTo(x + width - radius, y);
@@ -115,7 +118,7 @@ export default class Util {
    * Gets the current devicePixelRatio in a performant way
    * @returns The device pixel ratio
    */
-  static getDevicePixelRatio() {
+  static getDevicePixelRatio(): number {
     return Util.devicePixelRatio;
   }
 }

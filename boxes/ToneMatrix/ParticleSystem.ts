@@ -44,7 +44,7 @@ export default class ParticleSystem {
    * Updates all particle positions based on their current position,
    * velocity, and the amount of time that's passed.
    */
-  update() {
+  update(): void {
     if (this.lastUpdate !== 0) {
       const now = Date.now();
       const deltaTime = (now - this.lastUpdate) / 16.67; // 60fps is a time factor of 1
@@ -81,7 +81,7 @@ export default class ParticleSystem {
    * @param vx - Particle's x velocity, in pixels per 1/60th of a second
    * @param vy - Particle's y velocity, in pixels per 1/60th of a second
    */
-  createParticle(x: number, y: number, vx: number, vy: number) {
+  createParticle(x: number, y: number, vx: number, vy: number): void {
     const p = this.particles[this.oldestParticle];
     p.x = x;
     p.y = y;
@@ -99,7 +99,7 @@ export default class ParticleSystem {
    * @param v - The velocity of the particles, in pixels per 1/60th of a second
    * @param n - The number of particles to create
    */
-  createParticleBurst(x: number, y: number, v: number, n: number) {
+  createParticleBurst(x: number, y: number, v: number, n: number): void {
     const randomOffset = Math.random() * 2 * Math.PI;
     for (let j = 0; j < 2 * Math.PI; j += (2 * Math.PI) / n) {
       const pvx = Math.cos(j + randomOffset) * v;

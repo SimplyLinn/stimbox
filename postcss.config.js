@@ -1,40 +1,41 @@
-/* eslint-disable import/no-extraneous-dependencies */
-const tailwindconfig = require('tailwindcss/resolveConfig')(
+/* eslint-disable @typescript-eslint/no-var-requires */
+/**
+ * @type {{ dark: Partial<Record<string, string>>; light: Partial<Record<string, string>>; }}
+ */
+const themes = require('tailwindcss/resolveConfig')(
   require('./tailwind.config.js'),
-);
+).theme.colors.modes;
 
-const darkTheme = tailwindconfig.theme.colors['dark-theme'];
-const lightTheme = tailwindconfig.theme.colors['light-theme'];
-const defaultTheme = darkTheme;
+const { defaultMode } = require('./config.json');
 
 const mixins = {
   'theme-color': (mixin, prop, val) => {
-    if (!(val in defaultTheme))
+    if (!(val in themes[defaultMode]))
       console.warn(new ReferenceError(`Unknown theme property: ${val}`));
     return {
       [prop]: `var(--${val})`,
     };
   },
-  'default-theme': () => {
-    const clone = {};
-    Object.keys(defaultTheme).forEach((key) => {
-      clone[`--${key}`] = defaultTheme[key];
+  themes: () => {
+    const root = { ':root': {} };
+    Object.keys(themes[defaultMode]).forEach((key) => {
+      root[':root'][`--${key}`] = themes[defaultMode][key];
     });
-    return clone;
-  },
-  'dark-theme': () => {
-    const clone = {};
-    Object.keys(darkTheme).forEach((key) => {
-      clone[`--${key}`] = darkTheme[key];
+    Object.keys(themes).forEach((theme) => {
+      root[`@media (prefers-color-scheme: ${theme})`] = null;
     });
-    return clone;
-  },
-  'light-theme': () => {
-    const clone = {};
-    Object.keys(lightTheme).forEach((key) => {
-      clone[`--${key}`] = lightTheme[key];
+    Object.keys(themes).forEach((theme) => {
+      root[`body.${theme}-theme`] = null;
     });
-    return clone;
+    Object.keys(themes).forEach((theme) => {
+      const themeObj = {};
+      Object.keys(themes.dark).forEach((key) => {
+        themeObj[`--${key}`] = themes[theme][key];
+      });
+      root[`@media (prefers-color-scheme: ${theme})`] = { ':root': themeObj };
+      root[`body.${theme}-theme`] = themeObj;
+    });
+    return root;
   },
 };
 

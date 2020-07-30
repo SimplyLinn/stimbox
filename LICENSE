@@ -1,0 +1,53 @@
+Modified MIT License
+
+Copyright (c) 2020 Linn Dahlgren
+
+-BEGIN EXTERNAL LICENSE CLAUSE-
+Modification in simple terms: Anything under the /boxes/ directory is subject to their own individual licenses.
+
+As this project is based on a directory structure any code, assets, or other content inside the dirctory/directories
+which contain the file called
+
+.MIT-LICENSE-BOUNDARY
+
+and any subdirectories therein are not covered by this license. Please see each subproject in that directory for
+license information of those.
+
+You are not allowed to remove the .MIT-LICENSE-BOUNDARY file(s) from subsequent redistributions of this project
+without first making sure that, in by doing so, all code within is allowed to be licensed under this license.
+
+If you move any code, assets or other content from a directory which is not covered by this license to a directory
+that would be covered by this license, you must first add a new .MIT-LICENCE-BOUNDARY and include the appropriate
+license for the copied code, assets or other content.
+
+If you distribute this project without any directories containing a file called .MIT-LICENSE-BOUNDARY, you
+may remove this external license clause from subsequent redistributions of this project.
+
+This external license clause is definded as the text between the line that state the beginning of the external license clause,
+the line that state the end of the external license clause. And those two lines themselves.
+
+A personal plea:
+To any lawyers reading this: I've tried to make my intentions as clear as possible. I am not a lawyer and this is
+a hobby project for me. Please note that if you're trying to use a technicality in this license to acquire
+use of code I do not have the right to change the license of, you also don't have the right to use this faulty
+license to do that. Please try to not use technicalities and legal jargon I neither understand nor know about
+to circumvent the intent of this external license clause.
+-END EXTERNAL LICENSE CLAUSE-
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.

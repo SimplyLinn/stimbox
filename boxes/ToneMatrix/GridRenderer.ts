@@ -13,9 +13,7 @@ export default class GridRenderer extends ParticleSystem {
 
   private canvas: HTMLCanvasElement;
 
-  private lastPlayheadX: number = -1;
-
-  private heatmap: number[];
+  private lastPlayheadX = -1;
 
   /**
    * @param grid - The grid
@@ -34,9 +32,6 @@ export default class GridRenderer extends ParticleSystem {
     const ctx = canvas.getContext('2d');
     if (!ctx) throw new Error('Unable to get canvas context');
     this.ctx = ctx;
-    this.heatmap = Array.from<number>({
-      length: this.grid.width * this.grid.height,
-    }).fill(0);
   }
 
   /**
@@ -45,9 +40,8 @@ export default class GridRenderer extends ParticleSystem {
    * @param mouseX - The x position of the mouse on the canvas
    * @param mouseY - The y position of the mouse on the canvas
    */
-  update(mouseX?: number, mouseY?: number) {
+  update(mouseX?: number, mouseY?: number): void {
     super.update();
-    this.updateHeatmap();
     this.draw(mouseX, mouseY);
   }
 
@@ -58,7 +52,7 @@ export default class GridRenderer extends ParticleSystem {
    * @param mouseX - The x position of the mouse on the canvas
    * @param mouseY - The y position of the mouse on the canvas
    */
-  draw(mouseX?: number, mouseY?: number) {
+  draw(mouseX?: number, mouseY?: number): void {
     const playheadX = this.grid.instruments[
       this.grid.currentInstrument
     ].getPlayheadX();
@@ -72,6 +66,8 @@ export default class GridRenderer extends ParticleSystem {
     this.ctx.rect(0, 0, this.canvas.width, this.canvas.height);
     this.ctx.fillStyle = 'black';
     this.ctx.fill();
+
+    const heatmap = this.getParticleHeatMap();
 
     const mousedOverTile =
       mouseX != null &&
@@ -129,8 +125,7 @@ export default class GridRenderer extends ParticleSystem {
         } else {
           const BRIGHTNESS = 0.05; // max particle brightness between 0 and 1
           this.ctx.globalAlpha =
-            (this.heatmap[i] * BRIGHTNESS * (204 / 255)) /
-              this.PARTICLE_LIFETIME +
+            (heatmap[i] * BRIGHTNESS * (204 / 255)) / this.PARTICLE_LIFETIME +
             51 / 255;
         }
         this.spriteSheet.drawSprite(0, this.ctx, x, y);
@@ -153,9 +148,10 @@ export default class GridRenderer extends ParticleSystem {
 
   /**
    * Gets the "heat" of every tile by calculating how many particles are on top of the tile
-   * @returns {number[]} An array of numbers from 0 to 1, representing the "heat" of each tile
+   * @returns An array of numbers from 0 to 1, representing the "heat" of each tile
    */
-  updateHeatmap() {
+  getParticleHeatMap(): readonly number[] {
+    const heatmap = Array<number>(this.grid.width * this.grid.height).fill(0);
     for (let i = 0; i < this.PARTICLE_POOL_SIZE; i += 1) {
       const p = this.particles[i];
       if (p.life > 0) {
@@ -168,9 +164,10 @@ export default class GridRenderer extends ParticleSystem {
           this.canvas.height,
         );
         if (tile)
-          this.heatmap[Util.coordToIndex(tile.x, tile.y, this.grid.height)] +=
+          heatmap[Util.coordToIndex(tile.x, tile.y, this.grid.height)] +=
             p.life;
       }
     }
+    return heatmap;
   }
 }

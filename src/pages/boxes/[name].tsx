@@ -41,7 +41,9 @@ const Box: NextPage<StaticProps> = ({ metadata }: StaticProps) => {
       <Head>
         <title>{metadata.name} | Stimbox</title>
       </Head>
-      <header className={classnames('boxlayout-header', !headerOpen && 'closed')}>
+      <header
+        className={classnames('boxlayout-header', !headerOpen && 'closed')}
+      >
         <Header />
         <AsButton onTrigger={() => setHeaderOpen((old) => !old)}>
           <span className="boxlayout-header-button" />

@@ -1,5 +1,5 @@
 export default class Tile {
-  private notes: unknown[] = [];
+  private notes: number[] = [];
 
   private numberOfNotes = 0;
 
@@ -15,7 +15,7 @@ export default class Tile {
     return typeof this.notes[i] !== 'undefined';
   }
 
-  addNote(i: number, noteId: unknown) {
+  addNote(i: number, noteId: number) {
     this.notes[i] = noteId;
     this.numberOfNotes += 1;
   }
