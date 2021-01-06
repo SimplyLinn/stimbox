@@ -1,34 +1,85 @@
+* {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
 body {
-  @mixin theme-color background-color, background-primary;
-  @mixin theme-color color, text-normal;
+  background: #000;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-size: 18px;
+  line-height: 1.5;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  @mixin theme-color color, heading-primary;
+#app {
+  position: relative;
+  background-color: var(--back2);
+  color: var(--text2);
+  padding: 0;
+  margin: 0;
+  width: 100%;
 }
 
-h1.secondary,
-h2.secondary,
-h3.secondary,
-h4.secondary,
-h5.secondary,
-h6.secondary {
-  @mixin theme-color color, heading-secondary;
+input,
+button {
+  font-size: 1rem;
+  border-radius: 4px;
 }
 
-h1 {
-  font-size: 2rem;
+button {
+  display: inline-block;
+  outline: none;
+  padding: 0.5rem;
+  appearance: none;
+  cursor: pointer;
+  line-height: 1.2;
+  background: var(--button-back);
+  color: var(--button-text);
+  border: 3px solid var(--button-border);
 }
 
-a {
-  @mixin theme-color color, text-link;
+button:hover {
+  color: var(--button-hover-text);
+  border: 3px solid var(--button-hover);
+}
+
+input[type=text] {
+  display: inline-block;
+  outline: none;
+  padding: 0.5rem;
+  background: var(--input-back);
+  border: 3px solid var(--input-border);
+  color: var(--text);
+}
+
+a,
+a:link,
+a:visited {
+  color: var(--link-text);
+}
+
+a:link {
+  color: var(--link-text);
 }
 
 a:hover {
-  @mixin theme-color color, text-link-hover;
+  color: var(--link-active);
+}
+
+a:active {
+  color: var(--link-active);
+}
+
+.hide {
+  display: none !important;
+  visibility: hidden;
+  opacity: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+.hover {
+  cursor: pointer;
 }

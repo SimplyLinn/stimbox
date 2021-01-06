@@ -1,24 +1,19 @@
 import React, { Component } from 'react';
-import ToneMatrix from './ToneMatrix';
+import { ToneMatrix } from '@simplylinn/tonematrix';
 
 export default class ToneMatrixBox extends Component {
   BoxName = 'Whaaa';
-
   toneMatrix: ToneMatrix | null = null;
-
   containerRef = React.createRef<HTMLDivElement>();
-
-  clearRef = React.createRef<HTMLButtonElement>();
-
-  muteRef = React.createRef<HTMLButtonElement>();
+  state = {
+    muted: false,
+  };
 
   componentDidMount(): void {
     if (!this.toneMatrix) {
       const containerEl = this.containerRef.current;
-      const clearEl = this.clearRef.current;
-      const muteEl = this.muteRef.current;
-      if (containerEl && muteEl && clearEl) {
-        this.toneMatrix = new ToneMatrix(containerEl, clearEl, muteEl);
+      if (containerEl) {
+        this.toneMatrix = new ToneMatrix(containerEl);
       }
     }
   }
@@ -41,10 +36,16 @@ export default class ToneMatrixBox extends Component {
           }
         `}</style>
         <div className="container" ref={this.containerRef} />
-        <button type="button" ref={this.clearRef}>
+        <button type="button" onClick={() => this.toneMatrix?.clear()}>
           clear
         </button>
-        <button type="button" ref={this.muteRef}>
+        <button
+          type="button"
+          onClick={() => {
+            this.setState({ muted: !this.state.muted });
+            this.toneMatrix?.setMuted(!this.state.muted);
+          }}
+        >
           mute
         </button>
       </div>

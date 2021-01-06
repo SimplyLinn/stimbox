@@ -1,38 +1,100 @@
+const colors = {
+  lighter: 'rgb(242, 244, 248)',
+  light: '#eceff4',
+  'light-fade': 'rgba(255, 255, 255, 0.8)',
+  'dark-fade': 'rgba(0, 0, 0, 0.8)',
+  dark: '#2e3440',
+  darker: 'rgb(36, 41, 51)',
+  grey: '#3b4252',
+  'grey-dark': '#2e3440',
+  'grey-light': '#4c566a',
+  purple: '#b39ddb',
+  'purple-light': '#e6ceff',
+  'purple-dark': '#836fa9',
+  blue: '#90caf9',
+  'blue-light': '#c3fdff',
+  'blue-dark': '#5d99c6',
+  green: '#80cbc4',
+  'green-light': '#b2dfdb',
+  'green-dark': '#00867d',
+};
+
+const dark = {
+  back1: colors.darker,
+  back2: colors.dark,
+  text1: colors.light,
+  text2: colors.lighter,
+  fade: colors['dark-fade'],
+
+  'color-back': colors['grey-dark'],
+  'color-border': 'transparent',
+  'color-text': colors.green,
+  'color-hover': 'transparent',
+  'color-hover-text': colors['green-light'],
+  'color-active': colors['green-dark'],
+  'color-active-border': 'transparent',
+
+  'control-back': colors['grey-dark'],
+  'control-border': 'transparent',
+  'control-text': colors.blue,
+  'control-hover': 'transparent',
+  'control-hover-text': colors['blue-light'],
+
+  'input-back': colors.grey,
+  'input-border': 'none',
+
+  'button-back': colors['grey-dark'],
+  'button-border': 'transparent',
+  'button-text': colors.purple,
+  'button-hover': 'none',
+  'button-hover-text': colors['purple-light'],
+
+  'block-back': colors['grey-light'],
+  'block-border': 'transparent',
+
+  'link-text': colors.purple,
+  'link-active': colors['purple-dark'],
+};
+
+const light = {
+  back1: colors.light,
+  back2: colors.lighter,
+  text1: colors.darker,
+  text2: colors.dark,
+  fade: colors['light-fade'],
+
+  'color-back': colors.lighter,
+  'color-border': colors.green,
+  'color-text': colors['green-light'],
+  'color-hover': colors.green,
+  'color-hover-text': colors.green,
+  'color-active': colors['green-dark'],
+  'color-active-border': colors['green-dark'],
+
+  'control-back': colors.lighter,
+  'control-border': colors.blue,
+  'control-text': colors.blue,
+  'control-hover': colors['blue-dark'],
+  'control-hover-text': colors['blue-dark'],
+
+  'input-back': colors.lighter,
+  'input-border': colors.purple,
+
+  'button-back': colors.lighter,
+  'button-border': colors.purple,
+  'button-text': colors.purple,
+  'button-hover': colors['purple-dark'],
+  'button-hover-text': colors['purple-dark'],
+
+  'block-back': colors.lighter,
+  'block-border': colors['grey-light'],
+
+  'link-text': colors['purple-dark'],
+  'link-active': colors.purple,
+};
 const colorModes = {
-  dark: {
-    'heading-primary': '#fff',
-    'heading-secondary': '#b9bbbe',
-    'text-normal': '#dcddde',
-    'text-muted': '#72767d',
-    'text-link': '#00b0f4',
-    'text-link-hover': '#52c7f4',
-    'interactive-normal': '#b9bbbe',
-    'interactive-hover': '#dcddde',
-    'interactive-active': '#fff',
-    'interactive-muted': '#4f545c',
-    'background-primary': '#3a3d42',
-    'background-secondary': '#63515d',
-    'background-tertiary': '#846c7c',
-    'background-accent': '#556461',
-    'background-floating': '#3b3b3b',
-  },
-  light: {
-    'heading-primary': '#fff',
-    'heading-secondary': '#b9bbbe',
-    'text-normal': '#dcddde',
-    'text-muted': '#72767d',
-    'text-link': '#00b0f4',
-    'text-link-hover': '#52c7f4',
-    'interactive-normal': '#b9bbbe',
-    'interactive-hover': '#dcddde',
-    'interactive-active': '#fff',
-    'interactive-muted': '#4f545c',
-    'background-primary': '#ffffff',
-    'background-secondary': '#63515d',
-    'background-tertiary': '#846c7c',
-    'background-accent': '#556461',
-    'background-floating': '#3b3b3b',
-  },
+  dark,
+  light,
 };
 
 module.exports = {

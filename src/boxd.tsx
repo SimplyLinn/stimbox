@@ -12,6 +12,7 @@ export type MetaData = {
   name: string;
   moduleName: string;
   description: string;
+  thumbnail?: string | null;
 };
 
 const themes: {

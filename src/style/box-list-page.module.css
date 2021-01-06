@@ -1,0 +1,20 @@
+.root {
+  z-index: 1;
+  padding: 1rem;
+  position: relative;
+  display: grid;
+  grid-gap: 2rem;
+  grid-template-columns: repeat(5, 1fr);
+}
+
+@media (max-width: 750px) {
+  .root {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (min-width: 750px) and (max-width: 1024px) {
+  .root {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}

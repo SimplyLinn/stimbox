@@ -1,12 +1,10 @@
 import { NextPage, GetStaticProps, GetStaticPaths } from 'next';
-import classnames from 'classnames';
 import dynamic from 'next/dynamic';
 import { MetaData } from 'boxd';
-import { useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
 import Head from 'next/head';
-import Header from 'Components/Layout/Header';
-import AsButton from 'Components/AsButton';
 import getBoxes from 'utils/getBoxes';
+import Layout from 'Components/Layout';
 
 const StimLoading = () => (
   <div>
@@ -18,7 +16,6 @@ type StaticProps = {
   metadata: MetaData;
 };
 const Box: NextPage<StaticProps> = ({ metadata }: StaticProps) => {
-  const [headerOpen, setHeaderOpen] = useState(true);
   const Component = useMemo(
     () =>
       dynamic(
@@ -37,23 +34,12 @@ const Box: NextPage<StaticProps> = ({ metadata }: StaticProps) => {
     [metadata.moduleName],
   );
   return (
-    <div className="boxlayout">
+    <Layout isBox>
       <Head>
         <title>{metadata.name} | Stimbox</title>
       </Head>
-      <header
-        className={classnames('boxlayout-header', !headerOpen && 'closed')}
-      >
-        <Header />
-        <AsButton onTrigger={() => setHeaderOpen((old) => !old)}>
-          <span className="boxlayout-header-button" />
-        </AsButton>
-      </header>
-      <main className="boxlayout-main">
-        {metadata.name}
-        <Component />
-      </main>
-    </div>
+      <Component />
+    </Layout>
   );
 };
 

@@ -1,10 +1,9 @@
 import { AppProps } from 'next/app';
+import 'simplebar/dist/simplebar.min.css';
 import '../style/index.css';
 import Head from 'next/head';
-import { Theme } from 'boxd';
 
-export default function MyApp({ Component, pageProps }: AppProps) {
-  console.log(Theme.getThemeColor('text-color'));
+export default function MyApp({ Component, pageProps }: AppProps): JSX.Element {
   return (
     <div id="app">
       <Head>

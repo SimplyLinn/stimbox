@@ -16,7 +16,8 @@ function parseMetadata(data: unknown, moduleName: string): MetaData | null {
     );
     return null;
   }
-  const { name, description } = data;
+  const { name, description, thumbnail: rawThumbnail } = data;
+  let thumbnail: string | null = null;
   if (typeof name !== 'string') {
     console.error(`Could not import ${moduleName}: Missing name`);
     return null;
@@ -25,10 +26,16 @@ function parseMetadata(data: unknown, moduleName: string): MetaData | null {
     console.error(`Could not import ${moduleName}: Missing description`);
     return null;
   }
+  if (rawThumbnail != null && typeof rawThumbnail !== 'string') {
+    console.error(`Invalid thumbnail for ${moduleName}`);
+  } else if (typeof rawThumbnail === 'string') {
+    thumbnail = rawThumbnail;
+  }
   return {
     name,
     moduleName,
     description,
+    thumbnail,
   };
 }
 
@@ -69,7 +76,7 @@ async function fetchBoxes(): Promise<readonly MetaData[]> {
   return res;
 }
 
-export default function getBoxes() {
+export default function getBoxes(): Promise<readonly MetaData[]> {
   if (cache === null) {
     cache = fetchBoxes();
   }

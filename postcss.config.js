@@ -13,7 +13,29 @@ const mixins = {
     if (!(val in themes[defaultMode]))
       console.warn(new ReferenceError(`Unknown theme property: ${val}`));
     return {
-      [prop]: `var(--${val})`,
+      [prop]: [themes[defaultMode][val], `var(--${val})`],
+    };
+  },
+  'theme-color-complex': (
+    mixin,
+    prop,
+    prefix,
+    preSpacer,
+    val,
+    postSpacer,
+    suffix = '',
+  ) => {
+    if (!(val in themes[defaultMode]))
+      console.warn(new ReferenceError(`Unknown theme property: ${val}`));
+    return {
+      [prop]: [
+        `${prefix}${preSpacer === 'true' ? ' ' : ''}${
+          themes[defaultMode][val]
+        }${postSpacer === 'true' ? ' ' : ''}${suffix}`,
+        `${prefix}${preSpacer === 'true' ? ' ' : ''}var(--${val})${
+          postSpacer === 'true' ? ' ' : ''
+        }${suffix}`,
+      ],
     };
   },
   themes: () => {

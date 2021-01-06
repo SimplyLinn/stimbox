@@ -13,6 +13,8 @@ export default function AsButton({
 }: Props): React.ReactElement<
   React.DetailedHTMLProps<React.HTMLAttributes<unknown>, unknown>
 > {
+  const child = Children.only(children);
+  const childProps = 'props' in child ? child.props : {};
   const props = {
     onMouseDown(ev: React.MouseEvent) {
       ev.preventDefault();
@@ -26,12 +28,10 @@ export default function AsButton({
     onKeyUp(ev: React.KeyboardEvent) {
       if (ev.key === ' ') onTrigger();
     },
-    role: 'button',
-    tabIndex: 0,
+    role: 'role' in childProps ? undefined : 'button',
+    tabIndex: 'tabIndex' in childProps ? undefined : 0,
     style: { cursor: 'pointer' },
   };
-  const child = Children.only(children);
-  const childProps = 'props' in child ? child.props : {};
   if ('role' in childProps) {
     delete props.role;
   }
