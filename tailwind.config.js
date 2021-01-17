@@ -41,12 +41,12 @@ const dark = {
   'control-hover-text': colors['blue-light'],
 
   'input-back': colors.grey,
-  'input-border': 'none',
+  'input-border': 'transparent',
 
   'button-back': colors['grey-dark'],
   'button-border': 'transparent',
   'button-text': colors.purple,
-  'button-hover': 'none',
+  'button-hover': 'transparent',
   'button-hover-text': colors['purple-light'],
 
   'block-back': colors['grey-light'],
