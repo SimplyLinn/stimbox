@@ -48,7 +48,11 @@ export default Box;
 export const getStaticProps: GetStaticProps<StaticProps> = async (context) => {
   const name = context?.params?.name;
   const metadata = (await getBoxes()).find((meta) => meta.moduleName === name);
-  if (!metadata) throw new Error('Box not found');
+  if (!metadata) {
+    return {
+      notFound: true,
+    };
+  }
   return {
     props: {
       metadata,

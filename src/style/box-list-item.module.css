@@ -46,7 +46,7 @@
   display: inline-block;
   width: 100%;
   height: inherit;
-  @mixin theme-color-complex border, 0.5rem solid, true, fade;
+  @mixin theme-color-template border, "0.5rem solid ${fade}";
 
   @mixin theme-color background, fade;
 }
@@ -61,7 +61,7 @@
 }
 
 .overlay .text p {
-  @mixin theme-color-complex color, , false, text2, true, !important;
+  @mixin theme-color-template color, '${text2} !important';
 
   font-weight: normal;
   font-size: 1rem;
@@ -74,7 +74,7 @@
   justify-content: space-between;
   vertical-align: middle;
   padding: 0.5rem;
-  @mixin theme-color-complex border, 3px solid, true, block-border;
+  @mixin theme-color-template border, '3px solid ${block-border}';
 
   border-bottom-left-radius: 4px;
   border-bottom-right-radius: 4px;
@@ -96,8 +96,17 @@
   max-width: 100%;
 }
 
-i.active {
+i.active::after {
+  @mixin theme-color-template background, 'radial-gradient(circle at center, ${link-text} 0, transparent 75%)';
 
+  content: '';
+  z-index: -1;
+  position: absolute;
+  width: 150%;
+  height: 150%;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .root > i {
@@ -105,6 +114,7 @@ i.active {
   bottom: calc(0.75rem + 3px);
   right: 0.5rem;
   position: absolute;
+  z-index: 1;
   display: inline-block;
   text-align: center;
   vertical-align: middle;
@@ -112,4 +122,8 @@ i.active {
   height: 1.25rem;
   line-height: 1.25rem;
   font-size: 1.25rem;
+}
+
+.root > i::before {
+  z-index: 1;
 }

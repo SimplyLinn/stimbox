@@ -2,19 +2,82 @@
   z-index: 1;
   padding: 1rem;
   position: relative;
+}
+
+.grid {
+  position: relative;
   display: grid;
   grid-gap: 2rem;
   grid-template-columns: repeat(5, 1fr);
 }
 
+.searchWrapper {
+  width: 100%;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  grid-template-areas: "search" "filter";
+  margin-bottom: 1rem;
+}
+
+.searchWrapper .search {
+  grid-area: search;
+  display: grid;
+  grid-gap: 1rem;
+  grid-template-columns: 1fr auto auto;
+}
+
+.searchWrapper input[type=text] {
+  width: 100%;
+}
+
+.searchWrapper button {
+  width: 4rem;
+}
+
+.searchWrapper .filter {
+  @mixin theme-color color, text1;
+  @mixin theme-color border-color, purple;
+
+  grid-area: filter;
+  padding: 1rem;
+  margin-top: 1rem;
+  border-radius: 4px;
+  border-width: 2px;
+}
+
+.searchWrapper .filter legend {
+  padding: 0 1rem;
+}
+
+.searchWrapper .filter .fieldset {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.searchWrapper .filter .fieldset + .fieldset {
+  margin-top: 1rem;
+}
+
+.searchWrapper .filter .fieldset label {
+  display: inline-block;
+  width: 5rem;
+}
+
+.searchWrapper .filter .fieldset input[type=text] {
+  display: inline-block;
+  flex-grow: 1;
+  width: auto !important;
+}
+
 @media (max-width: 750px) {
-  .root {
+  .grid {
     grid-template-columns: 1fr;
   }
 }
 
 @media (min-width: 750px) and (max-width: 1024px) {
-  .root {
+  .grid {
     grid-template-columns: repeat(3, 1fr);
   }
 }

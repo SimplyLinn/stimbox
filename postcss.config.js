@@ -16,25 +16,35 @@ const mixins = {
       [prop]: [themes[defaultMode][val], `var(--${val})`],
     };
   },
-  'theme-color-complex': (
-    mixin,
-    prop,
-    prefix,
-    preSpacer,
-    val,
-    postSpacer,
-    suffix = '',
-  ) => {
-    if (!(val in themes[defaultMode]))
-      console.warn(new ReferenceError(`Unknown theme property: ${val}`));
+  'theme-color-template': (mixin, prop, template, stripQuotes = true) => {
+    const reported = [];
+    if (stripQuotes) {
+      if (template.startsWith("'")) {
+        // eslint-disable-next-line no-param-reassign
+        template = template.replace(/^'(.*)'$/, '$1');
+      } else if (template.startsWith('"')) {
+        // eslint-disable-next-line no-param-reassign
+        template = template.replace(/^"(.*)"$/, '$1');
+      }
+    }
     return {
       [prop]: [
-        `${prefix}${preSpacer === 'true' ? ' ' : ''}${
-          themes[defaultMode][val]
-        }${postSpacer === 'true' ? ' ' : ''}${suffix}`,
-        `${prefix}${preSpacer === 'true' ? ' ' : ''}var(--${val})${
-          postSpacer === 'true' ? ' ' : ''
-        }${suffix}`,
+        template.replace(
+          /((?:[^\\]|^)(?:\\\\)*)\$\{([^}]+)\}/g,
+          (_, prefix, val) => {
+            if (!(val in themes[defaultMode]) && !reported.includes(val)) {
+              console.warn(
+                new ReferenceError(`Unknown theme property: ${val}`),
+              );
+              reported.push(val);
+            }
+            return `${prefix}${themes[defaultMode][val]}`;
+          },
+        ),
+        template.replace(
+          /((?:[^\\]|^)(?:\\\\)*)\$\{([^}]+)\}/g,
+          (_, prefix, val) => `${prefix}var(--${val})`,
+        ),
       ],
     };
   },

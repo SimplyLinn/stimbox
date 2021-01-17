@@ -54,6 +54,7 @@ const dark = {
 
   'link-text': colors.purple,
   'link-active': colors['purple-dark'],
+  ...colors,
 };
 
 const light = {
@@ -91,6 +92,7 @@ const light = {
 
   'link-text': colors['purple-dark'],
   'link-active': colors.purple,
+  ...colors,
 };
 const colorModes = {
   dark,
@@ -123,9 +125,9 @@ module.exports = {
     },
     borderWidth: {
       default: '1px',
-      '0': '0',
-      '2': '2px',
-      '4': '4px',
+      0: '0',
+      2: '2px',
+      4: '4px',
     },
     extend: {
       colors: {
@@ -133,8 +135,8 @@ module.exports = {
         modes: colorModes,
       },
       spacing: {
-        '96': '24rem',
-        '128': '32rem',
+        96: '24rem',
+        128: '32rem',
       },
     },
   },

@@ -1,19 +1,32 @@
+import React, { useCallback, useEffect, useState } from 'react';
 import { MetaData } from 'boxd';
 import classnames from 'classnames';
 import Link from 'next/link';
-import React, { useCallback, useState } from 'react';
 import SimpleBar from 'simplebar-react';
 
 import styles from '../style/box-list-item.module.css';
 
 export default function BoxListItem({ box }: { box: MetaData }): JSX.Element {
   const [showText, setShowText] = useState(false);
+  const [ref, setRef] = useState<HTMLDivElement | null>(null);
   const toggleText = useCallback((ev: React.MouseEvent) => {
     ev.preventDefault();
     setShowText((old) => !old);
   }, []);
+  useEffect(() => {
+    if (!showText || ref == null) return undefined;
+    const clickHandler = (ev: MouseEvent) => {
+      if (ev.target instanceof Node && !ref.contains(ev.target)) {
+        setShowText(false);
+      }
+    };
+    window.addEventListener('click', clickHandler, { passive: true });
+    return () => {
+      window.removeEventListener('click', clickHandler);
+    };
+  }, [showText, ref, setShowText]);
   return (
-    <div className={styles.root}>
+    <div ref={setRef} className={styles.root}>
       <div className={styles.overlayWrapper}>
         <div className={styles.overlay}>
           <Link
@@ -60,7 +73,15 @@ export default function BoxListItem({ box }: { box: MetaData }): JSX.Element {
         </a>
       </Link>
       {box.thumbnail != null && (
-        <i className="fas fa-info-circle hover" onClick={toggleText} />
+        <i
+          className={classnames(
+            'fas',
+            'fa-info-circle',
+            'hover',
+            showText && styles.active,
+          )}
+          onClick={toggleText}
+        />
       )}
     </div>
   );
