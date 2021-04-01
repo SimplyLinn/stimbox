@@ -1,8 +1,10 @@
 import resolveConfig from 'tailwindcss/resolveConfig';
 import { EventEmitter } from 'events';
 import { useEffect, useState } from 'react';
-import { defaultMode } from '../config.json';
+import config from '../config.json';
 import tailwindConfig from '../tailwind.config';
+
+const { defaultMode } = config;
 
 export type ReadonlyRecord<K extends string | number | symbol, T> = {
   readonly [P in K]: T;
@@ -55,10 +57,15 @@ class ThemeSwitcher extends EventEmitter {
   };
 
   private browserPreferred = ThemeSwitcher.DEFAULT_CONF.theme;
+
   private override: keyof typeof themes | null = null;
+
   private currentTheme: keyof typeof themes = this.browserPreferred;
+
   private selfListeners: Listener[] = [];
+
   private observer: MutationObserver | null = null;
+
   private mergedCustomThemeCache =
     typeof window !== 'undefined' && window.WeakMap != null
       ? new window.WeakMap<

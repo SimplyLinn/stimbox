@@ -4,6 +4,9 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
+    "**/*.js",
+    "**/*.jsx",
+    "**/*.json"
   ],
   "exclude": [
     "node_modules"

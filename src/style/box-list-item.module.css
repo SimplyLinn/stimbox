@@ -1,19 +1,16 @@
 .root {
-  @mixin theme-color background, block-back;
-
   width: 100%;
   border-radius: 4px;
   position: relative;
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: minmax(0, 1fr) auto;
-  grid-template-areas: "overlay" "title";
+  padding: 3px;
 }
 
 .overlayWrapper {
   position: relative;
   width: 100%;
   padding-top: 75%;
+  margin-bottom: 60px;
+  @mixin theme-color background, block-back;
 }
 
 .overlay {
@@ -23,8 +20,6 @@
   left: 0;
   width: 100%;
   height: 100%;
-  border-top-left-radius: 4px;
-  border-top-right-radius: 4px;
 }
 
 .overlay img {
@@ -37,9 +32,34 @@
   position: static;
   width: 100%;
   height: 100%;
+  @mixin theme-color-template border, "0.5rem solid ${fade}";
+
+  @mixin theme-color background, block-border;
+}
+
+.textWrapper .text {
+  height: 100%;
+  width: 100%;
+  padding: 0 0.2rem;
+}
+
+.textWrapper.textOnly .text {
+  @mixin theme-color background, fade;
+
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding: 0.5rem 0.7rem;
+}
+
+.textWrapper.textHidden {
+  opacity: 0;
 }
 
 .textWrapper {
+  transition: opacity 0.15s ease;
   position: absolute;
   top: 0;
   left: 0;
@@ -51,9 +71,8 @@
   @mixin theme-color background, fade;
 }
 
-.textWrapper .text {
-  height: 100%;
-  width: 100%;
+.headerLink:focus:not(:active) + .overlayWrapper .textWrapper:not(.textOnly) {
+  opacity: 1;
 }
 
 .overlay :global(.simplebar-scrollbar)::before {
@@ -68,16 +87,49 @@
   white-space: pre-wrap;
 }
 
+.headerLink {
+  display: block;
+  position: absolute;
+  top: -3px;
+  left: -3px;
+  bottom: -3px;
+  right: -3px;
+}
+
+.headerLink::after {
+  content: '';
+  display: block;
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  bottom: 3px;
+  right: 3px;
+  border-radius: 4px;
+  z-index: -1;
+  @mixin theme-color background, block-border;
+}
+
 .header {
-  grid-area: title;
   display: flex;
   justify-content: space-between;
   vertical-align: middle;
-  padding: 0.5rem;
-  @mixin theme-color-template border, '3px solid ${block-border}';
+  align-items: center;
+  height: 60px;
+  position: absolute;
+  bottom: 6px;
+  left: 6px;
+  right: 6px;
+  padding: 0 0.5rem;
+  @mixin theme-color background, block-back;
 
   border-bottom-left-radius: 4px;
   border-bottom-right-radius: 4px;
+}
+
+.header:focus {
+  outline-style: none;
+  box-shadow: none;
+  border-color: transparent;
 }
 
 .header h4 {
@@ -110,9 +162,10 @@ i.active::after {
 }
 
 .root > i {
-  bottom: 1rem;
-  bottom: calc(0.75rem + 3px);
-  right: 0.5rem;
+  bottom: 1.1rem;
+  bottom: calc(0.75rem + 6px);
+  right: 0.9rem;
+  right: calc(0.75rem + 3px);
   position: absolute;
   z-index: 1;
   display: inline-block;

@@ -2,7 +2,7 @@ import Head from 'next/head';
 import Link from 'next/link';
 import Layout from 'Components/Layout';
 
-export default function Home() {
+export default function Home(): JSX.Element {
   return (
     <Layout>
       <Head>
@@ -11,7 +11,6 @@ export default function Home() {
       <Link href="/boxes">
         <a>hello</a>
       </Link>
-      INDEX PAGE!
     </Layout>
   );
 }

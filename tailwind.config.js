@@ -1,8 +1,8 @@
 const colors = {
   lighter: 'rgb(242, 244, 248)',
   light: '#eceff4',
-  'light-fade': 'rgba(255, 255, 255, 0.8)',
-  'dark-fade': 'rgba(0, 0, 0, 0.8)',
+  'light-fade': 'rgba(255, 255, 255, 0.6)',
+  'dark-fade': 'rgba(0, 0, 0, 0.6)',
   dark: '#2e3440',
   darker: 'rgb(36, 41, 51)',
   grey: '#3b4252',
