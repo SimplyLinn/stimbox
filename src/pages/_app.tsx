@@ -23,7 +23,7 @@ export default function MyApp({ Component, pageProps }: AppProps): JSX.Element {
         <footer className={styles.footer}>
           &copy; 2021 <a href="https://github.com/SimplyLinn">Linn Dahlgren</a>.
           All rights reserved. Designed by{' '}
-          <a href="https://github.com/aewens">Austin Ewens</a>.
+          <a href="https://github.com/aewens">aewens</a>.
         </footer>
       )}
     </div>
