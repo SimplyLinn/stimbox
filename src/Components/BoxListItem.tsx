@@ -32,55 +32,48 @@ export default function BoxListItem({ box }: { box: MetaData }): JSX.Element {
         as={`/boxes/${encodeURIComponent(box.moduleName)}`}
       >
         <a className={styles.headerLink}>
-          <div
-            tabIndex={-1}
-            className={classnames(
-              styles.header,
-              box.thumbnail == null && styles.header_nothumb,
-            )}
-          >
+          <div tabIndex={-1} className={classnames(styles.header)}>
             <h4 title={box.name}>{box.name}</h4>
           </div>
         </a>
       </Link>
       <div className={styles.overlayWrapper}>
         <div className={styles.overlay}>
-          {box.thumbnail != null && (
-            <img src={box.thumbnail} alt={`Thumbnail for ${box.name}`} />
-          )}
-          {box.thumbnail == null && (
-            <div className={classnames(styles.textWrapper, styles.textOnly)}>
-              <SimpleBar autoHide={false} className={styles.text}>
-                <p>{box.description}</p>
-              </SimpleBar>
-            </div>
-          )}
-          {box.thumbnail != null && (
-            <div
-              className={classnames(
-                styles.textWrapper,
-                !showText && styles.textHidden,
+          <Link
+            href={`/boxes/[name]?name=${encodeURIComponent(box.moduleName)}`}
+            as={`/boxes/${encodeURIComponent(box.moduleName)}`}
+          >
+            <a tabIndex={-1}>
+              {box.thumbnail != null && (
+                <img src={box.thumbnail} alt={`Thumbnail for ${box.name}`} />
               )}
-            >
-              <SimpleBar autoHide={false} className={styles.text}>
-                <p>{box.description}</p>
-              </SimpleBar>
-            </div>
-          )}
+              {box.thumbnail == null && (
+                <img src="/static-logo.svg" alt="Thumbnail missing" />
+              )}
+            </a>
+          </Link>
+          <div
+            className={classnames(
+              styles.textWrapper,
+              !showText && styles.textHidden,
+            )}
+          >
+            <SimpleBar autoHide={false} className={styles.text}>
+              <p>{box.description}</p>
+            </SimpleBar>
+          </div>
         </div>
       </div>
-      {box.thumbnail != null && (
-        <i
-          className={classnames(
-            'fas',
-            'fa-info-circle',
-            'hover',
-            showText && styles.active,
-          )}
-          aria-hidden
-          onClick={toggleText}
-        />
-      )}
+      <i
+        className={classnames(
+          'fas',
+          'fa-info-circle',
+          'hover',
+          showText && styles.active,
+        )}
+        aria-hidden
+        onClick={toggleText}
+      />
     </div>
   );
 }

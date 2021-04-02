@@ -8,6 +8,7 @@ import BoxListItem from 'stimbox/Components/BoxListItem';
 import classnames from 'classnames';
 import styles from 'stimbox/style/box-list-page.module.css';
 import elasticlunr, { Index, SerialisedIndexData } from 'elasticlunr';
+import useInitialRender from 'stimbox/hooks/useInitialRender';
 
 type StaticProps = {
   boxes: readonly MetaData[];
@@ -38,6 +39,19 @@ interface SearchFieldProps {
   setBoxList: React.Dispatch<React.SetStateAction<readonly MetaData[]>>;
 }
 
+function search(
+  index: elasticlunr.Index<Fields>,
+  boxes: StaticProps['boxes'],
+  text: string,
+) {
+  if (text === '') return boxes;
+  return index
+    .search(text, {
+      fields: { name: { boost: 2 }, description: { boost: 1 } },
+    })
+    .map(({ ref }) => boxes[Number.parseInt(ref, 10)]);
+}
+
 function SearchField({
   serialisedIndexData,
   boxes,
@@ -46,6 +60,16 @@ function SearchField({
   const index = useMemo(() => getIndex(serialisedIndexData), [
     serialisedIndexData,
   ]);
+  const initialRender = useInitialRender();
+  const [inputText, setInputText] = useState('');
+  useEffect(() => {
+    if (initialRender) return;
+    const searchText = window.location.hash.startsWith('#search?')
+      ? decodeURIComponent(window.location.hash.substr(8))
+      : '';
+    setInputText(searchText);
+    setBoxList(search(index, boxes, searchText));
+  }, [boxes, index, initialRender, setBoxList]);
   const [setSearchText, updateSearchTextCb] = useState([
     (_: string) => {},
   ] as const);
@@ -53,8 +77,11 @@ function SearchField({
     (_: string) => {},
   ] as const);
   useEffect(() => {
+    if (typeof window === 'undefined') return undefined;
     let timeout: number | null = null;
-    let lastSearch = '';
+    let lastSearch = window.location.hash.startsWith('#search?')
+      ? decodeURIComponent(window.location.hash.substr(8))
+      : '';
     function flush(text: string) {
       if (timeout != null) {
         clearTimeout(timeout);
@@ -64,15 +91,21 @@ function SearchField({
       if (text === '') {
         setBoxList(boxes);
       } else {
-        setBoxList(
-          index
-            .search(text, {
-              fields: { name: { boost: 2 }, description: { boost: 1 } },
-            })
-            .map(({ ref }) => boxes[Number.parseInt(ref, 10)]),
-        );
+        setBoxList(search(index, boxes, text));
       }
       lastSearch = text;
+      const href = window.location.href.split('#', 1)[0];
+      const asPath = window.history.state.as.split('#', 1)[0];
+      const newState = {
+        ...window.history.state,
+        as:
+          text !== '' ? `${asPath}#search?${encodeURIComponent(text)}` : asPath,
+      };
+      window.history.replaceState(
+        newState,
+        document.title,
+        text !== '' ? `${href}#search?${encodeURIComponent(text)}` : href,
+      );
     }
     function newText(text: string) {
       if (timeout != null) clearTimeout(timeout);
@@ -94,7 +127,11 @@ function SearchField({
       <i className="fas fa-search" />
       <input
         type="text"
-        onChange={(ev) => setSearchText[0](ev.currentTarget.value)}
+        value={inputText}
+        onChange={(ev) => {
+          setInputText(ev.currentTarget.value);
+          setSearchText[0](ev.currentTarget.value);
+        }}
         onBlur={(ev) => forceSearch[0](ev.currentTarget.value)}
         onKeyDown={(ev) =>
           ev.key === 'Enter' &&

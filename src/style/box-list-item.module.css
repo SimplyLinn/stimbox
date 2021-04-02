@@ -28,33 +28,14 @@
   height: 100%;
 }
 
-.textWrapper.textOnly {
-  position: static;
-  width: 100%;
-  height: 100%;
-  @mixin theme-color-template border, "0.5rem solid ${fade}";
-
-  @mixin theme-color background, block-border;
-}
-
 .textWrapper .text {
   height: 100%;
   width: 100%;
   padding: 0 0.2rem;
 }
 
-.textWrapper.textOnly .text {
-  @mixin theme-color background, fade;
-
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  padding: 0.5rem 0.7rem;
-}
-
 .textWrapper.textHidden {
+  pointer-events: none;
   opacity: 0;
 }
 
@@ -66,9 +47,12 @@
   display: inline-block;
   width: 100%;
   height: inherit;
-  @mixin theme-color-template border, "0.5rem solid ${fade}";
 
   @mixin theme-color background, fade;
+}
+
+.textWrapper p {
+  padding: 0.1rem 0.4rem 0.1rem 0;
 }
 
 .headerLink:focus:not(:active) + .overlayWrapper .textWrapper:not(.textOnly) {
@@ -142,10 +126,6 @@
   text-overflow: ellipsis;
   max-width: calc(100% - 1.65rem);
   width: 0;
-}
-
-.header.header_nothumb h4 {
-  max-width: 100%;
 }
 
 i.active::after {

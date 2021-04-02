@@ -1,9 +1,22 @@
-export type Props = Omit<
-  React.SVGProps<SVGSVGElement>,
-  'width' | 'height' | 'viewBox' | 'fill' | 'xmlns' | 'xmlnsXlink'
->;
+interface InternalProps {
+  frozen?: boolean;
+}
+export type Props = InternalProps &
+  Omit<
+    React.SVGProps<SVGSVGElement>,
+    | keyof InternalProps
+    | 'width'
+    | 'height'
+    | 'viewBox'
+    | 'fill'
+    | 'xmlns'
+    | 'xmlnsXlink'
+  >;
 
-export default function HeadCog(props: Props): JSX.Element {
+export default function HeadCog({
+  frozen = false,
+  ...props
+}: Props): JSX.Element {
   return (
     <svg
       {...props}
@@ -30,7 +43,7 @@ export default function HeadCog(props: Props): JSX.Element {
                     from="1080"
                     to="0"
                     dur="20s"
-                    repeatCount="indefinite"
+                    repeatCount={frozen ? 0 : 'indefinite'}
                   />
                 </path>
               </g>
@@ -48,7 +61,7 @@ export default function HeadCog(props: Props): JSX.Element {
                     from="0"
                     to="720"
                     dur="20s"
-                    repeatCount="indefinite"
+                    repeatCount={frozen ? 0 : 'indefinite'}
                   />
                 </path>
               </g>

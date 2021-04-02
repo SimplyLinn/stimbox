@@ -22,7 +22,14 @@ export default function Header({ isBox }: Props): JSX.Element {
           <div className={styles.headerHome}>
             <Link href="/">
               <a>
-                stimbox{!isBox && <HeadCog className={styles.fillerIcon} />}
+                stimbox
+                <HeadCog
+                  className={classnames(
+                    styles.fillerIcon,
+                    isBox && styles.fillerIcon_isbox,
+                  )}
+                  frozen={isBox}
+                />
               </a>
             </Link>
           </div>

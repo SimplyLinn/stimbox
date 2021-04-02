@@ -1,0 +1,9 @@
+{
+ "port": 3000,
+ "serve": "dist",
+ "serveRedirect": true,
+ "watchexps": [
+    "src/**/* # next build && shx rm -rf dist && next export -o dist && shx mv dist/404/index.html dist/404.html && shx rm -rf dist/404"
+ ],
+ "http2": false
+}
