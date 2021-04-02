@@ -1,33 +1,50 @@
-import { MetaData } from 'boxd';
+import { MetaData } from 'stimbox';
+import { readdir as readdirCb, stat as statCb } from 'fs';
+import path from 'path';
+import { promisify } from 'util';
+
+const readdir = promisify(readdirCb);
+const stat = promisify(statCb);
 
 let cache: Promise<readonly MetaData[]> | null = null;
 
-function validateType(data: unknown): data is Record<string, unknown> {
+function validateType(data: unknown): data is Partial<Record<string, unknown>> {
   if (typeof data !== 'object' || data == null || Array.isArray(data)) {
     return false;
   }
   return true;
 }
 
-function parseMetadata(data: unknown, moduleName: string): MetaData | null {
+class InvalidMetadataError extends Error {
+  name = InvalidMetadataError.name;
+}
+
+function parserError(message: string, fatal = true): void {
+  const error = new InvalidMetadataError(message);
+  if (process.env.NODE_ENV === 'development' || !fatal) {
+    // eslint-disable-next-line no-console
+    console.error(error);
+  } else {
+    throw error;
+  }
+}
+
+function parseMetadata(data: unknown, moduleName: string): MetaData | void {
   if (!validateType(data)) {
-    console.error(
+    return parserError(
       `Could not import ${moduleName}: Invalid type of imported json`,
     );
-    return null;
   }
   const { name, description, thumbnail: rawThumbnail } = data;
   let thumbnail: string | null = null;
   if (typeof name !== 'string') {
-    console.error(`Could not import ${moduleName}: Missing name`);
-    return null;
+    return parserError(`Could not import ${moduleName}: Missing name`);
   }
   if (typeof description !== 'string') {
-    console.error(`Could not import ${moduleName}: Missing description`);
-    return null;
+    return parserError(`Could not import ${moduleName}: Missing description`);
   }
   if (rawThumbnail != null && typeof rawThumbnail !== 'string') {
-    console.error(`Invalid thumbnail for ${moduleName}`);
+    parserError(`Invalid thumbnail for ${moduleName}`);
   } else if (typeof rawThumbnail === 'string') {
     thumbnail = rawThumbnail;
   }
@@ -40,13 +57,11 @@ function parseMetadata(data: unknown, moduleName: string): MetaData | null {
 }
 
 async function fetchBoxes(): Promise<readonly MetaData[]> {
-  const fs = await import('fs');
-  const path = await import('path');
   const boxPath = path.join(__dirname, '..', '..', 'boxes');
 
-  function hasMeta(module: string): boolean {
+  async function hasMeta(module: string): Promise<boolean> {
     try {
-      return fs.statSync(path.join(boxPath, module, 'meta.json')).isFile();
+      return (await stat(path.join(boxPath, module, 'meta.json'))).isFile();
     } catch {
       return false;
     }
@@ -54,25 +69,29 @@ async function fetchBoxes(): Promise<readonly MetaData[]> {
 
   const res = (
     await Promise.all(
-      fs
-        .readdirSync(boxPath, {
+      (
+        await readdir(boxPath, {
           withFileTypes: true,
         })
-        .map((dir) => {
-          if (
-            !dir.name.startsWith('.') &&
-            dir.isDirectory() &&
-            hasMeta(dir.name)
-          ) {
-            if (!module) return null;
-            return import(
-              `../../boxes/${dir.name}/meta.json`
-            ).then((data: unknown) => parseMetadata(data, dir.name));
-          }
-          return null;
-        }),
+      ).map(async (dir) => {
+        if (
+          !dir.name.startsWith('.') &&
+          dir.isDirectory() &&
+          (await hasMeta(dir.name))
+        ) {
+          if (!module) return null;
+          const data = await import(`../../boxes/${dir.name}/meta.json`);
+          return parseMetadata(data, dir.name);
+        }
+        return null;
+      }),
     )
-  ).filter((dir): dir is MetaData => dir != null);
+  )
+    .filter((dir): dir is MetaData => dir != null)
+    .sort(({ moduleName: a }, { moduleName: b }) => {
+      if (a === b) return 0;
+      return a < b ? -1 : 1;
+    });
   return res;
 }
 

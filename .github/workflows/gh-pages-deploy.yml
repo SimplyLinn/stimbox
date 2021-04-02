@@ -42,6 +42,9 @@ jobs:
       - name: Export static
         run: yarn export
 
+      - name: 404 Fix
+        run: mv dist/404/index.html dist/404.html && rmdir dist/404
+
       - name: Run deploy script
         run: |
           git config user.name "Linn Dahlgren" && git config user.email "admin@opposite.biz"

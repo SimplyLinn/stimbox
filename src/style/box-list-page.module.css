@@ -22,16 +22,35 @@
 .searchWrapper .search {
   grid-area: search;
   display: grid;
-  grid-gap: 1rem;
+  grid-gap: 0.5rem;
   grid-template-columns: 1fr auto auto;
+}
+
+.searchWrapper .searchInputWrapper {
+  position: relative;
+}
+
+.searchWrapper .searchInputWrapper i {
+  position: absolute;
+  top: 50%;
+  left: 1rem;
+  transform: translateY(-50%);
+  opacity: 1;
+  color: #9ca3af;
+}
+
+.searchWrapper input[type=text]::placeholder {
+  opacity: 1;
+  color: #9ca3af;
 }
 
 .searchWrapper input[type=text] {
   width: 100%;
+  padding-left: 2.3rem;
 }
 
 .searchWrapper button {
-  width: 4rem;
+  width: 2.5rem;
 }
 
 .searchWrapper .filter {

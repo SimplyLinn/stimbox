@@ -19,7 +19,7 @@
     "jsx": "preserve",
     "downlevelIteration": true,
     "strictNullChecks": true,
-    "baseUrl": "src/",
+    "baseUrl": "./",
     "typeRoots": [
       "./node_modules/@types",
       "./types"

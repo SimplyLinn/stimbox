@@ -73,12 +73,10 @@ class ThemeSwitcher extends EventEmitter {
           Partial<Record<string, string>>
         >()
       : {
-          // eslint-disable-next-line @typescript-eslint/no-empty-function
           get: (() => {}) as WeakMap<
             Partial<Record<string, string>>,
             Partial<Record<string, string>>
           >['get'],
-          // eslint-disable-next-line @typescript-eslint/no-empty-function
           set: ((e) => e) as WeakMap<
             Partial<Record<string, string>>,
             Partial<Record<string, string>>
@@ -133,9 +131,8 @@ class ThemeSwitcher extends EventEmitter {
         null as ThemeSwitcher['override'],
       );
       this.observer = new MutationObserver((records) => {
-        // eslint-disable-next-line no-undef-init
-        let newOverride: ThemeSwitcher['override'] | undefined = undefined;
-        for (const { target } of records) {
+        let newOverride: ThemeSwitcher['override'] | undefined;
+        records.forEach(({ target }) => {
           if (target instanceof HTMLBodyElement) {
             newOverride = (Object.keys(
               themes,
@@ -148,7 +145,7 @@ class ThemeSwitcher extends EventEmitter {
               null as ThemeSwitcher['override'],
             );
           }
-        }
+        });
         if (typeof newOverride !== 'undefined')
           this.updateCurrentTheme(newOverride);
       });

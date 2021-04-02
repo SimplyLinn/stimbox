@@ -1,10 +1,10 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { MetaData } from 'boxd';
+import { MetaData } from 'stimbox';
 import classnames from 'classnames';
 import Link from 'next/link';
 import SimpleBar from 'simplebar-react';
 
-import styles from '../style/box-list-item.module.css';
+import styles from 'stimbox/style/box-list-item.module.css';
 
 export default function BoxListItem({ box }: { box: MetaData }): JSX.Element {
   const [showText, setShowText] = useState(false);

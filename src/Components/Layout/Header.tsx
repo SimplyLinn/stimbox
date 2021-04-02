@@ -1,62 +1,62 @@
 import classnames from 'classnames';
 import Link from 'next/link';
 import React, { useCallback, useState } from 'react';
+import HeadCog from '../HeadCog';
+import styles from './layout.module.css';
 import ThemeSwitcher from './ThemeSwitcher';
 
 interface Props {
   isBox?: boolean;
 }
 
-const Header = ({ isBox }: Props): JSX.Element => {
+export default function Header({ isBox }: Props): JSX.Element {
   const [visible, setVisible] = useState(true);
   const toggleVisible = useCallback(() => setVisible((old) => !old), []);
   return (
     <>
       <header
-        className={classnames('layout-header', isBox && !visible && 'hide')}
+        className={classnames(styles.header, isBox && !visible && 'hide')}
       >
-        <ThemeSwitcher />
-        <div className="layout-header-home">
-          <Link href="/">
-            <a>stimbox.space</a>
-          </Link>
+        <div className={styles.headerRow}>
+          <ThemeSwitcher />
+          <div className={styles.headerHome}>
+            <Link href="/">
+              <a>
+                stimbox{!isBox && <HeadCog className={styles.fillerIcon} />}
+              </a>
+            </Link>
+          </div>
         </div>
         {isBox && (
           <nav
-            className={classnames(
-              'layout-box-nav-controls',
-              !visible && 'hide',
-            )}
+            className={classnames(styles.boxNavControls, !visible && 'hide')}
           >
             <button type="button">
-              <i className="fas fa-angle-double-left"></i>
+              <i className="fas fa-angle-double-left" />
             </button>
             <button type="button">
-              <i className="fas fa-angle-left"></i>
+              <i className="fas fa-angle-left" />
             </button>
             <button type="button">
-              <i className="fas fa-random"></i>
+              <i className="fas fa-random" />
             </button>
             <button type="button">
-              <i className="fas fa-angle-right"></i>
-            </button>
-            <button type="button" onClick={toggleVisible} className="hover">
-              <i className="fas fa-eye-slash"></i>
+              <i className="fas fa-angle-right" />
             </button>
           </nav>
         )}
       </header>
       {isBox && (
         <button
-          className={classnames('layout-header-show', visible && 'hide')}
+          className={classnames(styles.headerShow)}
           type="button"
           onClick={toggleVisible}
         >
-          <i className="fas fa-eye"></i>
+          <i
+            className={classnames('fas', visible ? 'fa-eye-slash' : 'fa-eye')}
+          />
         </button>
       )}
     </>
   );
-};
-
-export default Header;
+}

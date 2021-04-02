@@ -1,8 +1,9 @@
-import { useThemeConfig } from 'boxd';
+import { useThemeConfig } from 'stimbox';
 import { useCallback } from 'react';
 import classnames from 'classnames';
+import styles from './layout.module.css';
 
-const Header = (): JSX.Element => {
+export default function ThemeSwitcher(): JSX.Element {
   const conf = useThemeConfig();
   const setLightMode = useCallback(() => {
     document.body.classList.toggle('light-theme');
@@ -17,7 +18,7 @@ const Header = (): JSX.Element => {
     document.body.classList.toggle('dark-theme');
   }, []);
   return (
-    <div className="layout-theme-switcher">
+    <div className={styles.themeSwitcher}>
       <button
         type="button"
         className={classnames(
@@ -25,14 +26,14 @@ const Header = (): JSX.Element => {
         )}
         onClick={setLightMode}
       >
-        <i className="fas fa-sun"></i>
+        <i className="fas fa-sun" />
       </button>{' '}
       <button
         type="button"
         className={classnames(!conf.override && 'active')}
         onClick={setAutoMode}
       >
-        <i className="fas fa-adjust"></i>
+        <i className="fas fa-adjust" />
       </button>{' '}
       <button
         type="button"
@@ -41,10 +42,8 @@ const Header = (): JSX.Element => {
         )}
         onClick={setDarkMode}
       >
-        <i className="fas fa-moon"></i>
+        <i className="fas fa-moon" />
       </button>
     </div>
   );
-};
-
-export default Header;
+}

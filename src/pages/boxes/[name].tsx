@@ -1,10 +1,9 @@
 import { NextPage, GetStaticProps, GetStaticPaths } from 'next';
 import dynamic from 'next/dynamic';
-import { MetaData } from 'boxd';
+import { MetaData } from 'stimbox';
 import React, { useMemo } from 'react';
 import Head from 'next/head';
-import getBoxes from 'utils/getBoxes';
-import Layout from 'Components/Layout';
+import getBoxes from 'stimbox/utils/getBoxes';
 
 const StimLoading = () => (
   <div>
@@ -34,15 +33,15 @@ const Box: NextPage<StaticProps> = ({ metadata }: StaticProps) => {
     [metadata.moduleName],
   );
   return (
-    <Layout isBox>
+    <>
       <Head>
         <title>{metadata.name} | Stimbox</title>
       </Head>
       <Component />
-    </Layout>
+    </>
   );
 };
-
+(Box as typeof Box & { isBox?: boolean }).isBox = true;
 export default Box;
 
 export const getStaticProps: GetStaticProps<StaticProps> = async (context) => {

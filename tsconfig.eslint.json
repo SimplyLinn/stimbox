@@ -8,6 +8,16 @@
     "**/*.jsx",
     "**/*.json"
   ],
+  "compilerOptions": {
+    "paths": {
+      "stimbox/*": [
+        "./src/*"
+      ],
+      "stimbox": [
+        "./src"
+      ]
+    }
+  },
   "exclude": [
     "node_modules"
   ]
