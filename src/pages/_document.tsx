@@ -17,6 +17,7 @@ class CustomDocument extends Document {
             rel="stylesheet"
             href="https://use.fontawesome.com/releases/v5.15.1/css/fontawesome.css"
           />
+          <link rel="manifest" href="/manifest.json" />
         </Head>
         <body>
           <Main />
