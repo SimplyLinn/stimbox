@@ -9,8 +9,10 @@ const colors = {
   'grey-dark': '#2e3440',
   'grey-light': '#4c566a',
   purple: '#b39ddb',
-  'purple-light': '#e6ceff',
-  'purple-dark': '#836fa9',
+  'purple-lighter': '#e6ceff',
+  'purple-light': '#cfb7ff',
+  'purple-dark': '#594c73',
+  'purple-darker': '#5a21c4',
   blue: '#90caf9',
   'blue-light': '#c3fdff',
   'blue-dark': '#5d99c6',
@@ -49,11 +51,11 @@ const dark = {
   'button-hover': 'transparent',
   'button-hover-text': colors['purple-light'],
 
-  'block-back': colors['grey-light'],
+  'block-back': colors.darker,
   'block-border': 'transparent',
 
   'link-text': colors.purple,
-  'link-active': colors['purple-dark'],
+  'link-active': colors['purple-lighter'],
   ...colors,
 };
 
@@ -90,8 +92,8 @@ const light = {
   'block-back': colors.lighter,
   'block-border': colors['grey-light'],
 
-  'link-text': colors['purple-dark'],
-  'link-active': colors.purple,
+  'link-text': colors['purple-darker'],
+  'link-active': colors['purple-dark'],
   ...colors,
 };
 const colorModes = {

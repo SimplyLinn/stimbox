@@ -6,6 +6,7 @@ import styles from 'stimbox/Components/Layout/layout.module.css';
 import Head from 'next/head';
 import Header from 'stimbox/Components/Layout/Header';
 import { initialRenderContext } from 'stimbox/hooks/useInitialRender';
+import Footer from 'stimbox/Components/Layout/Footer';
 
 export default function MyApp({ Component, pageProps }: AppProps): JSX.Element {
   const [initialRender, setInitialRender] = useState(true);
@@ -25,14 +26,7 @@ export default function MyApp({ Component, pageProps }: AppProps): JSX.Element {
         <main className={styles.main}>
           <Component {...pageProps} />
         </main>
-        {!isBox && (
-          <footer className={styles.footer}>
-            &copy; 2021{' '}
-            <a href="https://github.com/SimplyLinn">Linn Dahlgren</a>. All
-            rights reserved. Designed by{' '}
-            <a href="https://github.com/aewens">aewens</a>.
-          </footer>
-        )}
+        {!isBox && <Footer />}
       </div>
     </initialRenderContext.Provider>
   );

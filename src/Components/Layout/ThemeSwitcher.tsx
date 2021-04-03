@@ -25,6 +25,8 @@ export default function ThemeSwitcher(): JSX.Element {
           conf.override && conf.theme === 'light' && 'active',
         )}
         onClick={setLightMode}
+        aria-label="Light theme"
+        title="Light theme"
       >
         <i className="fas fa-sun" />
       </button>{' '}
@@ -32,6 +34,8 @@ export default function ThemeSwitcher(): JSX.Element {
         type="button"
         className={classnames(!conf.override && 'active')}
         onClick={setAutoMode}
+        aria-label="Select theme automatically"
+        title="Select theme automatically"
       >
         <i className="fas fa-adjust" />
       </button>{' '}
@@ -41,6 +45,8 @@ export default function ThemeSwitcher(): JSX.Element {
           conf.override && conf.theme === 'dark' && 'active',
         )}
         onClick={setDarkMode}
+        aria-label="Dark theme"
+        title="Dark theme"
       >
         <i className="fas fa-moon" />
       </button>

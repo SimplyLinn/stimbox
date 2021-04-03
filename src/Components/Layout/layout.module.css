@@ -22,13 +22,6 @@
   width: 100%;
 }
 
-.footer {
-  z-index: 1;
-  width: 100%;
-  padding: 1rem;
-  text-align: center;
-}
-
 .themeSwitcher {
   position: absolute;
   top: 1rem;
@@ -43,6 +36,7 @@
   background: var(--control-back) !important;
   border: 3px solid var(--control-border);
   z-index: 2;
+  width: 2.5rem;
 }
 
 .headerShow:hover {

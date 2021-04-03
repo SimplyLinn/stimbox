@@ -1,0 +1,39 @@
+.root {
+  z-index: 1;
+  width: 100%;
+  padding: 0 0 1rem 1rem;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  @mixin theme-color-template border-top, '3px solid ${purple-dark}';
+}
+
+.root > * {
+  margin-top: 1rem;
+  margin-right: 1rem;
+}
+
+.buildTable {
+  font-size: 0.8rem;
+  align-self: flex-end;
+}
+
+.buildTable th {
+  text-align: left;
+}
+
+.buildTable tr td,
+.buildTable tr th {
+  padding-right: 5px;
+  padding-left: 5px;
+}
+
+.buildTable tr td:first-child,
+.buildTable tr th:first-child {
+  padding-left: 0;
+}
+
+.buildTable tr td:last-child,
+.buildTable tr th:last-child {
+  padding-right: 0;
+}

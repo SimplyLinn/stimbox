@@ -28,8 +28,8 @@ export default function BoxListItem({ box }: { box: MetaData }): JSX.Element {
   return (
     <div ref={setRef} className={styles.root}>
       <Link
-        href={`/boxes/[name]?name=${encodeURIComponent(box.moduleName)}`}
-        as={`/boxes/${encodeURIComponent(box.moduleName)}`}
+        href={`/box/[name]?name=${encodeURIComponent(box.moduleName)}`}
+        as={`/box/${encodeURIComponent(box.moduleName)}`}
       >
         <a className={styles.headerLink}>
           <div tabIndex={-1} className={classnames(styles.header)}>
@@ -40,8 +40,8 @@ export default function BoxListItem({ box }: { box: MetaData }): JSX.Element {
       <div className={styles.overlayWrapper}>
         <div className={styles.overlay}>
           <Link
-            href={`/boxes/[name]?name=${encodeURIComponent(box.moduleName)}`}
-            as={`/boxes/${encodeURIComponent(box.moduleName)}`}
+            href={`/box/[name]?name=${encodeURIComponent(box.moduleName)}`}
+            as={`/box/${encodeURIComponent(box.moduleName)}`}
           >
             <a tabIndex={-1}>
               {box.thumbnail != null && (
