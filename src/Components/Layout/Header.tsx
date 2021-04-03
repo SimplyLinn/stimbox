@@ -1,6 +1,6 @@
 import classnames from 'classnames';
 import Link from 'next/link';
-import React, { useCallback, useState } from 'react';
+import React, { forwardRef, useCallback, useState } from 'react';
 import HeadCog from '../HeadCog';
 import styles from './layout.module.css';
 import ThemeSwitcher from './ThemeSwitcher';
@@ -9,20 +9,22 @@ interface Props {
   isBox?: boolean;
 }
 
-export default function Header({ isBox }: Props): JSX.Element {
+// eslint-disable-next-line react/prop-types
+const Header = forwardRef<HTMLElement, Props>(({ isBox }, ref) => {
   const [visible, setVisible] = useState(true);
   const toggleVisible = useCallback(() => setVisible((old) => !old), []);
   return (
     <>
       <header
         className={classnames(styles.header, isBox && !visible && 'hide')}
+        ref={ref}
       >
         <div className={styles.headerRow}>
           <ThemeSwitcher />
           <div className={styles.headerHome}>
             <Link href="/">
               <a>
-                stimbox
+                Stimbox
                 <HeadCog
                   className={classnames(
                     styles.fillerIcon,
@@ -51,9 +53,11 @@ export default function Header({ isBox }: Props): JSX.Element {
             </button>
           </nav>
         ) : (
-          <nav className={classnames(styles.boxNavControls)}>
-            What is Stimbox
-          </nav>
+          <div className={classnames(styles.aboutLink)}>
+            <Link href="/about">
+              <a>What is Stimbox</a>
+            </Link>
+          </div>
         )}
       </header>
       {isBox && (
@@ -71,4 +75,6 @@ export default function Header({ isBox }: Props): JSX.Element {
       )}
     </>
   );
-}
+});
+
+export default Header;

@@ -4,6 +4,8 @@ import { useEffect, useState } from 'react';
 import config from '../config.json';
 import tailwindConfig from '../tailwind.config';
 
+export { useViewport } from 'stimbox/Components/ViewportContextProvider';
+
 const { defaultMode } = config;
 
 export type ReadonlyRecord<K extends string | number | symbol, T> = {
@@ -11,10 +13,11 @@ export type ReadonlyRecord<K extends string | number | symbol, T> = {
 };
 
 export type MetaData = {
-  name: string;
-  moduleName: string;
-  description: string;
-  thumbnail?: string | null;
+  readonly name: string;
+  readonly moduleName: string;
+  readonly description: string;
+  readonly supportStaticRender: boolean;
+  readonly thumbnail?: string | null;
 };
 
 const themes: {
@@ -238,18 +241,15 @@ class ThemeSwitcher extends EventEmitter {
   getCustomTheme(
     customThemes: Partial<typeof themes>,
   ): Partial<ReadonlyRecord<string, string>>;
-
   getCustomTheme(
     customThemes: Partial<typeof themes>,
     key: string,
   ): string | undefined;
-
   getCustomTheme(
     customThemes: Partial<typeof themes>,
     key: string,
     def: string,
   ): string;
-
   getCustomTheme(
     customThemes: Partial<typeof themes>,
     key?: string,

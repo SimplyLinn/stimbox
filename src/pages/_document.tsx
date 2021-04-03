@@ -7,7 +7,15 @@ class CustomDocument extends Document {
         <Head>
           <link
             rel="stylesheet"
-            href="https://use.fontawesome.com/releases/v5.15.1/css/all.css"
+            href="https://use.fontawesome.com/releases/v5.15.1/css/brands.css"
+          />
+          <link
+            rel="stylesheet"
+            href="https://use.fontawesome.com/releases/v5.15.1/css/solid.css"
+          />
+          <link
+            rel="stylesheet"
+            href="https://use.fontawesome.com/releases/v5.15.1/css/fontawesome.css"
           />
         </Head>
         <body>

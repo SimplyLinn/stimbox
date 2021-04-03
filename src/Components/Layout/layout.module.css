@@ -77,9 +77,26 @@
   font-weight: bold;
 }
 
+.aboutLink {
+  position: absolute;
+  line-height: 1.2;
+  right: 1rem;
+  padding: 0.5rem 0;
+  border-top: 3px solid transparent;
+  border-bottom: 3px solid transparent;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.aboutLink a {
+  display: inline-block;
+  line-height: 1;
+}
+
 .boxNavControls {
   position: absolute;
-  top: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
   right: 4rem;
 }
 
@@ -125,6 +142,8 @@
 
 .main {
   flex-grow: 1;
+  overflow: hidden;
+  max-width: 100vw;
 }
 
 @media (max-width: 750px) {
@@ -136,9 +155,16 @@
     display: none;
   }
 
+  .aboutLink {
+    margin-top: 0.5rem;
+    position: static;
+    transform: none;
+  }
+
   .boxNavControls {
     margin-top: 0.5rem;
     position: static;
+    transform: none;
     display: flex;
     justify-content: flex-end;
   }

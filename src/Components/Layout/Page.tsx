@@ -1,8 +1,9 @@
-import { PropsWithChildren } from 'react';
+import React, { PropsWithChildren } from 'react';
+import Title from 'stimbox/Components/Title';
 import styles from './page.module.css';
 
 interface Props {
-  title: string;
+  title?: string;
 }
 export default function Page({
   title,
@@ -10,7 +11,12 @@ export default function Page({
 }: PropsWithChildren<Props>): JSX.Element {
   return (
     <div className={styles.root}>
-      <h1 className={styles.title}>{title}</h1>
+      {title != null && (
+        <>
+          <Title>{title}</Title>
+          <h1>{title}</h1>
+        </>
+      )}
       {children}
     </div>
   );

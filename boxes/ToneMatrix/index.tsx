@@ -1,54 +1,40 @@
-import React, { Component } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ToneMatrix } from '@simplylinn/tonematrix';
 
-export default class ToneMatrixBox extends Component {
-  BoxName = 'Whaaa';
-  toneMatrix: ToneMatrix | null = null;
-  containerRef = React.createRef<HTMLDivElement>();
-  state = {
-    muted: false,
-  };
-
-  componentDidMount(): void {
-    if (!this.toneMatrix) {
-      const containerEl = this.containerRef.current;
-      if (containerEl) {
-        this.toneMatrix = new ToneMatrix(containerEl);
-      }
-    }
-  }
-
-  componentWillUnmount(): void {
-    if (this.toneMatrix) {
-      console.log('disposing');
-      this.toneMatrix.dispose();
-    }
-  }
-
-  // eslint-disable-next-line class-methods-use-this
-  render(): JSX.Element {
-    return (
-      <div>
-        Hello from TestBox
-        <style>{`
+export default function ToneMatrixBox(): JSX.Element {
+  const [toneMatrix, setToneMatrix] = useState<ToneMatrix>();
+  const [containerRef, setContainerRef] = useState<HTMLDivElement | null>(null);
+  const [muted, setMuted] = useState(false);
+  useEffect(() => {
+    if (containerRef == null) return undefined;
+    const instance = new ToneMatrix(containerRef);
+    setToneMatrix(instance);
+    return () => {
+      instance.dispose();
+    };
+  }, [containerRef]);
+  useEffect(() => {
+    toneMatrix?.setMuted(muted);
+  }, [toneMatrix, muted]);
+  return (
+    <div>
+      <style>{`
           .container, .container canvas {
             height: 500px;
           }
         `}</style>
-        <div className="container" ref={this.containerRef} />
-        <button type="button" onClick={() => this.toneMatrix?.clear()}>
-          clear
-        </button>
-        <button
-          type="button"
-          onClick={() => {
-            this.setState({ muted: !this.state.muted });
-            this.toneMatrix?.setMuted(!this.state.muted);
-          }}
-        >
-          mute
-        </button>
-      </div>
-    );
-  }
+      <div className="container" ref={setContainerRef} />
+      <button type="button" onClick={() => toneMatrix?.clear()}>
+        clear
+      </button>
+      <button
+        type="button"
+        onClick={() => {
+          setMuted((old) => !old);
+        }}
+      >
+        mute
+      </button>
+    </div>
+  );
 }

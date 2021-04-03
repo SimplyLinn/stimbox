@@ -2,5 +2,6 @@
   "name": "ToneMatrix",
   "description": "Play with tones",
   "upstream": "https://github.com/MaxLaumeister/ToneMatrixRedux",
-  "thumbnail": "https://placekitten.com/320/240"
+  "thumbnail": "https://placekitten.com/320/240",
+  "supportStaticRender": false
 }

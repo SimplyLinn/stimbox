@@ -2,7 +2,6 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { NextPage, GetStaticProps } from 'next';
 import { MetaData } from 'stimbox';
 import getBoxes from 'stimbox/utils/getBoxes';
-import Head from 'next/head';
 import BoxListItem from 'stimbox/Components/BoxListItem';
 
 import classnames from 'classnames';
@@ -156,9 +155,6 @@ const Box: NextPage<StaticProps> = ({
 
   return (
     <div className={styles.root}>
-      <Head>
-        <title>Boxlist | Stimbox</title>
-      </Head>
       <form className={styles.searchWrapper}>
         <div className={styles.search}>
           <SearchField

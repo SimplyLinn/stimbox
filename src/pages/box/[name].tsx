@@ -1,42 +1,18 @@
 import { NextPage, GetStaticProps, GetStaticPaths } from 'next';
-import dynamic from 'next/dynamic';
 import { MetaData } from 'stimbox';
-import React, { useMemo } from 'react';
-import Head from 'next/head';
+import React from 'react';
 import getBoxes from 'stimbox/utils/getBoxes';
-
-const StimLoading = () => (
-  <div>
-    <noscript>You need JavaScript enabled to use StimBox</noscript>
-  </div>
-);
+import boxMap from 'boxes/boxmap';
+import Title from 'stimbox/Components/Title';
 
 type StaticProps = {
   metadata: MetaData;
 };
 const Box: NextPage<StaticProps> = ({ metadata }: StaticProps) => {
-  const Component = useMemo(
-    () =>
-      dynamic(
-        () =>
-          import(
-            /* webpackInclude: /[\/\\]boxes[\/\\][^\/\\]+[\/\\]index\.(js|jsm|jsx|ts|tsx)$/ */
-            /* webpackChunkName: "box-[request]" */
-            /* webpackMode: "lazy" */
-            `../../../boxes/${metadata.moduleName}`
-          ),
-        {
-          loading: StimLoading,
-          ssr: false,
-        },
-      ),
-    [metadata.moduleName],
-  );
+  const Component = boxMap[metadata.moduleName];
   return (
     <>
-      <Head>
-        <title>{metadata.name} | Stimbox</title>
-      </Head>
+      <Title>{metadata.name}</Title>
       <Component />
     </>
   );

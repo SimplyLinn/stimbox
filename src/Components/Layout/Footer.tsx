@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { forwardRef } from 'react';
 import buildStatus from 'stimbox/utils/bulidStatus';
 import styles from './footer.module.css';
 
@@ -52,9 +53,9 @@ export function BuildInfo(): JSX.Element {
   );
 }
 
-export default function Footer(): JSX.Element {
+const Footer = forwardRef<HTMLElement>((props, ref) => {
   return (
-    <footer className={styles.root}>
+    <footer ref={ref} className={styles.root}>
       <div>
         &copy; 2021 <a href="https://github.com/SimplyLinn">Linn Dahlgren</a>
         <br />
@@ -68,4 +69,6 @@ export default function Footer(): JSX.Element {
       <BuildInfo />
     </footer>
   );
-}
+});
+
+export default Footer;
