@@ -51,7 +51,7 @@ const buildStatus: BuildStatus = (() => {
     buildTime,
     isGit: true,
     hash: hash.replace(/NO/g, 'ad'),
-    isDirty: flags.split('-').includes('DIRTY'),
+    isDirty: flags != null && flags.split('-').includes('DIRTY'),
   } as const;
 })();
 export default buildStatus;
