@@ -109,7 +109,7 @@ const dark = {
 
   'input-back': colors.grey,
   'input-border': 'transparent',
-  'input-placeholder': setAlpha(colors.light, 0.4),
+  'input-placeholder': setAlpha(colors.light, 0.6),
 
   'button-back': colors['grey-dark'],
   'button-border': 'transparent',
@@ -148,7 +148,7 @@ const light = {
 
   'input-back': colors.light,
   'input-border': 'transparent',
-  'input-placeholder': setAlpha(colors.darker, 0.4),
+  'input-placeholder': setAlpha(colors.darker, 0.6),
 
   'button-back': colors.light,
   'button-border': 'transparent',
