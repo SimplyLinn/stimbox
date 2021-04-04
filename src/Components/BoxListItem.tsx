@@ -6,7 +6,17 @@ import SimpleBar from 'simplebar-react';
 
 import styles from './BoxListItem.module.css';
 
-export default function BoxListItem({ box }: { box: MetaData }): JSX.Element {
+export type Props = Pick<
+  MetaData,
+  'name' | 'moduleName' | 'thumbnail' | 'shortDescription'
+>;
+
+export default function BoxListItem({
+  name,
+  moduleName,
+  thumbnail,
+  shortDescription,
+}: Props): JSX.Element {
   const [showText, setShowText] = useState(false);
   const [ref, setRef] = useState<HTMLDivElement | null>(null);
   const toggleText = useCallback((ev: React.MouseEvent) => {
@@ -27,21 +37,21 @@ export default function BoxListItem({ box }: { box: MetaData }): JSX.Element {
   }, [showText, ref, setShowText]);
   return (
     <div ref={setRef} className={styles.root}>
-      <Link href={`/box/${encodeURIComponent(box.moduleName)}`}>
+      <Link href={`/box/${encodeURIComponent(moduleName)}`}>
         <a className={styles.headerLink}>
           <div tabIndex={-1} className={classnames(styles.header)}>
-            <h4 title={box.name}>{box.name}</h4>
+            <h4 title={name}>{name}</h4>
           </div>
         </a>
       </Link>
       <div className={styles.overlayWrapper}>
         <div className={styles.overlay}>
-          <Link href={`/box/${encodeURIComponent(box.moduleName)}`}>
+          <Link href={`/box/${encodeURIComponent(moduleName)}`}>
             <a tabIndex={-1}>
-              {box.thumbnail != null && (
-                <img src={box.thumbnail} alt={`Thumbnail for ${box.name}`} />
+              {thumbnail != null && (
+                <img src={thumbnail} alt={`Thumbnail for ${name}`} />
               )}
-              {box.thumbnail == null && (
+              {thumbnail == null && (
                 <img src="/static-logo.svg" alt="Thumbnail missing" />
               )}
             </a>
@@ -53,9 +63,9 @@ export default function BoxListItem({ box }: { box: MetaData }): JSX.Element {
             )}
           >
             <SimpleBar autoHide={false} className={styles.text}>
-              <p>{box.shortDescription}</p>
+              <p>{shortDescription}</p>
             </SimpleBar>
-            <Link href={`/box/${encodeURIComponent(box.moduleName)}/info`}>
+            <Link href={`/box/${encodeURIComponent(moduleName)}/info`}>
               <a className="text-center">Full information</a>
             </Link>
           </div>

@@ -9,6 +9,7 @@ import {
 } from 'fs';
 import path from 'path';
 import { promisify } from 'util';
+import cleanObject from './cleanObject';
 
 const readdir = promisify(readdirCb);
 const stat = promisify(statCb);
@@ -37,17 +38,6 @@ function parserError(message: string, fatal = true): void {
   } else {
     throw error;
   }
-}
-
-function cleanObject<T>(obj: T): T {
-  const entries = Object.entries(obj);
-  entries.forEach(([key, val]) => {
-    if (typeof val === 'undefined') {
-      // eslint-disable-next-line no-param-reassign
-      delete obj[key as keyof T];
-    }
-  });
-  return obj;
 }
 
 function parseMetadata(data: unknown, moduleName: string): MetaData | void {

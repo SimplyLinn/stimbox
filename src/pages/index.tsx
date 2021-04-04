@@ -1,16 +1,16 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { GetStaticProps } from 'next';
-import { MetaData } from 'stimbox';
 import getBoxes from 'stimbox/utils/getBoxes';
-import BoxListItem from 'stimbox/Components/BoxListItem';
+import BoxListItem, { Props as BoxProps } from 'stimbox/Components/BoxListItem';
 
 import classnames from 'classnames';
 import styles from 'stimbox/style/box-list-page.module.css';
 import elasticlunr, { Index, SerialisedIndexData } from 'elasticlunr';
 import useInitialRender from 'stimbox/hooks/useInitialRender';
+import cleanObject from 'stimbox/utils/cleanObject';
 
 type StaticProps = {
-  boxes: readonly MetaData[];
+  nonIndexedFields: readonly Omit<BoxProps, Exclude<keyof Fields, 'id'>>[];
   serialisedIndexData: SerialisedIndexData<Fields>;
 };
 interface Fields {
@@ -33,14 +33,14 @@ function getIndex(serialisedData?: SerialisedIndexData<Fields>) {
 const DEBOUNCE_TIME = 500;
 
 interface SearchFieldProps {
-  serialisedIndexData: StaticProps['serialisedIndexData'];
-  boxes: StaticProps['boxes'];
-  setBoxList: React.Dispatch<React.SetStateAction<readonly MetaData[]>>;
+  index: elasticlunr.Index<Fields>;
+  boxes: readonly BoxProps[];
+  setBoxList: React.Dispatch<React.SetStateAction<readonly BoxProps[]>>;
 }
 
 function search(
   index: elasticlunr.Index<Fields>,
-  boxes: StaticProps['boxes'],
+  boxes: readonly BoxProps[],
   text: string,
 ) {
   if (text === '') return boxes;
@@ -52,13 +52,10 @@ function search(
 }
 
 function SearchField({
-  serialisedIndexData,
+  index,
   boxes,
   setBoxList,
 }: SearchFieldProps): JSX.Element {
-  const index = useMemo(() => getIndex(serialisedIndexData), [
-    serialisedIndexData,
-  ]);
   const initialRender = useInitialRender();
   const [inputText, setInputText] = useState('');
   useEffect(() => {
@@ -144,9 +141,23 @@ function SearchField({
 }
 
 export default function IndexPage({
-  boxes,
+  nonIndexedFields,
   serialisedIndexData,
 }: StaticProps): JSX.Element {
+  const index = useMemo(() => getIndex(serialisedIndexData), [
+    serialisedIndexData,
+  ]);
+  const boxes: readonly BoxProps[] = useMemo(
+    () =>
+      nonIndexedFields.map((fields, i) => {
+        const { id, ...doc } = index.documentStore.getDoc(i);
+        return {
+          ...doc,
+          ...fields,
+        };
+      }),
+    [index, nonIndexedFields],
+  );
   const [showFilter, setFilter] = useState(false);
   const toggleFilter = useCallback(() => {
     setFilter((old) => !old);
@@ -157,40 +168,42 @@ export default function IndexPage({
     <div className={styles.root}>
       <form className={styles.searchWrapper}>
         <div className={styles.search}>
-          <SearchField
-            setBoxList={setBoxList}
-            boxes={boxes}
-            serialisedIndexData={serialisedIndexData}
-          />
-          <button
-            type="button"
-            onClick={toggleFilter}
-            className="hover"
-            aria-label="Toggle filters"
-            title="Toggle filters"
-          >
-            <i className="fas fa-filter" />
-          </button>
+          <SearchField setBoxList={setBoxList} boxes={boxes} index={index} />
+          {process.env.NODE_ENV === 'development' && (
+            <button
+              type="button"
+              onClick={toggleFilter}
+              className="hover"
+              aria-label="Toggle filters"
+              title="Toggle filters"
+            >
+              <i className="fas fa-filter" />
+            </button>
+          )}
         </div>
-        <fieldset className={classnames(styles.filter, !showFilter && 'hide')}>
-          <legend>Advanced filters</legend>
-          <div className={styles.fieldset}>
-            <label htmlFor="attr1">Attribute 1</label>
-            <input type="text" id="attr1" />
-          </div>
-          <div className={styles.fieldset}>
-            <label htmlFor="attr2">Attribute 2</label>
-            <input type="text" id="attr2" />
-          </div>
-          <div className={styles.fieldset}>
-            <label htmlFor="attr3">Attribute 3</label>
-            <input type="text" id="attr3" />
-          </div>
-        </fieldset>
+        {process.env.NODE_ENV === 'development' && (
+          <fieldset
+            className={classnames(styles.filter, !showFilter && 'hide')}
+          >
+            <legend>Advanced filters</legend>
+            <div className={styles.fieldset}>
+              <label htmlFor="attr1">Attribute 1</label>
+              <input type="text" id="attr1" />
+            </div>
+            <div className={styles.fieldset}>
+              <label htmlFor="attr2">Attribute 2</label>
+              <input type="text" id="attr2" />
+            </div>
+            <div className={styles.fieldset}>
+              <label htmlFor="attr3">Attribute 3</label>
+              <input type="text" id="attr3" />
+            </div>
+          </fieldset>
+        )}
       </form>
       <div className={styles.grid}>
         {boxList.map((box) => (
-          <BoxListItem key={box.moduleName} box={box} />
+          <BoxListItem key={box.moduleName} {...box} />
         ))}
       </div>
     </div>
@@ -200,7 +213,9 @@ export default function IndexPage({
 export const getStaticProps: GetStaticProps<StaticProps> = async () => {
   const boxes = await getBoxes();
   const index = getIndex();
-  boxes.forEach(({ name, shortDescription }, id) => {
+  const nonIndexedFields: StaticProps['nonIndexedFields'][number][] = [];
+  boxes.forEach(({ name, moduleName, shortDescription, thumbnail }, id) => {
+    nonIndexedFields.push(cleanObject({ moduleName, thumbnail }));
     index.addDoc({
       id,
       name,
@@ -210,7 +225,7 @@ export const getStaticProps: GetStaticProps<StaticProps> = async () => {
   const serialisedIndexData = index.toJSON();
   return {
     props: {
-      boxes,
+      nonIndexedFields,
       serialisedIndexData,
     },
   };
