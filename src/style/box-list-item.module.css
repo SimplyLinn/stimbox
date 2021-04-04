@@ -128,10 +128,7 @@
   width: 0;
 }
 
-i.active::after {
-  @mixin theme-color-template background, 'radial-gradient(circle at center, ${purple} 0, transparent 75%)';
-
-  content: '';
+.root > i::after {
   z-index: -1;
   position: absolute;
   width: 150%;
@@ -139,6 +136,12 @@ i.active::after {
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
+}
+
+.root > i.active::after,
+a.headerLink:focus ~ i::after {
+  content: '';
+  @mixin theme-color-template background, 'radial-gradient(circle at center, ${purple} 0, transparent 75%)';
 }
 
 .root > i {
