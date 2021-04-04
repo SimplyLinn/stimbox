@@ -36,12 +36,7 @@
   left: 1rem;
   transform: translateY(-50%);
   opacity: 1;
-  color: #9ca3af;
-}
-
-.searchWrapper input[type=text]::placeholder {
-  opacity: 1;
-  color: #9ca3af;
+  @mixin theme-color color, input-placeholder;
 }
 
 .searchWrapper input[type=text] {

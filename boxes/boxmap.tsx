@@ -34,7 +34,11 @@ function importModule(module: string) {
         /* webpackChunkName: "box-[request]" */
         /* webpackMode: "lazy" */
         `./${module}`
-      ).catch((err) => {console.error(err); return Failure}),
+      ).catch((err) => {
+        // eslint-disable-next-line no-console
+        console.error(err);
+        return Failure;
+      }),
     { ssr: false, loading: StimLoading },
   );
 }

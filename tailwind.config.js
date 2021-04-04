@@ -1,3 +1,67 @@
+/**
+ *
+ * @param {string} orgCol
+ * @param {number} alpha
+ * @param {boolean} [combineExisting]
+ * @returns {string}
+ */
+function setAlpha(orgCol, alpha, combineExisting) {
+  const hexMatch = orgCol.match(
+    /^\s*#([0-9a-f]{3}|[0-9a-f]{4}|[0-9a-f]{6}|[0-9a-f]{8})\s*$/i,
+  );
+  if (hexMatch != null) {
+    const [, hexVal] = hexMatch;
+    let strR;
+    let strG;
+    let strB;
+    let strA;
+    if (hexVal.length <= 4) {
+      [strR, strG, strB, strA] = hexVal.split('').map((v) => v.repeat(2));
+    } else {
+      [strR, strG, strB, strA] = hexVal.match(/../g);
+    }
+    let newAlpha = alpha;
+    if (combineExisting && strA) {
+      newAlpha *= Number.parseInt(strA, 16) / 255;
+    }
+    newAlpha = Math.round(Math.max(0, Math.min(1, newAlpha)) * 255);
+    return `#${strR}${strG}${strB}${newAlpha.toString(16)}`.toLocaleLowerCase();
+  }
+  const rgbMatch =
+    orgCol.match(
+      /^\s*(?:rgb)\(\s*(\d*\.\d+|\d+)\s*,\s*(\d*\.\d+|\d+)\s*,\s*(\d*\.\d+|\d+)\s*\)\s*$/i,
+    ) ||
+    orgCol.match(
+      /^\s*(?:rgba)\(\s*(\d*\.\d+|\d+)\s*,\s*(\d*\.\d+|\d+)\s*,\s*(\d*\.\d+|\d+)\s*,\s*(\d*\.\d+|\d+)\s*\)\s*$/i,
+    );
+  if (rgbMatch != null) {
+    const [, strR, strG, strB, strA] = rgbMatch;
+    let newAlpha = alpha;
+    if (combineExisting && strA) {
+      newAlpha *= Number.parseFloat(strA);
+    }
+    newAlpha = Math.max(0, Math.min(1, newAlpha));
+    return `rgba(${strR}, ${strG}, ${strB}, ${newAlpha})`;
+  }
+  const hslMatch =
+    orgCol.match(
+      /^\s*(?:hsl)\(\s*(\d*\.\d+|\d+)\s*,\s*(\d*\.\d+|\d+)\s*,\s*(\d*\.\d+|\d+)\s*\)\s*$/i,
+    ) ||
+    orgCol.match(
+      /^\s*(?:hsla)\(\s*(\d*\.\d+|\d+)\s*,\s*(\d*\.\d+|\d+)\s*,\s*(\d*\.\d+|\d+)\s*,\s*(\d*\.\d+|\d+)\s*\)\s*$/i,
+    );
+  if (hslMatch != null) {
+    const [, strR, strG, strB, strA] = hexMatch;
+    let newAlpha = alpha;
+    if (combineExisting && strA) {
+      newAlpha *= Number.parseFloat(strA);
+    }
+    newAlpha = Math.max(0, Math.min(1, newAlpha));
+    return `hsla(${strR}, ${strG}, ${strB}, ${newAlpha})`;
+  }
+  throw new Error(`Unable to read color value: ${orgCol}`);
+}
+
 const colors = {
   lighter: 'rgb(242, 244, 248)',
   lightish: '#eceff4',
@@ -45,6 +109,7 @@ const dark = {
 
   'input-back': colors.grey,
   'input-border': 'transparent',
+  'input-placeholder': setAlpha(colors.light, 0.4),
 
   'button-back': colors['grey-dark'],
   'button-border': 'transparent',
@@ -83,6 +148,7 @@ const light = {
 
   'input-back': colors.light,
   'input-border': 'transparent',
+  'input-placeholder': setAlpha(colors.darker, 0.4),
 
   'button-back': colors.light,
   'button-border': 'transparent',

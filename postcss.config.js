@@ -29,6 +29,7 @@ function printSource(mixin, error) {
       const space2 = ' '.repeat(element.length - end);
       return [element, `${space1}${c.red(arrows)}${space2}`];
     });
+  // eslint-disable-next-line no-console
   console.log(
     `${c.cyan(
       path

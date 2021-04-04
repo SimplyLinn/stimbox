@@ -28,6 +28,11 @@ button {
   border-radius: 4px;
 }
 
+input[type=text]::placeholder {
+  opacity: 1;
+  @mixin theme-color color, input-placeholder;
+}
+
 button {
   display: inline-block;
   outline: none;
