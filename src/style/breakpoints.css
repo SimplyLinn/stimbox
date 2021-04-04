@@ -1,0 +1,23 @@
+/* Extra Small */
+@custom-media --xs      (min-width: 0) and (max-width: 543px);
+@custom-media --xs-up   (min-width: 0);
+@custom-media --xs-down (max-width: 543px);
+
+/* Small */
+@custom-media --sm      (min-width: 544px) and (max-width: 767px);
+@custom-media --sm-up   (min-width: 544px);
+@custom-media --sm-down (max-width: 767px);
+
+/* Medium */
+@custom-media --md      (min-width: 768px) and (max-width: 1023px);
+@custom-media --md-up   (min-width: 768px);
+@custom-media --md-down (max-width: 1023px);
+
+/* Large */
+@custom-media --lg      (min-width: 1024px) and (max-width: 1279px);
+@custom-media --lg-up   (min-width: 1024x);
+@custom-media --lg-down (max-width: 1279px);
+
+/* Extra Large */
+@custom-media --xl      (min-width: 1280px);
+@custom-media --xl-up   (min-width: 1280px);

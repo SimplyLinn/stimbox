@@ -1,9 +1,3 @@
-.root {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
-
 .header {
   position: relative;
   top: 0;
@@ -22,12 +16,6 @@
   width: 100%;
 }
 
-.themeSwitcher {
-  position: absolute;
-  top: 1rem;
-  left: 1rem;
-}
-
 .headerShow {
   position: absolute;
   top: 1rem;
@@ -36,12 +24,10 @@
   width: 2.5rem;
   @mixin theme-color-template color, '${control-text} !important';
   @mixin theme-color-template background, '${control-back} !important';
-  @mixin theme-color-template border, '3px solid ${control-border}';
 }
 
 .headerShow:hover {
   @mixin theme-color-template color, '${control-hover-text} !important';
-  @mixin theme-color-template border, '3px solid ${control-hover}';
 }
 
 .headerHome {
@@ -104,12 +90,6 @@
   display: inline-block;
   @mixin theme-color-template color, '${control-text} !important';
   @mixin theme-color-template background, '${control-back} !important';
-  @mixin theme-color-template border, '3px solid ${control-border}';
-}
-
-.themeSwitcher > button {
-  @mixin theme-color-template border, '3px solid ${color-border}';
-  @mixin theme-color color, color-text;
 }
 
 .boxNavControls > button:not(:last-child) {
@@ -122,31 +102,9 @@
 
 .boxNavControls > button:hover {
   @mixin theme-color-template color, '${control-hover-text} !important';
-  @mixin theme-color-template border, '3px solid ${control-hover}';
 }
 
-.themeSwitcher > button.active {
-  @mixin theme-color-template border, '3px solid ${color-active-border}';
-  @mixin theme-color color, color-active;
-}
-
-.themeSwitcher > button:hover {
-  @mixin theme-color-template border, '3px solid ${color-hover}';
-  @mixin theme-color color, color-hover-text;
-}
-
-.themeSwitcher > button.active:hover {
-  @mixin theme-color-template border, '3px solid ${color-hover}';
-  @mixin theme-color color, color-hover-text;
-}
-
-.main {
-  flex-grow: 1;
-  overflow: hidden;
-  max-width: 100vw;
-}
-
-@media (max-width: 750px) {
+@media (--sm-down) {
   .headerRow {
     justify-content: space-between;
   }
@@ -171,9 +129,5 @@
 
   .headerHome {
     margin-right: 3.5rem;
-  }
-
-  .themeSwitcher {
-    position: static;
   }
 }

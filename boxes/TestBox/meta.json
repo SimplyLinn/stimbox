@@ -1,5 +1,4 @@
 {
   "name": "TestBox - more fun",
-  "description": "Test",
-  "supportStaticRender": true
+  "shortDescription": "Test"
 }

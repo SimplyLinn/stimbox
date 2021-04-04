@@ -2,7 +2,7 @@ import Head from 'next/head';
 import React from 'react';
 import Page from 'stimbox/Components/Layout/Page';
 
-export default function NotFound(): JSX.Element {
+function NotFound(): JSX.Element {
   return (
     <Page title="Not Found">
       <Head>
@@ -13,3 +13,5 @@ export default function NotFound(): JSX.Element {
     </Page>
   );
 }
+
+export default NotFound;

@@ -1,0 +1,27 @@
+.root {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+}
+
+.root > button {
+  @mixin theme-color color, color-text;
+}
+
+.root > button.active {
+  @mixin theme-color color, color-active;
+}
+
+.root > button:hover {
+  @mixin theme-color color, color-hover-text;
+}
+
+.root > button.active:hover {
+  @mixin theme-color color, color-hover-text;
+}
+
+@media (--sm-down) {
+  .root {
+    position: static;
+  }
+}

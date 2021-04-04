@@ -4,7 +4,7 @@ import classnames from 'classnames';
 import Link from 'next/link';
 import SimpleBar from 'simplebar-react';
 
-import styles from 'stimbox/style/box-list-item.module.css';
+import styles from './BoxListItem.module.css';
 
 export default function BoxListItem({ box }: { box: MetaData }): JSX.Element {
   const [showText, setShowText] = useState(false);
@@ -27,10 +27,7 @@ export default function BoxListItem({ box }: { box: MetaData }): JSX.Element {
   }, [showText, ref, setShowText]);
   return (
     <div ref={setRef} className={styles.root}>
-      <Link
-        href={`/box/[name]?name=${encodeURIComponent(box.moduleName)}`}
-        as={`/box/${encodeURIComponent(box.moduleName)}`}
-      >
+      <Link href={`/box/${encodeURIComponent(box.moduleName)}`}>
         <a className={styles.headerLink}>
           <div tabIndex={-1} className={classnames(styles.header)}>
             <h4 title={box.name}>{box.name}</h4>
@@ -39,10 +36,7 @@ export default function BoxListItem({ box }: { box: MetaData }): JSX.Element {
       </Link>
       <div className={styles.overlayWrapper}>
         <div className={styles.overlay}>
-          <Link
-            href={`/box/[name]?name=${encodeURIComponent(box.moduleName)}`}
-            as={`/box/${encodeURIComponent(box.moduleName)}`}
-          >
+          <Link href={`/box/${encodeURIComponent(box.moduleName)}`}>
             <a tabIndex={-1}>
               {box.thumbnail != null && (
                 <img src={box.thumbnail} alt={`Thumbnail for ${box.name}`} />
@@ -59,8 +53,11 @@ export default function BoxListItem({ box }: { box: MetaData }): JSX.Element {
             )}
           >
             <SimpleBar autoHide={false} className={styles.text}>
-              <p>{box.description}</p>
+              <p>{box.shortDescription}</p>
             </SimpleBar>
+            <Link href={`/box/${encodeURIComponent(box.moduleName)}/info`}>
+              <a className="text-center">Full information</a>
+            </Link>
           </div>
         </div>
       </div>

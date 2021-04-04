@@ -39,6 +39,17 @@ function parserError(message: string, fatal = true): void {
   }
 }
 
+function cleanObject<T>(obj: T): T {
+  const entries = Object.entries(obj);
+  entries.forEach(([key, val]) => {
+    if (typeof val === 'undefined') {
+      // eslint-disable-next-line no-param-reassign
+      delete obj[key as keyof T];
+    }
+  });
+  return obj;
+}
+
 function parseMetadata(data: unknown, moduleName: string): MetaData | void {
   if (!validateType(data)) {
     return parserError(
@@ -47,34 +58,38 @@ function parseMetadata(data: unknown, moduleName: string): MetaData | void {
   }
   const {
     name,
-    description,
+    shortDescription,
+    longDescription: rawLongDescription,
     thumbnail: rawThumbnail,
-    supportStaticRender,
   } = data;
-  let thumbnail: string | null = null;
+  let thumbnail: string | undefined;
+  let longDescription: string | undefined;
   if (typeof name !== 'string') {
     return parserError(`Could not import ${moduleName}: Missing name`);
   }
-  if (typeof description !== 'string') {
+  if (typeof shortDescription !== 'string') {
     return parserError(`Could not import ${moduleName}: Missing description`);
   }
-  if (typeof supportStaticRender !== 'boolean') {
-    return parserError(
-      `Could not import ${moduleName}: Missing static render support flag`,
-    );
-  }
-  if (rawThumbnail != null && typeof rawThumbnail !== 'string') {
+  if (rawThumbnail !== undefined && typeof rawThumbnail !== 'string') {
     parserError(`Invalid thumbnail for ${moduleName}`);
   } else if (typeof rawThumbnail === 'string') {
     thumbnail = rawThumbnail;
   }
-  return {
+  if (
+    rawLongDescription !== undefined &&
+    typeof rawLongDescription !== 'string'
+  ) {
+    parserError(`Invalid thumbnail for ${moduleName}`);
+  } else if (typeof rawLongDescription === 'string') {
+    longDescription = rawLongDescription;
+  }
+  return cleanObject({
     name,
     moduleName,
-    description,
+    shortDescription,
+    longDescription,
     thumbnail,
-    supportStaticRender,
-  };
+  });
 }
 
 function fetchBoxesSync(): MetaData[] {

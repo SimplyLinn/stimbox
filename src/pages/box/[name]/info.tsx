@@ -1,24 +1,24 @@
-import { NextPage, GetStaticProps, GetStaticPaths } from 'next';
+import { GetStaticProps, GetStaticPaths } from 'next';
 import { MetaData } from 'stimbox';
 import React from 'react';
 import getBoxes from 'stimbox/utils/getBoxes';
-import boxMap from 'boxes/boxmap';
-import Title from 'stimbox/Components/Title';
+import Page from 'stimbox/Components/Layout/Page';
+import Link from 'next/link';
 
 type StaticProps = {
   metadata: MetaData;
 };
-const Box: NextPage<StaticProps> = ({ metadata }: StaticProps) => {
-  const Component = boxMap[metadata.moduleName];
+export default function Info({ metadata }: StaticProps): JSX.Element {
   return (
-    <>
-      <Title>{metadata.name}</Title>
-      <Component />
-    </>
+    <Page title={`${metadata.name} - Info`}>
+      <Link href={`/box/${encodeURIComponent(metadata.moduleName)}`}>
+        <a>Go stim with {metadata.name}</a>
+      </Link>
+      <h2>Description</h2>
+      <p>{metadata.longDescription || metadata.shortDescription}</p>
+    </Page>
   );
-};
-(Box as typeof Box & { isBox?: boolean }).isBox = true;
-export default Box;
+}
 
 export const getStaticProps: GetStaticProps<StaticProps> = async (context) => {
   const name = context?.params?.name;

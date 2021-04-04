@@ -10,10 +10,15 @@
   margin-top: 1rem;
   padding-top: 1rem;
   margin-bottom: 1rem;
+}
+
+.root :is(h1, h2) {
   @mixin theme-color-template border-top, '3px solid ${purple-dark}';
 }
 
-.root :is(h1, h2, h3, h4, h5, h6):first-child {
+.root :is(h1, h2, h3, h4, h5, h6):first-child,
+.root .mergeUp:is(h1, h2, h3, h4, h5, h6),
+.root .mergeDown + :is(h1, h2, h3, h4, h5, h6) {
   border-top: none;
   padding-top: 0;
   margin-top: 0;

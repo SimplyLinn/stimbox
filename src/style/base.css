@@ -18,8 +18,17 @@ body {
   padding: 0;
   margin: 0;
   width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
   @mixin theme-color background-color, back2;
   @mixin theme-color color, text2;
+}
+
+#app > main {
+  flex-grow: 1;
+  overflow: hidden;
+  max-width: 100vw;
 }
 
 input,
@@ -42,12 +51,10 @@ button {
   line-height: 1.2;
   @mixin theme-color background, button-back;
   @mixin theme-color color, button-text;
-  @mixin theme-color-template border, '3px solid ${button-border}';
 }
 
 button:hover {
   @mixin theme-color color, button-hover-text;
-  @mixin theme-color-template border, '3px solid ${button-hover}';
 }
 
 input[type=text] {
@@ -55,7 +62,6 @@ input[type=text] {
   outline: none;
   padding: 0.5rem;
   @mixin theme-color background, input-back;
-  @mixin theme-color-template border, '3px solid ${input-border}';
   @mixin theme-color color, text1;
 }
 

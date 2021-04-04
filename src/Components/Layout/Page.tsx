@@ -2,6 +2,8 @@ import React, { PropsWithChildren } from 'react';
 import Title from 'stimbox/Components/Title';
 import styles from './page.module.css';
 
+export { styles as pageStyles };
+
 interface Props {
   title?: string;
 }

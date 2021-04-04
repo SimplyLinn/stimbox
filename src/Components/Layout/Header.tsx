@@ -2,7 +2,7 @@ import classnames from 'classnames';
 import Link from 'next/link';
 import React, { forwardRef, useCallback, useState } from 'react';
 import HeadCog from '../HeadCog';
-import styles from './layout.module.css';
+import styles from './Header.module.css';
 import ThemeSwitcher from './ThemeSwitcher';
 
 interface Props {

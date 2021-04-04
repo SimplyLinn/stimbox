@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { NextPage, GetStaticProps } from 'next';
+import { GetStaticProps } from 'next';
 import { MetaData } from 'stimbox';
 import getBoxes from 'stimbox/utils/getBoxes';
 import BoxListItem from 'stimbox/Components/BoxListItem';
@@ -16,7 +16,7 @@ type StaticProps = {
 interface Fields {
   id: number;
   name: string;
-  description: string;
+  shortDescription: string;
 }
 
 function getIndex(serialisedData?: SerialisedIndexData<Fields>) {
@@ -24,7 +24,7 @@ function getIndex(serialisedData?: SerialisedIndexData<Fields>) {
     return elasticlunr<Fields>(function config() {
       this.addField('id');
       this.addField('name');
-      this.addField('description');
+      this.addField('shortDescription');
     });
   }
   return Index.load(serialisedData);
@@ -46,7 +46,7 @@ function search(
   if (text === '') return boxes;
   return index
     .search(text, {
-      fields: { name: { boost: 2 }, description: { boost: 1 } },
+      fields: { name: { boost: 2 }, shortDescription: { boost: 1 } },
     })
     .map(({ ref }) => boxes[Number.parseInt(ref, 10)]);
 }
@@ -143,10 +143,10 @@ function SearchField({
   );
 }
 
-const Box: NextPage<StaticProps> = ({
+export default function IndexPage({
   boxes,
   serialisedIndexData,
-}: StaticProps) => {
+}: StaticProps): JSX.Element {
   const [showFilter, setFilter] = useState(false);
   const toggleFilter = useCallback(() => {
     setFilter((old) => !old);
@@ -195,18 +195,16 @@ const Box: NextPage<StaticProps> = ({
       </div>
     </div>
   );
-};
-
-export default Box;
+}
 
 export const getStaticProps: GetStaticProps<StaticProps> = async () => {
   const boxes = await getBoxes();
   const index = getIndex();
-  boxes.forEach(({ name, description }, id) => {
+  boxes.forEach(({ name, shortDescription }, id) => {
     index.addDoc({
       id,
       name,
-      description,
+      shortDescription,
     });
   });
   const serialisedIndexData = index.toJSON();

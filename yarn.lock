@@ -4282,6 +4282,11 @@ neo-async@^2.6.2:
   resolved "https://registry.yarnpkg.com/neo-async/-/neo-async-2.6.2.tgz#b4aafb93e3aeb2d8174ca53cf163ab7d7308305f"
   integrity sha512-Yd3UES5mWCSqR+qNT93S3UoYUkqAZ9lLg8a7g9rimsWmYGK8cVToA4/sF3RrshdyV3sAGMXVUmpMYOw+dLpOuw==
 
+next-plausible@^1.5.1:
+  version "1.5.1"
+  resolved "https://registry.yarnpkg.com/next-plausible/-/next-plausible-1.5.1.tgz#6628aed815c1657c98f662c51c166a17580a7498"
+  integrity sha512-9XSAQ9KiHwojEqsMvHyqFEH28GYa3VMS/0FAEOxK0BwclO40HBwcJN6G0Io2Jg7t+wxJm3Qe8YyB5XK6Fysfww==
+
 next-sitemap@^1.6.18:
   version "1.6.18"
   resolved "https://registry.yarnpkg.com/next-sitemap/-/next-sitemap-1.6.18.tgz#2674c7b2611b79f4f29443fe3fa9ab771ac2875e"
@@ -5091,6 +5096,11 @@ postcss-custom-media@^7.0.8:
   integrity sha512-c9s5iX0Ge15o00HKbuRuTqNndsJUbaXdiNsksnVH8H4gdc+zbLzr/UasOwNG6CTDpLFekVY4672eWdiiWu2GUg==
   dependencies:
     postcss "^7.0.14"
+
+postcss-custom-media@^8.0.0:
+  version "8.0.0"
+  resolved "https://registry.yarnpkg.com/postcss-custom-media/-/postcss-custom-media-8.0.0.tgz#1be6aff8be7dc9bf1fe014bde3b71b92bb4552f1"
+  integrity sha512-FvO2GzMUaTN0t1fBULDeIvxr5IvbDXcIatt6pnJghc736nqNgsGao5NT+5+WVLAQiTt6Cb3YUms0jiPaXhL//g==
 
 postcss-custom-properties@^8.0.11:
   version "8.0.11"

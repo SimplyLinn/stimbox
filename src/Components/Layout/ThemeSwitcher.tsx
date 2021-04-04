@@ -1,7 +1,7 @@
 import { useThemeConfig } from 'stimbox';
 import { useCallback } from 'react';
 import classnames from 'classnames';
-import styles from './layout.module.css';
+import styles from './ThemeSwitcher.module.css';
 
 export default function ThemeSwitcher(): JSX.Element {
   const conf = useThemeConfig();
@@ -18,11 +18,11 @@ export default function ThemeSwitcher(): JSX.Element {
     document.body.classList.toggle('dark-theme');
   }, []);
   return (
-    <div className={styles.themeSwitcher}>
+    <div className={styles.root}>
       <button
         type="button"
         className={classnames(
-          conf.override && conf.theme === 'light' && 'active',
+          conf.override && conf.theme === 'light' && styles.active,
         )}
         onClick={setLightMode}
         aria-label="Light theme"
@@ -32,7 +32,7 @@ export default function ThemeSwitcher(): JSX.Element {
       </button>{' '}
       <button
         type="button"
-        className={classnames(!conf.override && 'active')}
+        className={classnames(!conf.override && styles.active)}
         onClick={setAutoMode}
         aria-label="Select theme automatically"
         title="Select theme automatically"
@@ -42,7 +42,7 @@ export default function ThemeSwitcher(): JSX.Element {
       <button
         type="button"
         className={classnames(
-          conf.override && conf.theme === 'dark' && 'active',
+          conf.override && conf.theme === 'dark' && styles.active,
         )}
         onClick={setDarkMode}
         aria-label="Dark theme"

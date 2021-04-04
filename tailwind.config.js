@@ -94,31 +94,22 @@ const dark = {
   fade: colors['dark-fade'],
 
   'color-back': colors['grey-dark'],
-  'color-border': 'transparent',
   'color-text': colors.green,
-  'color-hover': 'transparent',
   'color-hover-text': colors['green-light'],
   'color-active': colors['green-dark'],
-  'color-active-border': 'transparent',
 
   'control-back': colors['grey-dark'],
-  'control-border': 'transparent',
   'control-text': colors.blue,
-  'control-hover': 'transparent',
   'control-hover-text': colors['blue-light'],
 
   'input-back': colors.grey,
-  'input-border': 'transparent',
   'input-placeholder': setAlpha(colors.light, 0.6),
 
   'button-back': colors['grey-dark'],
-  'button-border': 'transparent',
   'button-text': colors.purple,
-  'button-hover': 'transparent',
   'button-hover-text': colors['purple-light'],
 
   'block-back': colors.darker,
-  'block-border': 'transparent',
 
   'link-text': colors.purple,
   'link-active': colors['purple-lighter'],
@@ -133,31 +124,22 @@ const light = {
   fade: colors['light-fade'],
 
   'color-back': colors.lighter,
-  'color-border': 'transparent',
   'color-text': colors.green,
-  'color-hover': 'transparent',
   'color-hover-text': colors.green,
   'color-active': colors['green-dark'],
-  'color-active-border': 'transparent',
 
   'control-back': colors.light,
-  'control-border': 'transparent',
   'control-text': colors.blue,
-  'control-hover': 'transparent',
   'control-hover-text': colors['blue-dark'],
 
   'input-back': colors.light,
-  'input-border': 'transparent',
   'input-placeholder': setAlpha(colors.darker, 0.6),
 
   'button-back': colors.light,
-  'button-border': 'transparent',
   'button-text': colors.purple,
-  'button-hover': 'transparent',
   'button-hover-text': colors['purple-dark'],
 
   'block-back': colors.light,
-  'block-border': 'transparent',
 
   'link-text': colors['purple-darker'],
   'link-active': colors['purple-dark'],

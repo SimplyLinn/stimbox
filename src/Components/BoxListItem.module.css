@@ -32,6 +32,7 @@
   height: 100%;
   width: 100%;
   padding: 0 0.2rem;
+  flex-grow: 1;
 }
 
 .textWrapper.textHidden {
@@ -44,11 +45,17 @@
   position: absolute;
   top: 0;
   left: 0;
-  display: inline-block;
   width: 100%;
   height: inherit;
+  display: inline-flex;
+  flex-direction: column;
 
   @mixin theme-color background, fade;
+}
+
+.textWrapper > a {
+  flex-shrink: 0;
+  padding: 0.1rem 0.4rem 0.1rem;
 }
 
 .textWrapper p {
@@ -90,7 +97,6 @@
   right: 3px;
   border-radius: 4px;
   z-index: -1;
-  @mixin theme-color background, block-border;
 }
 
 .header {

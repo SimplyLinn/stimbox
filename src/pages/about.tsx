@@ -1,6 +1,6 @@
 import Page from 'stimbox/Components/Layout/Page';
 
-export default function NotFound(): JSX.Element {
+export default function About(): JSX.Element {
   return (
     <Page title="What is Stimbox?">
       <p>

@@ -1,9 +1,8 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
+/* eslint-disable import/no-extraneous-dependencies, @typescript-eslint/no-var-requires */
 /**
  * @type {{ dark: Partial<Record<string, string>>; light: Partial<Record<string, string>>; }}
  */
 const path = require('path');
-// eslint-disable-next-line import/no-extraneous-dependencies
 const c = require('chalk');
 const themes = require('tailwindcss/resolveConfig')(
   require('./tailwind.config.js'),
@@ -123,6 +122,13 @@ module.exports = {
       'postcss-mixins',
       {
         mixins,
+      },
+    ],
+    [
+      'postcss-custom-media',
+      {
+        preserve: false,
+        importFrom: 'src/style/breakpoints.css',
       },
     ],
     'tailwindcss',

@@ -15,9 +15,9 @@ export type ReadonlyRecord<K extends string | number | symbol, T> = {
 export type MetaData = {
   readonly name: string;
   readonly moduleName: string;
-  readonly description: string;
-  readonly supportStaticRender: boolean;
-  readonly thumbnail?: string | null;
+  readonly shortDescription: string;
+  readonly longDescription?: string;
+  readonly thumbnail?: string;
 };
 
 const themes: {
