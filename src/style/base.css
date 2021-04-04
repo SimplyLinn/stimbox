@@ -15,11 +15,11 @@ body {
 
 #app {
   position: relative;
-  background-color: var(--back2);
-  color: var(--text2);
   padding: 0;
   margin: 0;
   width: 100%;
+  @mixin theme-color background-color, back2;
+  @mixin theme-color color, text2;
 }
 
 input,
@@ -35,41 +35,41 @@ button {
   appearance: none;
   cursor: pointer;
   line-height: 1.2;
-  background: var(--button-back);
-  color: var(--button-text);
-  border: 3px solid var(--button-border);
+  @mixin theme-color background, button-back;
+  @mixin theme-color color, button-text;
+  @mixin theme-color-template border, '3px solid ${button-border}';
 }
 
 button:hover {
-  color: var(--button-hover-text);
-  border: 3px solid var(--button-hover);
+  @mixin theme-color color, button-hover-text;
+  @mixin theme-color-template border, '3px solid ${button-hover}';
 }
 
 input[type=text] {
   display: inline-block;
   outline: none;
   padding: 0.5rem;
-  background: var(--input-back);
-  border: 3px solid var(--input-border);
-  color: var(--text);
+  @mixin theme-color background, input-back;
+  @mixin theme-color-template border, '3px solid ${input-border}';
+  @mixin theme-color color, text1;
 }
 
 a,
 a:link,
 a:visited {
-  color: var(--link-text);
+  @mixin theme-color color, link-text;
 }
 
 a:link {
-  color: var(--link-text);
+  @mixin theme-color color, link-text;
 }
 
 a:hover {
-  color: var(--link-active);
+  @mixin theme-color color, link-active;
 }
 
 a:active {
-  color: var(--link-active);
+  @mixin theme-color color, link-active;
 }
 
 .hide {

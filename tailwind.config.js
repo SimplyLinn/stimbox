@@ -1,6 +1,7 @@
 const colors = {
   lighter: 'rgb(242, 244, 248)',
-  light: '#eceff4',
+  lightish: '#eceff4',
+  light: '#e6e6e6',
   'light-fade': 'rgba(255, 255, 255, 0.8)',
   'dark-fade': 'rgba(0, 0, 0, 0.8)',
   dark: '#2e3440',
@@ -60,37 +61,37 @@ const dark = {
 };
 
 const light = {
-  back1: colors.light,
+  back1: colors.lightish,
   back2: colors.lighter,
   text1: colors.darker,
   text2: colors.dark,
   fade: colors['light-fade'],
 
   'color-back': colors.lighter,
-  'color-border': colors.green,
-  'color-text': colors['green-light'],
-  'color-hover': colors.green,
+  'color-border': 'transparent',
+  'color-text': colors.green,
+  'color-hover': 'transparent',
   'color-hover-text': colors.green,
   'color-active': colors['green-dark'],
-  'color-active-border': colors['green-dark'],
+  'color-active-border': 'transparent',
 
-  'control-back': colors.lighter,
-  'control-border': colors.blue,
+  'control-back': colors.light,
+  'control-border': 'transparent',
   'control-text': colors.blue,
-  'control-hover': colors['blue-dark'],
+  'control-hover': 'transparent',
   'control-hover-text': colors['blue-dark'],
 
-  'input-back': colors.lighter,
-  'input-border': colors.purple,
+  'input-back': colors.light,
+  'input-border': 'transparent',
 
-  'button-back': colors.lighter,
-  'button-border': colors.purple,
+  'button-back': colors.light,
+  'button-border': 'transparent',
   'button-text': colors.purple,
-  'button-hover': colors['purple-dark'],
+  'button-hover': 'transparent',
   'button-hover-text': colors['purple-dark'],
 
-  'block-back': colors.lighter,
-  'block-border': colors['grey-light'],
+  'block-back': colors.light,
+  'block-border': 'transparent',
 
   'link-text': colors['purple-darker'],
   'link-active': colors['purple-dark'],

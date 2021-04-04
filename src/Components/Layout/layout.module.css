@@ -9,11 +9,11 @@
   top: 0;
   left: 0;
   width: 100%;
-  background: var(--back1);
-  color: var(--text1);
   z-index: 2;
   padding: 1rem;
   box-shadow: 0 0.5rem 1rem 0 rgba(36, 41, 51, 0.15);
+  @mixin theme-color background, back1;
+  @mixin theme-color color, text1;
 }
 
 .headerRow {
@@ -32,16 +32,16 @@
   position: absolute;
   top: 1rem;
   right: 1rem;
-  color: var(--control-text) !important;
-  background: var(--control-back) !important;
-  border: 3px solid var(--control-border);
   z-index: 2;
   width: 2.5rem;
+  @mixin theme-color-template color, '${control-text} !important';
+  @mixin theme-color-template background, '${control-back} !important';
+  @mixin theme-color-template border, '3px solid ${control-border}';
 }
 
 .headerShow:hover {
-  color: var(--control-hover-text) !important;
-  border: 3px solid var(--control-hover);
+  @mixin theme-color-template color, '${control-hover-text} !important';
+  @mixin theme-color-template border, '3px solid ${control-hover}';
 }
 
 .headerHome {
@@ -49,7 +49,7 @@
   display: flex;
   justify-content: center;
   margin-bottom: 0;
-  color: var(--purple);
+  @mixin theme-color color, purple;
 }
 
 .headerHome a .fillerIcon {
@@ -60,15 +60,15 @@
   transform: translateY(-50%);
   width: 3rem;
   height: 3rem;
-  fill: var(--link-text);
+  @mixin theme-color fill, link-text;
 }
 
 .headerHome a:active .fillerIcon {
-  fill: var(--link-active);
+  @mixin theme-color fill, link-active;
 }
 
 .headerHome a:hover .fillerIcon {
-  fill: var(--link-active);
+  @mixin theme-color fill, link-active;
 }
 
 .headerHome a {
@@ -102,14 +102,14 @@
 
 .boxNavControls > button {
   display: inline-block;
-  color: var(--control-text) !important;
-  background: var(--control-back) !important;
-  border: 3px solid var(--control-border);
+  @mixin theme-color-template color, '${control-text} !important';
+  @mixin theme-color-template background, '${control-back} !important';
+  @mixin theme-color-template border, '3px solid ${control-border}';
 }
 
 .themeSwitcher > button {
-  color: var(--color-text);
-  border: 3px solid var(--color-border);
+  @mixin theme-color-template border, '3px solid ${color-border}';
+  @mixin theme-color color, color-text;
 }
 
 .boxNavControls > button:not(:last-child) {
@@ -121,23 +121,23 @@
 }
 
 .boxNavControls > button:hover {
-  color: var(--control-hover-text) !important;
-  border: 3px solid var(--control-hover);
+  @mixin theme-color-template color, '${control-hover-text} !important';
+  @mixin theme-color-template border, '3px solid ${control-hover}';
 }
 
 .themeSwitcher > button.active {
-  color: var(--color-active);
-  border: 3px solid var(--color-active-border);
+  @mixin theme-color-template border, '3px solid ${color-active-border}';
+  @mixin theme-color color, color-active;
 }
 
 .themeSwitcher > button:hover {
-  color: var(--color-hover-text);
-  border: 3px solid var(--color-hover);
+  @mixin theme-color-template border, '3px solid ${color-hover}';
+  @mixin theme-color color, color-hover-text;
 }
 
 .themeSwitcher > button.active:hover {
-  color: var(--color-hover-text);
-  border: 3px solid var(--color-hover);
+  @mixin theme-color-template border, '3px solid ${color-hover}';
+  @mixin theme-color color, color-hover-text;
 }
 
 .main {

@@ -22,6 +22,10 @@ const StimLoading = () => {
   );
 };
 
+function Failure(): JSX.Element {
+  return <Page title="Error">Failed to load the stimbox-component</Page>;
+}
+
 function importModule(module: string) {
   return dynamic(
     () =>
@@ -30,7 +34,7 @@ function importModule(module: string) {
         /* webpackChunkName: "box-[request]" */
         /* webpackMode: "lazy" */
         `./${module}`
-      ),
+      ).catch((err) => {console.error(err); return Failure}),
     { ssr: false, loading: StimLoading },
   );
 }

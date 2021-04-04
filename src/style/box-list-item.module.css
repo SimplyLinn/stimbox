@@ -129,7 +129,7 @@
 }
 
 i.active::after {
-  @mixin theme-color-template background, 'radial-gradient(circle at center, ${link-text} 0, transparent 75%)';
+  @mixin theme-color-template background, 'radial-gradient(circle at center, ${purple} 0, transparent 75%)';
 
   content: '';
   z-index: -1;
