@@ -46,7 +46,7 @@ export default function BoxListItem({
       </Link>
       <div className={styles.overlayWrapper}>
         <div className={styles.overlay}>
-          <Link href={`/box/${encodeURIComponent(moduleName)}`}>
+          <Link href={`/boxes/${encodeURIComponent(moduleName)}`}>
             <a tabIndex={-1} aria-label={`Thumbnail for ${name}`}>
               <div
                 className={classnames(
