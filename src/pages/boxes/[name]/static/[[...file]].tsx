@@ -1,3 +1,8 @@
+/**
+ * THIS ENTIRE FILE IS AN UGLY HACK!
+ * It's only doing something in development mode, and at that point
+ * it's just fetching the static files from the individual boxes.
+ */
 import { GetServerSideProps, GetStaticPaths, GetStaticProps } from 'next';
 
 function staticFiles(): JSX.Element {
