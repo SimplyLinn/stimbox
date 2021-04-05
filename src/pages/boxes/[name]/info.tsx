@@ -11,7 +11,7 @@ type StaticProps = {
 export default function Info({ metadata }: StaticProps): JSX.Element {
   return (
     <Page title={`${metadata.name} - Info`}>
-      <Link href={`/box/${encodeURIComponent(metadata.moduleName)}`}>
+      <Link href={`/boxes/${encodeURIComponent(metadata.moduleName)}`}>
         <a>Go stim with {metadata.name}</a>
       </Link>
       <h2>Description</h2>

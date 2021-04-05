@@ -25,6 +25,11 @@ body {
   @mixin theme-color color, text2;
 }
 
+#app.is-box {
+  max-height: 100vh;
+  overflow: hidden;
+}
+
 #app > main {
   flex-grow: 1;
   overflow: hidden;

@@ -9,6 +9,7 @@ import Footer from 'stimbox/Components/Layout/Footer';
 import ViewportContextProvider from 'stimbox/Components/ViewportContextProvider';
 import Title from 'stimbox/Components/Title';
 import PlausibleProvider from 'stimbox/Components/PlausibleProvider';
+import classnames from 'classnames';
 
 export default function MyApp({ Component, pageProps }: AppProps): JSX.Element {
   const [initialRender, setInitialRender] = useState(true);
@@ -28,7 +29,7 @@ export default function MyApp({ Component, pageProps }: AppProps): JSX.Element {
           mainRef={mainRef}
           footerRef={footerRef}
         >
-          <div id="app">
+          <div id="app" className={classnames(isBox && 'is-box')}>
             <Title />
             <Head>
               <link rel="icon" href="/favicon.ico" />

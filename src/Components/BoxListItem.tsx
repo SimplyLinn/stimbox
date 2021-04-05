@@ -37,7 +37,7 @@ export default function BoxListItem({
   }, [showText, ref, setShowText]);
   return (
     <div ref={setRef} className={styles.root}>
-      <Link href={`/box/${encodeURIComponent(moduleName)}`}>
+      <Link href={`/boxes/${encodeURIComponent(moduleName)}`}>
         <a className={styles.headerLink}>
           <div tabIndex={-1} className={classnames(styles.header)}>
             <h4 title={name}>{name}</h4>
@@ -47,13 +47,19 @@ export default function BoxListItem({
       <div className={styles.overlayWrapper}>
         <div className={styles.overlay}>
           <Link href={`/box/${encodeURIComponent(moduleName)}`}>
-            <a tabIndex={-1}>
-              {thumbnail != null && (
-                <img src={thumbnail} alt={`Thumbnail for ${name}`} />
-              )}
-              {thumbnail == null && (
-                <img src="/static-logo.svg" alt="Thumbnail missing" />
-              )}
+            <a tabIndex={-1} aria-label={`Thumbnail for ${name}`}>
+              <div
+                className={classnames(
+                  styles.thumbContainer,
+                  thumbnail == null && styles.defaultThumb,
+                )}
+                style={{
+                  backgroundImage:
+                    thumbnail != null
+                      ? `url('${thumbnail}')`
+                      : "url('/static-logo.svg')",
+                }}
+              />
             </a>
           </Link>
           <div
@@ -65,7 +71,7 @@ export default function BoxListItem({
             <SimpleBar autoHide={false} className={styles.text}>
               <p>{shortDescription}</p>
             </SimpleBar>
-            <Link href={`/box/${encodeURIComponent(moduleName)}/info`}>
+            <Link href={`/boxes/${encodeURIComponent(moduleName)}/info`}>
               <a className="text-center">Full information</a>
             </Link>
           </div>

@@ -7,7 +7,7 @@ import {
   useState,
 } from 'react';
 
-interface Viewport {
+export interface Viewport {
   readonly top: number;
   readonly left: number;
   readonly bottom: number;

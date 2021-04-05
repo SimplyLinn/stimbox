@@ -22,10 +22,17 @@
   height: 100%;
 }
 
-.overlay img {
+.overlay .thumbContainer {
   position: relative;
   width: 100%;
   height: 100%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
+}
+
+.overlay .thumbContainer.defaultThumb {
+  background-size: contain;
 }
 
 .textWrapper .text {

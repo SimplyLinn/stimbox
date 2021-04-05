@@ -30,10 +30,9 @@ function importModule(module: string) {
   return dynamic(
     () =>
       import(
-        /* webpackInclude: /[\/\\]boxes[\/\\][^\/\\]+[\/\\]index\.(js|jsm|jsx|ts|tsx)$/ */
         /* webpackChunkName: "box-[request]" */
         /* webpackMode: "lazy" */
-        `./${module}`
+        `./${module}/index.tsx`
       ).catch((err) => {
         // eslint-disable-next-line no-console
         console.error(err);

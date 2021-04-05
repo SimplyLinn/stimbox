@@ -1,0 +1,57 @@
+import { GetServerSideProps, GetStaticPaths, GetStaticProps } from 'next';
+
+function staticFiles(): JSX.Element {
+  return <h1>YOU SHOULD NEVER SEE THIS!</h1>;
+}
+
+const getServerSideProps: GetServerSideProps<never> | undefined =
+  process.env.NODE_ENV === 'development'
+    ? async (context) => {
+        const serveStatic = (await import('serve-static')).default;
+        const boxName = context.query.name as string;
+        const filePath = context.query.file as string[];
+        const middleware = serveStatic(
+          `boxes/${encodeURIComponent(boxName)}/static`,
+          {
+            fallthrough: true,
+          },
+        );
+        await new Promise<void>((resolve) => {
+          const newUrl = `/${filePath.map(encodeURIComponent).join('/')}`;
+          const proxyReq = new Proxy(context.req, {
+            get(target, prop, recevier) {
+              if (prop === 'url') return newUrl;
+              return Reflect.get(target, prop, recevier);
+            },
+          });
+          context.res.once('finish', resolve);
+          middleware(proxyReq, context.res, resolve);
+        });
+        return {
+          notFound: true,
+        };
+      }
+    : undefined;
+
+const getStaticProps: GetStaticProps | undefined = async () => {
+  return {
+    props: {},
+  };
+};
+
+const getStaticPaths: GetStaticPaths | undefined =
+  process.env.NODE_ENV !== 'development'
+    ? async () => {
+        return {
+          paths: [],
+          fallback: false,
+        };
+      }
+    : undefined;
+
+module.exports = {
+  default: staticFiles,
+  getServerSideProps,
+  getStaticPaths,
+  getStaticProps,
+};

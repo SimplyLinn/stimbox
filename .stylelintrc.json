@@ -26,5 +26,6 @@
       }
     ],
     "selector-nested-pattern": "^&"
-  }
+  },
+  "ignoreFiles": ["**/*.js", "**/*.jsx", "**/*.ts", "**/*.tsx"]
 }

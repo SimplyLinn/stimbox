@@ -4,7 +4,8 @@
  "serveRedirect": true,
  "noReload": true,
  "watchexps": [
-    "src/**/* # yarn run build && yarn run export"
+    "src/**/* # yarn run build && yarn run export",
+    "boxes/**/* # yarn run build && yarn run export"
  ],
  "http2": false
 }
