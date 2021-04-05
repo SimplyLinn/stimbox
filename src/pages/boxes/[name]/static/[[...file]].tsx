@@ -12,37 +12,49 @@ function staticFiles(): JSX.Element {
 const getServerSideProps: GetServerSideProps<never> | undefined =
   process.env.NODE_ENV === 'development'
     ? async (context) => {
-        const serveStatic = (await import('serve-static')).default;
-        const boxName = context.query.name as string;
-        const filePath = context.query.file as string[];
-        const middleware = serveStatic(
-          `boxes/${encodeURIComponent(boxName)}/static`,
-          {
-            fallthrough: true,
-          },
-        );
-        await new Promise<void>((resolve) => {
-          const newUrl = `/${filePath.map(encodeURIComponent).join('/')}`;
-          const proxyReq = new Proxy(context.req, {
-            get(target, prop, recevier) {
-              if (prop === 'url') return newUrl;
-              return Reflect.get(target, prop, recevier);
+        try {
+          const serveStatic = (await import('serve-static')).default;
+          const boxName = context.query.name as string;
+          const filePath = context.query.file as string[];
+          const middleware = serveStatic(
+            `boxes/${encodeURIComponent(boxName)}/static`,
+            {
+              fallthrough: true,
             },
+          );
+          await new Promise<void>((resolve) => {
+            const newUrl = `/${filePath.map(encodeURIComponent).join('/')}`;
+            const proxyReq = new Proxy(context.req, {
+              get(target, prop, recevier) {
+                if (prop === 'url') return newUrl;
+                return Reflect.get(target, prop, recevier);
+              },
+            });
+            context.res.once('finish', resolve);
+            middleware(proxyReq, context.res, resolve);
           });
-          context.res.once('finish', resolve);
-          middleware(proxyReq, context.res, resolve);
-        });
-        return {
-          notFound: true,
-        };
+          return {
+            notFound: true,
+          };
+        } catch (err) {
+          if (err.code === 'MODULE_NOT_FOUND') {
+            return {
+              notFound: true,
+            };
+          }
+          throw err;
+        }
       }
     : undefined;
 
-const getStaticProps: GetStaticProps | undefined = async () => {
-  return {
-    props: {},
-  };
-};
+const getStaticProps: GetStaticProps | undefined =
+  process.env.NODE_ENV !== 'development'
+    ? async () => {
+        return {
+          props: {},
+        };
+      }
+    : undefined;
 
 const getStaticPaths: GetStaticPaths | undefined =
   process.env.NODE_ENV !== 'development'

@@ -1,42 +1,31 @@
 import { useEffect, useState } from 'react';
 import { useViewport } from 'stimbox';
+import * as PIXI from 'pixi.js';
 import { Viewport } from 'stimbox/Components/ViewportContextProvider';
 
 const NUM_BALLS = 200;
 const DRAG = 0.7;
 const MAX_VEL = 1000;
 const TIMESCALE = 0.3;
-const FORCE_CONSTANT = 1;
+const FORCE_CONSTANT = 2;
 const WALL_CHARGE = 32 ** 2 * Math.PI;
 
-const SVG_NS = 'http://www.w3.org/2000/svg';
-
 export default function TestBox(): JSX.Element {
-  const [svgRef, setSvgRef] = useState<SVGSVGElement | null>(null);
-  const [gRef, setGRef] = useState<SVGGElement | null>(null);
-  const [[setBBox], setBBoxCb] = useState([(_bbox: Viewport) => {}]);
+  const [containerRef, setContainerRef] = useState<HTMLDivElement | null>(null);
+  const [[setBBox], setBBoxCb] = useState([(_viewport: Viewport) => {}]);
+  const bbox = useViewport();
   useEffect(() => {
-    if (svgRef == null || gRef == null) return undefined;
-    // const svgEl = svgRef;
-    const gEl = gRef;
-    const cursorBall = {
-      // el: document.createElementNS(SVG_NS, 'circle'),
-      r: 32,
-      m: 64 ** 2 * Math.PI,
-      x: -64,
-      y: -64,
-    };
-    // cursorBall.el.setAttributeNS(null, 'fill', 'blue');
-    // cursorBall.el.setAttributeNS(null, 'r', `${cursorBall.r}`);
-    // cursorBall.el.setAttributeNS(null, 'cx', `${cursorBall.x}`);
-    // cursorBall.el.setAttributeNS(null, 'cy', `${cursorBall.y}`);
-    // svgEl.appendChild(cursorBall.el);
-    let width = NaN;
-    let height = NaN;
+    setBBox(bbox);
+  }, [bbox, setBBox]);
+  useEffect(() => {
+    if (containerRef == null) return undefined;
+    const container = containerRef;
+    const [rd, gn, bl] = [0x99, 0x66, 0xff].map((v) => v / 0xff);
+    let mounted = true;
     let clientXOffset = 0;
     let clientYOffset = 0;
-    let animating = false;
-    let onScreen = false;
+    let width = NaN;
+    let height = NaN;
     const balls: {
       x: number;
       y: number;
@@ -44,11 +33,47 @@ export default function TestBox(): JSX.Element {
       m: number;
       vx: number;
       vy: number;
-      el: SVGCircleElement;
+      gfx: PIXI.Graphics;
     }[] = [];
+
+    const pixi = new PIXI.Application({
+      width: container.clientWidth,
+      height: container.clientHeight,
+      resizeTo: container,
+      backgroundAlpha: 0,
+    });
+    const blurFilter = new PIXI.filters.BlurFilter(10);
+    const blobFilter = new PIXI.filters.ColorMatrixFilter();
+    /* eslint-disable prettier/prettier */
+    blobFilter.matrix = [
+      1, 0, 0, 0, 0,
+      0, 1, 0, 0, 0,
+      0, 0, 1, 0, 0,
+      0, 0, 0, 30, -10
+    ];
+    /* eslint-enable prettier/prettier */
+    const colorFilter = new PIXI.filters.ColorMatrixFilter();
+    /* eslint-disable prettier/prettier */
+    colorFilter.matrix = [
+      rd, 0,  0,  0, 0,
+      0,  gn, 0,  0, 0,
+      0,  0,  bl, 0, 0,
+      0,  0,  0,  1, 0
+    ];
+    /* eslint-enable prettier/prettier */
+    pixi.stage.filters = [blurFilter, blobFilter, colorFilter];
+    container.appendChild(pixi.view);
+
+    const cursorBall = {
+      r: 32,
+      m: 64 ** 2 * Math.PI,
+      x: -64,
+      y: -64,
+    };
+
     let lastT: number | null = null;
     function animationFrame(t: number): void {
-      if (!animating) {
+      if (!mounted) {
         lastT = null;
         return;
       }
@@ -57,8 +82,6 @@ export default function TestBox(): JSX.Element {
         requestAnimationFrame(animationFrame);
         return;
       }
-      // cursorBall.el.setAttributeNS(null, 'cx', `${cursorBall.x}`);
-      // cursorBall.el.setAttributeNS(null, 'cy', `${cursorBall.y}`);
       const deltaT = t - lastT;
       lastT = t;
 
@@ -87,25 +110,23 @@ export default function TestBox(): JSX.Element {
           ball2.vx += dvX;
           ball2.vy += dvY;
         }
-        if (onScreen) {
-          const ball2 = cursorBall;
-          const diffY = Math.max(
-            Math.abs(ball2.y - ball.y),
-            Math.min(ball.r, ball2.r),
-          );
-          const diffX = Math.max(
-            Math.abs(ball2.x - ball.x),
-            Math.min(ball.r, ball2.r),
-          );
-          const scale = TIMESCALE / Math.max(diffY, diffX);
-          const force =
-            (ball.m * ball2.m * FORCE_CONSTANT) /
-            Math.abs(diffX ** 2 + diffY ** 2);
-          const xSign = Math.sign(ball2.x - ball.x) || 1;
-          const ySign = Math.sign(ball2.y - ball.y) || 1;
-          ball.vx -= (xSign * (force * diffX * scale)) / deltaT;
-          ball.vy -= (ySign * (force * diffY * scale)) / deltaT;
-        }
+        const ball2 = cursorBall;
+        const diffY = Math.max(
+          Math.abs(ball2.y - ball.y),
+          Math.min(ball.r, ball2.r),
+        );
+        const diffX = Math.max(
+          Math.abs(ball2.x - ball.x),
+          Math.min(ball.r, ball2.r),
+        );
+        const scale = TIMESCALE / Math.max(diffY, diffX);
+        const force =
+          (ball.m * ball2.m * FORCE_CONSTANT) /
+          Math.abs(diffX ** 2 + diffY ** 2);
+        const xSign = Math.sign(ball2.x - ball.x) || 1;
+        const ySign = Math.sign(ball2.y - ball.y) || 1;
+        ball.vx -= (xSign * (force * diffX * scale)) / deltaT;
+        ball.vy -= (ySign * (force * diffY * scale)) / deltaT;
         const { y } = ball;
         const invY = height - y;
         const { x } = ball;
@@ -146,12 +167,12 @@ export default function TestBox(): JSX.Element {
         ball.vy = Math.max(Math.min(ball.vy, MAX_VEL), -MAX_VEL);
         ball.x += (ball.vx * TIMESCALE) / deltaT;
         ball.y += (ball.vy * TIMESCALE) / deltaT;
-        ball.el.setAttributeNS(null, 'cx', `${ball.x}`);
+        ball.gfx.x = ball.x;
         ball.vx *= Math.max(
           1 - (DRAG * ball.vx ** 2 * TIMESCALE) / (deltaT * MAX_VEL ** 2),
           0,
         );
-        ball.el.setAttributeNS(null, 'cy', `${ball.y}`);
+        ball.gfx.y = ball.y;
         ball.vy *= Math.max(
           1 - (DRAG * ball.vy ** 2 * TIMESCALE) / (deltaT * MAX_VEL ** 2),
           0,
@@ -160,18 +181,19 @@ export default function TestBox(): JSX.Element {
       });
       requestAnimationFrame(animationFrame);
     }
+    requestAnimationFrame(animationFrame);
     function spawnBalls(w: number, h: number) {
-      animating = true;
       for (let i = 0; i < NUM_BALLS; i++) {
         const r = 12;
         const x = Math.floor(Math.random() * w - r * 2) + r;
         const y = Math.floor(Math.random() * h - r * 2) + r;
-        const el = document.createElementNS(SVG_NS, 'circle');
-        el.setAttributeNS(null, 'fill', 'red');
-        el.setAttributeNS(null, 'r', r.toFixed(0));
-        el.setAttributeNS(null, 'cx', x.toFixed(0));
-        el.setAttributeNS(null, 'cy', y.toFixed(0));
-        gEl.appendChild(el);
+        const gfx = new PIXI.Graphics();
+        gfx.beginFill(0xffffff);
+        gfx.drawCircle(0, 0, r);
+        gfx.endFill();
+        gfx.x = x;
+        gfx.y = y;
+        pixi.stage.addChild(gfx);
         balls.push({
           x,
           y,
@@ -179,15 +201,16 @@ export default function TestBox(): JSX.Element {
           m: r ** 2 * Math.PI,
           vx: Math.random() < 0.5 ? -10 : 10,
           vy: Math.random() < 0.5 ? -10 : 10,
-          el,
+          gfx,
         });
       }
-      requestAnimationFrame(animationFrame);
     }
     function clearBalls() {
-      balls.forEach(({ el }) => el.remove());
+      balls.forEach(({ gfx }) => {
+        pixi.stage.removeChild(gfx);
+        gfx.removeAllListeners();
+      });
       balls.length = 0;
-      animating = false;
     }
     function setDimensions({
       width: newWidth,
@@ -200,6 +223,13 @@ export default function TestBox(): JSX.Element {
       top: number;
       left: number;
     }) {
+      if (!mounted) return;
+      if (
+        pixi.renderer.height !== newHeight ||
+        pixi.renderer.width !== newWidth
+      ) {
+        pixi.resize();
+      }
       if (Number.isNaN(newWidth) || Number.isNaN(newHeight)) {
         clearBalls();
       } else if (Number.isNaN(width) || Number.isNaN(height)) {
@@ -212,53 +242,66 @@ export default function TestBox(): JSX.Element {
     }
     setBBoxCb([setDimensions]);
     function updateCursorBall(ev: MouseEvent) {
-      onScreen = true;
-      cursorBall.x = ev.clientX - clientXOffset;
-      cursorBall.y = ev.clientY - clientYOffset;
+      cursorBall.x = ev.offsetX;
+      cursorBall.y = ev.offsetY;
     }
-    function onOffScreen() {
-      onScreen = false;
+    let touch: number | null = null;
+    function touchMove(ev: TouchEvent) {
+      const moveTouch = [...ev.changedTouches].find(
+        (t) => t.identifier === touch,
+      );
+      if (moveTouch == null) return;
+      cursorBall.x = moveTouch.clientX - clientXOffset;
+      cursorBall.y = moveTouch.clientY - clientYOffset;
     }
-    window.addEventListener('mousemove', updateCursorBall, { passive: true });
-    document.addEventListener('mouseout', onOffScreen, { passive: true });
+    function touchEnd(ev: TouchEvent) {
+      if ([...ev.changedTouches].some((t) => t.identifier === touch)) {
+        pixi.view.removeEventListener('touchend', touchEnd);
+        pixi.view.removeEventListener('touchmove', touchMove);
+        pixi.view.addEventListener('mousemove', updateCursorBall, {
+          passive: true,
+        });
+        // eslint-disable-next-line @typescript-eslint/no-use-before-define
+        pixi.view.addEventListener('touchstart', touchStart, {
+          passive: false,
+        });
+      }
+    }
+    function touchStart(ev: TouchEvent) {
+      if (!ev.cancelable) return;
+      touch = ev.changedTouches.item(0)?.identifier ?? null;
+      if (touch == null) return;
+      ev.preventDefault();
+      pixi.view.removeEventListener('touchstart', touchStart);
+      pixi.view.removeEventListener('mousemove', updateCursorBall);
+      pixi.view.addEventListener('touchend', touchEnd, { passive: true });
+      pixi.view.addEventListener('touchmove', touchMove, { passive: true });
+    }
+    pixi.view.addEventListener('mousemove', updateCursorBall, {
+      passive: true,
+    });
+    pixi.view.addEventListener('touchstart', touchStart, {
+      passive: false,
+    });
     return () => {
-      window.removeEventListener('mousemove', updateCursorBall);
-      document.removeEventListener('mouseout', onOffScreen);
-      animating = false;
-      clearBalls();
-      // cursorBall.el.remove();
+      pixi.view.removeEventListener('mousemove', updateCursorBall);
+      pixi.view.removeEventListener('touchstart', touchStart);
+      mounted = false;
+      container.removeChild(pixi.view);
+      pixi.destroy();
       setBBoxCb([() => {}]);
     };
-  }, [svgRef, gRef]);
-  const bbox = useViewport();
-  useEffect(() => {
-    setBBox(bbox);
-  }, [bbox, setBBox]);
+  }, [containerRef]);
   return (
-    <svg
-      width={bbox.width}
-      height={bbox.height}
-      viewBox={`0 0 ${bbox.width} ${bbox.height}`}
-      fill="none"
-      xmlns={SVG_NS}
-      ref={setSvgRef}
-    >
-      <defs>
-        <filter id="goo">
-          <feGaussianBlur stdDeviation="10" />
-          <feColorMatrix
-            values="1 0 0 0 0 
-            0 1 0 0 0 
-            0 0 1 0 0 
-            0 0 0 30 -7"
-          />
-          <feComponentTransfer>
-            <feFuncA type="discrete" tableValues="0 1" />
-          </feComponentTransfer>
-          <feGaussianBlur stdDeviation="1" />
-        </filter>
-      </defs>
-      <g ref={setGRef} filter="url(#goo)" />
-    </svg>
+    <div
+      style={{
+        position: 'absolute',
+        width: '100%',
+        height: '100%',
+        maxHeight: '100%',
+        overflow: 'hidden',
+      }}
+      ref={setContainerRef}
+    />
   );
 }

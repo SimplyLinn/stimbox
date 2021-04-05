@@ -53,6 +53,8 @@ module.exports = {
     }
     config.node.__filename = true;
     config.node.__dirname = true;
+    config.externals = config.externals || [];
+    config.externals.push('serve-static');
     return config;
   },
 };

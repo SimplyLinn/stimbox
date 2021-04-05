@@ -34,6 +34,7 @@ body {
   flex-grow: 1;
   overflow: hidden;
   max-width: 100vw;
+  position: relative;
 }
 
 input,
