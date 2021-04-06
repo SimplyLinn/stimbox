@@ -241,10 +241,10 @@ export default function TestBox(): JSX.Element {
       clientYOffset = top;
       width = newWidth;
       height = newHeight;
-      const area = width * height;
-      balls.forEach((b) => (b.r ** 2 * Math.PI * area) / 1400000);
-      cursorBall.m = (cursorBall.r ** 2 * Math.PI * area) / 1400000;
-      wallCharge = (WALL_CHARGE * area) / 1400000;
+      const area = Math.sqrt(width * height);
+      balls.forEach((b) => (b.r ** 2 * Math.PI * area) / 1200);
+      cursorBall.m = (cursorBall.r ** 2 * Math.PI * area) / 1200;
+      wallCharge = (WALL_CHARGE * area) / 1200;
     }
     setBBoxCb([setDimensions]);
     function updateCursorBall(ev: MouseEvent) {
