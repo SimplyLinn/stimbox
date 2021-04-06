@@ -273,8 +273,11 @@ export default function TestBox(): JSX.Element {
     }
     function touchStart(ev: TouchEvent) {
       if (!ev.cancelable) return;
-      touch = ev.changedTouches.item(0)?.identifier ?? null;
-      if (touch == null) return;
+      const touchObj = ev.changedTouches.item(0);
+      if (touchObj == null) return;
+      touch = touchObj.identifier;
+      cursorBall.x = touchObj.clientX - clientXOffset;
+      cursorBall.y = touchObj.clientY - clientYOffset;
       ev.preventDefault();
       onScreen = true;
       pixi.view.removeEventListener('touchstart', touchStart);
