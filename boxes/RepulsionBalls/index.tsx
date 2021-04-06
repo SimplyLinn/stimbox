@@ -22,10 +22,12 @@ export default function TestBox(): JSX.Element {
     const container = containerRef;
     const [rd, gn, bl] = [0x99, 0x66, 0xff].map((v) => v / 0xff);
     let mounted = true;
+    let onScreen = false;
     let clientXOffset = 0;
     let clientYOffset = 0;
     let width = NaN;
     let height = NaN;
+    let wallCharge = WALL_CHARGE;
     const balls: {
       x: number;
       y: number;
@@ -65,8 +67,8 @@ export default function TestBox(): JSX.Element {
     container.appendChild(pixi.view);
 
     const cursorBall = {
-      r: 32,
-      m: 64 ** 2 * Math.PI,
+      r: 128,
+      m: 128 ** 2 * Math.PI,
       x: -64,
       y: -64,
     };
@@ -110,38 +112,38 @@ export default function TestBox(): JSX.Element {
           ball2.vx += dvX;
           ball2.vy += dvY;
         }
-        const ball2 = cursorBall;
-        const diffY = Math.max(
-          Math.abs(ball2.y - ball.y),
-          Math.min(ball.r, ball2.r),
-        );
-        const diffX = Math.max(
-          Math.abs(ball2.x - ball.x),
-          Math.min(ball.r, ball2.r),
-        );
-        const scale = TIMESCALE / Math.max(diffY, diffX);
-        const force =
-          (ball.m * ball2.m * FORCE_CONSTANT) /
-          Math.abs(diffX ** 2 + diffY ** 2);
-        const xSign = Math.sign(ball2.x - ball.x) || 1;
-        const ySign = Math.sign(ball2.y - ball.y) || 1;
-        ball.vx -= (xSign * (force * diffX * scale)) / deltaT;
-        ball.vy -= (ySign * (force * diffY * scale)) / deltaT;
+        if (onScreen) {
+          const ball2 = cursorBall;
+          const diffY = Math.max(
+            Math.abs(ball2.y - ball.y),
+            Math.min(ball.r, ball2.r),
+          );
+          const diffX = Math.max(
+            Math.abs(ball2.x - ball.x),
+            Math.min(ball.r, ball2.r),
+          );
+          const scale = TIMESCALE / Math.max(diffY, diffX);
+          const force =
+            (ball.m * ball2.m * FORCE_CONSTANT) /
+            Math.abs(diffX ** 2 + diffY ** 2);
+          const xSign = Math.sign(ball2.x - ball.x) || 1;
+          const ySign = Math.sign(ball2.y - ball.y) || 1;
+          ball.vx -= (xSign * (force * diffX * scale)) / deltaT;
+          ball.vy -= (ySign * (force * diffY * scale)) / deltaT;
+        }
         const { y } = ball;
         const invY = height - y;
         const { x } = ball;
         const invX = width - x;
         const forceX1 =
-          (ball.m * WALL_CHARGE * TIMESCALE * FORCE_CONSTANT) /
-          Math.abs(x ** 2);
+          (ball.m * wallCharge * TIMESCALE * FORCE_CONSTANT) / Math.abs(x ** 2);
         const forceX2 =
-          (ball.m * WALL_CHARGE * TIMESCALE * FORCE_CONSTANT) /
+          (ball.m * wallCharge * TIMESCALE * FORCE_CONSTANT) /
           Math.abs(invX ** 2);
         const forceY1 =
-          (ball.m * WALL_CHARGE * TIMESCALE * FORCE_CONSTANT) /
-          Math.abs(y ** 2);
+          (ball.m * wallCharge * TIMESCALE * FORCE_CONSTANT) / Math.abs(y ** 2);
         const forceY2 =
-          (ball.m * WALL_CHARGE * TIMESCALE * FORCE_CONSTANT) /
+          (ball.m * wallCharge * TIMESCALE * FORCE_CONSTANT) /
           Math.abs(invY ** 2);
         ball.vx += (forceX1 - forceX2) / deltaT;
         ball.vy += (forceY1 - forceY2) / deltaT;
@@ -239,9 +241,14 @@ export default function TestBox(): JSX.Element {
       clientYOffset = top;
       width = newWidth;
       height = newHeight;
+      const area = width * height;
+      balls.forEach((b) => (b.r ** 2 * Math.PI * area) / 1400000);
+      cursorBall.m = (cursorBall.r ** 2 * Math.PI * area) / 1400000;
+      wallCharge = (WALL_CHARGE * area) / 1400000;
     }
     setBBoxCb([setDimensions]);
     function updateCursorBall(ev: MouseEvent) {
+      onScreen = true;
       cursorBall.x = ev.offsetX;
       cursorBall.y = ev.offsetY;
     }
@@ -254,6 +261,9 @@ export default function TestBox(): JSX.Element {
       cursorBall.x = moveTouch.clientX - clientXOffset;
       cursorBall.y = moveTouch.clientY - clientYOffset;
     }
+    function mouseOut() {
+      onScreen = false;
+    }
     function touchEnd(ev: TouchEvent) {
       if ([...ev.changedTouches].some((t) => t.identifier === touch)) {
         pixi.view.removeEventListener('touchend', touchEnd);
@@ -261,6 +271,8 @@ export default function TestBox(): JSX.Element {
         pixi.view.addEventListener('mousemove', updateCursorBall, {
           passive: true,
         });
+        pixi.view.addEventListener('mouseout', mouseOut, { passive: true });
+        onScreen = false;
         // eslint-disable-next-line @typescript-eslint/no-use-before-define
         pixi.view.addEventListener('touchstart', touchStart, {
           passive: false,
@@ -272,8 +284,10 @@ export default function TestBox(): JSX.Element {
       touch = ev.changedTouches.item(0)?.identifier ?? null;
       if (touch == null) return;
       ev.preventDefault();
+      onScreen = true;
       pixi.view.removeEventListener('touchstart', touchStart);
       pixi.view.removeEventListener('mousemove', updateCursorBall);
+      pixi.view.removeEventListener('mouseout', mouseOut);
       pixi.view.addEventListener('touchend', touchEnd, { passive: true });
       pixi.view.addEventListener('touchmove', touchMove, { passive: true });
     }
@@ -283,9 +297,11 @@ export default function TestBox(): JSX.Element {
     pixi.view.addEventListener('touchstart', touchStart, {
       passive: false,
     });
+    pixi.view.addEventListener('mouseout', mouseOut, { passive: true });
     return () => {
       pixi.view.removeEventListener('mousemove', updateCursorBall);
       pixi.view.removeEventListener('touchstart', touchStart);
+      pixi.view.removeEventListener('mouseout', mouseOut);
       mounted = false;
       container.removeChild(pixi.view);
       pixi.destroy();
