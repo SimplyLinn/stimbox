@@ -1,8 +1,7 @@
-import resolveConfig from 'tailwindcss/resolveConfig';
 import { EventEmitter } from 'events';
 import { useEffect, useState } from 'react';
 import config from '../config.json';
-import tailwindConfig from '../tailwind.config';
+import resolvedConfig from '../.resolvedTailwindConfig.json';
 
 export { useViewport } from 'stimbox/Components/ViewportContextProvider';
 
@@ -23,7 +22,7 @@ export type MetaData = {
 const themes: {
   dark: Partial<ReadonlyRecord<string, string>>;
   light: Partial<ReadonlyRecord<string, string>>;
-} = resolveConfig(tailwindConfig).theme.colors.modes;
+} = resolvedConfig.theme.colors.modes;
 
 interface Listener {
   readonly trgt: {

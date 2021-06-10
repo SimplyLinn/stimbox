@@ -26,6 +26,9 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+# Generated Files
+/.resolvedTailwindConfig.json
+
 # local env files
 .env.local
 .env.development.local
