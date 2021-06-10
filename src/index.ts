@@ -1,9 +1,13 @@
 import { EventEmitter } from 'events';
 import { useEffect, useState } from 'react';
+import getConfig from 'next/config';
 import config from '../config.json';
-import resolvedConfig from '../.resolvedTailwindConfig.json';
 
 export { useViewport } from 'stimbox/Components/ViewportContextProvider';
+
+const {
+  publicRuntimeConfig: { resolvedTailwindConfig },
+} = getConfig();
 
 const { defaultMode } = config;
 
@@ -22,7 +26,7 @@ export type MetaData = {
 const themes: {
   dark: Partial<ReadonlyRecord<string, string>>;
   light: Partial<ReadonlyRecord<string, string>>;
-} = resolvedConfig.theme.colors.modes;
+} = resolvedTailwindConfig.theme.colors.modes;
 
 interface Listener {
   readonly trgt: {

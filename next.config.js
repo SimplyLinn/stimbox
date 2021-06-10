@@ -4,6 +4,11 @@
 // (But you could use ES2015 features supported by your Node.js version)
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const Git = require('nodegit');
+const resolveConfig = require('tailwindcss/resolveConfig');
+const tailwindConfig = require('./tailwind.config');
+
+const resolvedTailwindConfig = resolveConfig(tailwindConfig);
+
 
 module.exports = {
   // Workaround for console error on every pageload
@@ -11,6 +16,9 @@ module.exports = {
   assetPrefix: '',
   future: {
     webpack5: true,
+  },
+  publicRuntimeConfig: {
+    resolvedTailwindConfig,
   },
   generateBuildId: async () => {
     try {

@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "nodemon -w tailwind.config.js -e .js -x \"node generateResolvedTailwindConfig && next dev\"",
+    "dev": "nodemon -w tailwind.config.js -e .js -x \"next dev\"",
     "dev:prod": "yarn run build && yarn run export && light-server --config .lightrc",
-    "build": "cross-env NODE_ENV=production node generateResolvedTailwindConfig && cross-env NODE_ENV=production next build",
+    "build": "cross-env NODE_ENV=production next build",
     "export": "cross-env NODE_ENV=production shx rm -rf dist && cross-env NODE_ENV=production next export -o dist && cross-env NODE_ENV=production next-sitemap && shx mv dist/404/index.html dist/404.html && shx rm -rf dist/404 && node copy-box-static-files",
     "lint": "cross-env NODE_ENV=production run-p -cls --aggregate-output lint:*",
     "lint:eslint-check": "cross-env NODE_ENV=production eslint-config-prettier 'src/**/*.js'",
