@@ -28,7 +28,7 @@
     "csstype": "^3.0.7",
     "elasticlunr": "^0.9.5",
     "gl-matrix": "^3.3.0",
-    "next": "^10.2.3",
+    "next": "^11.1.0",
     "next-plausible": "^1.5.1",
     "pixi.js": "^6.0.1",
     "react": "^17.0.2",
