@@ -50,7 +50,6 @@ input[type=text]::placeholder {
 
 button {
   display: inline-block;
-  outline: none;
   padding: 0.5rem;
   appearance: none;
   cursor: pointer;
@@ -65,7 +64,6 @@ button:hover {
 
 input[type=text] {
   display: inline-block;
-  outline: none;
   padding: 0.5rem;
   @mixin theme-color background, input-back;
   @mixin theme-color color, text1;
