@@ -1,21 +1,14 @@
 {
   "extends": [
+    "airbnb",
     "airbnb-typescript",
     "airbnb/hooks",
     "plugin:@typescript-eslint/recommended",
     "plugin:prettier/recommended",
-    "prettier",
-    "prettier/react",
-    "prettier/@typescript-eslint",
+    "plugin:@next/next/recommended",
     "plugin:import/typescript"
   ],
-  "plugins": [
-    "@typescript-eslint",
-    "react",
-    "jsx-a11y",
-    "import",
-    "prettier"
-  ],
+  "plugins": [],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "project": "./tsconfig.eslint.json"
@@ -25,6 +18,8 @@
       "argsIgnorePattern": "^_",
       "ignoreRestSiblings": true
     }],
+    "no-void": ["error", { "allowAsStatement": true }],
+    "@typescript-eslint/no-floating-promises": ["error"],
     "class-methods-use-this": ["off"],
     "jsx-a11y/anchor-is-valid": [ "error", {
       "components": [ "Link" ],
@@ -46,7 +41,8 @@
     "react/jsx-props-no-spreading": ["off"],
     "react/no-danger": ["off"],
     "react/require-default-props": ["error", {"ignoreFunctionalComponents": true, "forbidDefaultForRequired": true}],
-    "react/react-in-jsx-scope": ["off"]
+    "@next/next/no-img-element": ["off"],
+    "@next/next/no-document-import-in-page": "off"
   },
   "env": {
     "browser": true

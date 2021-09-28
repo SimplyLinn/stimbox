@@ -1,5 +1,5 @@
+import React, { forwardRef } from 'react';
 import Link from 'next/link';
-import { forwardRef } from 'react';
 import buildStatus from 'stimbox/utils/bulidStatus';
 import styles from './Footer.module.css';
 

@@ -1,5 +1,5 @@
+import React, { useCallback } from 'react';
 import { useThemeConfig } from 'stimbox';
-import { useCallback } from 'react';
 import classnames from 'classnames';
 import styles from './ThemeSwitcher.module.css';
 

@@ -1,5 +1,5 @@
+import React, { ReactNode } from 'react';
 import Plausible from 'next-plausible';
-import { ReactNode } from 'react';
 
 const plausibleProps = {
   domain: 'stimbox.space',

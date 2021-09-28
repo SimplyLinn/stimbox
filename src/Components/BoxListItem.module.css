@@ -36,15 +36,10 @@
 }
 
 .textWrapper .text {
-  height: 100%;
+  height: 0;
   width: 100%;
   padding: 0 0.2rem;
   flex-grow: 1;
-}
-
-.textWrapper.textHidden {
-  pointer-events: none;
-  opacity: 0;
 }
 
 .textWrapper {
@@ -53,14 +48,26 @@
   top: 0;
   left: 0;
   width: 100%;
-  height: inherit;
+  height: 100%;
   display: inline-flex;
   flex-direction: column;
 
   @mixin theme-color background, fade;
 }
 
-.textWrapper > a {
+.textWrapper.textHidden {
+  pointer-events: none;
+  opacity: 0;
+}
+
+.textWrapper:focus-within,
+.textWrapper.textHidden:focus-within {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.fullInfo {
+  text-align: center;
   flex-shrink: 0;
   padding: 0.1rem 0.4rem 0.1rem;
 }
@@ -75,6 +82,14 @@
 
 .overlay :global(.simplebar-scrollbar)::before {
   @mixin theme-color background, text2;
+}
+
+.overlay :global(.simplebar-content-wrapper) {
+  outline: none;
+}
+
+.scrollFocus :global(.simplebar-scrollbar)::before {
+  opacity: 1;
 }
 
 .overlay .text p {

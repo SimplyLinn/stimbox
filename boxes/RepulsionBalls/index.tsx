@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useViewport } from 'stimbox';
 import * as PIXI from 'pixi.js';
 import { Viewport } from 'stimbox/Components/ViewportContextProvider';

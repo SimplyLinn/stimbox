@@ -144,9 +144,10 @@ export default function IndexPage({
   nonIndexedFields,
   serialisedIndexData,
 }: StaticProps): JSX.Element {
-  const index = useMemo(() => getIndex(serialisedIndexData), [
-    serialisedIndexData,
-  ]);
+  const index = useMemo(
+    () => getIndex(serialisedIndexData),
+    [serialisedIndexData],
+  );
   const boxes: readonly BoxProps[] = useMemo(
     () =>
       nonIndexedFields.map((fields, i) => {

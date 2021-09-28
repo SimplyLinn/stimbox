@@ -126,9 +126,9 @@ class ThemeSwitcher extends EventEmitter {
   constructor() {
     super();
     if (typeof window !== 'undefined') {
-      this.override = (Object.keys(
-        themes,
-      ) as (keyof typeof themes)[]).reduceRight(
+      this.override = (
+        Object.keys(themes) as (keyof typeof themes)[]
+      ).reduceRight(
         (foundTheme, curTheme) =>
           foundTheme ??
           (document.body.classList.contains(`${curTheme}-theme`)
@@ -140,9 +140,9 @@ class ThemeSwitcher extends EventEmitter {
         let newOverride: ThemeSwitcher['override'] | undefined;
         records.forEach(({ target }) => {
           if (target instanceof HTMLBodyElement) {
-            newOverride = (Object.keys(
-              themes,
-            ) as (keyof typeof themes)[]).reduceRight(
+            newOverride = (
+              Object.keys(themes) as (keyof typeof themes)[]
+            ).reduceRight(
               (foundTheme, curTheme) =>
                 foundTheme ??
                 (target.classList.contains(`${curTheme}-theme`)

@@ -3,6 +3,7 @@
  * It's only doing something in development mode, and at that point
  * it's just fetching the static files from the individual boxes.
  */
+import React from 'react';
 import { GetServerSideProps, GetStaticPaths, GetStaticProps } from 'next';
 
 function staticFiles(): JSX.Element {
@@ -30,7 +31,34 @@ const getServerSideProps: GetServerSideProps<never> | undefined =
                 return Reflect.get(target, prop, recevier);
               },
             });
-            context.res.once('finish', resolve);
+            function finish() {
+              context.res.writeHead = () => {
+                return context.res;
+              };
+              context.res.setHeader = () => {};
+              context.res.removeHeader = () => {};
+              context.res.flushHeaders = () => {};
+              // eslint-disable-next-line no-underscore-dangle
+              context.res._write = (_, __, cb) => {
+                if (typeof cb === 'function') setTimeout(cb, 0);
+              };
+              // eslint-disable-next-line no-underscore-dangle
+              context.res._writev = (_, cb) => {
+                if (typeof cb === 'function') setTimeout(cb, 0);
+              };
+              context.res.write = (_, cb) => {
+                if (typeof cb === 'function') setTimeout(cb, 0);
+                return true;
+              };
+              context.res.end = (...args: unknown[]) => {
+                const cb = args.find(
+                  (c): c is () => void => typeof c === 'function',
+                );
+                if (typeof cb === 'function') setTimeout(cb, 0);
+              };
+              resolve();
+            }
+            context.res.once('finish', finish);
             middleware(proxyReq, context.res, resolve);
           });
           return {

@@ -14,9 +14,6 @@ module.exports = {
   // Workaround for console error on every pageload
   trailingSlash: true,
   assetPrefix: '',
-  future: {
-    webpack5: true,
-  },
   publicRuntimeConfig: {
     resolvedTailwindConfig,
   },

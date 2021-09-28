@@ -1,3 +1,4 @@
+import React from 'react';
 import Page from 'stimbox/Components/Layout/Page';
 
 export default function About(): JSX.Element {

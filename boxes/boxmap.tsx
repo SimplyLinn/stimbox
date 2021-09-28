@@ -1,5 +1,5 @@
 import dynamic from 'next/dynamic';
-import { ComponentType, useEffect, useState } from 'react';
+import React, { ComponentType, useEffect, useState } from 'react';
 import Page from 'stimbox/Components/Layout/Page';
 import type { getBoxesSync as GetBoxesSync } from 'stimbox/utils/getBoxes';
 
