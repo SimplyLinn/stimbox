@@ -1,0 +1,14 @@
+{
+  "name": "@boxes/tone-matrix",
+  "version": "1.0.1",
+  "main": "index.tsx",
+  "peerDependencies": {
+    "next": "",
+    "react": "*",
+    "react-dom": "*"
+  },
+  "dependencies": {
+    "@simplylinn/tonematrix": "1.0.0-dev1",
+    "tone": "^14.7.77"
+  }
+}

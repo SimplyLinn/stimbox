@@ -15,14 +15,13 @@ const getServerSideProps: GetServerSideProps<never> | undefined =
     ? async (context) => {
         try {
           const serveStatic = (await import('serve-static')).default;
+          const path = (await import('path')).default;
           const boxName = context.query.name as string;
           const filePath = context.query.file as string[];
-          const middleware = serveStatic(
-            `boxes/${encodeURIComponent(boxName)}/static`,
-            {
-              fallthrough: true,
-            },
-          );
+          const pathName = path.resolve('boxes', boxName, 'static');
+          const middleware = serveStatic(pathName, {
+            fallthrough: false,
+          });
           await new Promise<void>((resolve) => {
             const newUrl = `/${filePath.map(encodeURIComponent).join('/')}`;
             const proxyReq = new Proxy(context.req, {
@@ -59,7 +58,11 @@ const getServerSideProps: GetServerSideProps<never> | undefined =
               resolve();
             }
             context.res.once('finish', finish);
-            middleware(proxyReq, context.res, resolve);
+            middleware(proxyReq, context.res, (...args) => {
+              // eslint-disable-next-line no-console
+              console.warn('Static file, next called', ...args);
+              resolve();
+            });
           });
           return {
             notFound: true,

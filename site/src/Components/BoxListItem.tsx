@@ -8,12 +8,12 @@ import styles from './BoxListItem.module.css';
 
 export type Props = Pick<
   MetaData,
-  'name' | 'moduleName' | 'thumbnail' | 'shortDescription'
+  'name' | 'pathId' | 'thumbnail' | 'shortDescription'
 >;
 
 export default function BoxListItem({
   name,
-  moduleName,
+  pathId,
   thumbnail,
   shortDescription,
 }: Props): JSX.Element {
@@ -87,7 +87,7 @@ export default function BoxListItem({
   }, [showText, ref, setShowText]);
   return (
     <div ref={setRef} className={styles.root}>
-      <Link href={`/boxes/${encodeURIComponent(moduleName)}`}>
+      <Link href={`/boxes/${encodeURIComponent(pathId)}`}>
         <a className={styles.headerLink}>
           <div tabIndex={-1} className={classnames(styles.header)}>
             <h4 title={name}>{name}</h4>
@@ -96,7 +96,7 @@ export default function BoxListItem({
       </Link>
       <div className={styles.overlayWrapper}>
         <div className={styles.overlay}>
-          <Link href={`/boxes/${encodeURIComponent(moduleName)}`}>
+          <Link href={`/boxes/${encodeURIComponent(pathId)}`}>
             <a tabIndex={-1} aria-label={`Thumbnail for ${name}`}>
               <div
                 className={classnames(
@@ -128,7 +128,7 @@ export default function BoxListItem({
               <p>{shortDescription}</p>
             </div>
             <div className={styles.fullInfo}>
-              <Link href={`/boxes/${encodeURIComponent(moduleName)}/info`}>
+              <Link href={`/boxes/${encodeURIComponent(pathId)}/info`}>
                 <a>Full information</a>
               </Link>
             </div>

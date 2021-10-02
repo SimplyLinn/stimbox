@@ -26,14 +26,30 @@ function Failure(): JSX.Element {
   return <Page title="Error">Failed to load the stimbox-component</Page>;
 }
 
+const MODULE_PREFIX = '@boxes/';
+
 function importModule(module: string) {
-  return dynamic(
-    () =>
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  let doImport: () => Promise<any>;
+  if (module.startsWith(MODULE_PREFIX)) {
+    const boxName = module.substring(MODULE_PREFIX.length);
+    doImport = () =>
+      import(
+        /* webpackChunkName: "box-[request]" */
+        /* webpackMode: "lazy" */
+        `node_modules/@boxes/${boxName}`
+      );
+  } else {
+    doImport = () =>
       import(
         /* webpackChunkName: "box-[request]" */
         /* webpackMode: "lazy" */
         `./${module}/index.tsx`
-      ).catch((err) => {
+      );
+  }
+  return dynamic(
+    () =>
+      doImport().catch((err) => {
         // eslint-disable-next-line no-console
         console.error(err);
         return Failure;
@@ -46,7 +62,7 @@ const target = {} as Record<string, ComponentType>;
 
 if (typeof window === 'undefined') {
   // eslint-disable-next-line @typescript-eslint/no-var-requires, global-require
-  const { getBoxesSync } = require('../src/utils/getBoxes') as {
+  const { getBoxesSync } = require('./getBoxes') as {
     getBoxesSync: typeof GetBoxesSync;
   };
   getBoxesSync().reduce((map, meta) => {
@@ -57,7 +73,11 @@ if (typeof window === 'undefined') {
 }
 
 function assertProp(bMap: typeof target, prop: string | symbol): void {
-  if (typeof prop === 'string' && !(prop in bMap) && /^[a-z]/i.test(prop)) {
+  if (
+    typeof prop === 'string' &&
+    !(prop in bMap) &&
+    (/^[a-z_-]+$/.test(prop) || /^@boxes\/[a-z_-]+$/.test(prop))
+  ) {
     target[prop] = importModule(prop);
   }
 }

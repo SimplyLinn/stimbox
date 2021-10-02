@@ -39,7 +39,7 @@ function copyFolderRecursiveSync(source, target) {
 }
 
 const boxesDist = path.join(__dirname, 'dist', 'boxes');
-const boxesSrc = path.join(__dirname, 'boxes');
+const boxesSrc = path.join(__dirname, 'node_modules', 'boxes');
 const boxes = fs.readdirSync(boxesDist, { withFileTypes: true });
 boxes.forEach((box) => {
   if (!box.isDirectory()) return;
@@ -49,7 +49,7 @@ boxes.forEach((box) => {
   const distBoxDir = path.join(boxesDist, box.name);
   const srcStaticDir = path.join(boxesSrc, box.name, 'static');
   if (
-    !subDir.some((ent) => ent.isDirectory() && ent.name === 'info') ||
+    !subDir.some((ent) => ent.isDirectory() && ent.name === 'info.html') ||
     !subDir.some((ent) => ent.isFile() && ent.name === 'index.html') ||
     subDir.some((ent) => ent.isDirectory() && ent.name === 'static')
   ) {

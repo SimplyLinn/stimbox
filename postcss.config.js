@@ -5,7 +5,7 @@
 const path = require('path');
 const c = require('chalk');
 const themes = require('tailwindcss/resolveConfig')(
-  require('./tailwind.config.js'),
+  require('./tailwind.config'),
 ).theme.colors.modes;
 
 const { defaultMode } = require('./config.json');
@@ -128,7 +128,7 @@ module.exports = {
       'postcss-custom-media',
       {
         preserve: false,
-        importFrom: 'src/style/breakpoints.css',
+        importFrom: 'site/src/style/breakpoints.css',
       },
     ],
     'tailwindcss',

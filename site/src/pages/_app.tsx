@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { AppProps } from 'next/app';
-import 'simplebar/dist/simplebar.min.css';
 import 'stimbox/style/index.css';
+import 'simplebar/dist/simplebar.min.css';
 import Head from 'next/head';
 import Header from 'stimbox/Components/Layout/Header';
 import Footer from 'stimbox/Components/Layout/Footer';

@@ -204,7 +204,7 @@ export default function IndexPage({
       </form>
       <div className={styles.grid}>
         {boxList.map((box) => (
-          <BoxListItem key={box.moduleName} {...box} />
+          <BoxListItem key={box.pathId} {...box} />
         ))}
       </div>
     </div>
@@ -215,8 +215,8 @@ export const getStaticProps: GetStaticProps<StaticProps> = async () => {
   const boxes = await getBoxes();
   const index = getIndex();
   const nonIndexedFields: StaticProps['nonIndexedFields'][number][] = [];
-  boxes.forEach(({ name, moduleName, shortDescription, thumbnail }, id) => {
-    nonIndexedFields.push(cleanObject({ moduleName, thumbnail }));
+  boxes.forEach(({ name, pathId, shortDescription, thumbnail }, id) => {
+    nonIndexedFields.push(cleanObject({ pathId, thumbnail }));
     index.addDoc({
       id,
       name,

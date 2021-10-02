@@ -15,6 +15,7 @@ function pathToPriority(path) {
 }
 module.exports = {
   siteUrl: 'https://stimbox.space',
+  sourceDir: 'site/.next',
   generateRobotsTxt: true,
   sitemapSize: 7000,
   changefreq: 'daily',

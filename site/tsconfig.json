@@ -1,5 +1,5 @@
 {
-  "extends": "./tsconfig.base.json",
+  "extends": "../tsconfig.json",
   "compilerOptions": {
     "paths": {
       "stimbox/*": [
@@ -8,14 +8,20 @@
       "stimbox": [
         "./site/src"
       ]
-    }
+    },
+    "baseUrl": "../",
+    "typeRoots": [
+      "../node_modules/@types",
+      "../types"
+    ],
   },
   "include": [
-    "site/next-env.d.ts",
+    "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx"
   ],
   "exclude": [
-    "node_modules"
+    "../boxes",
+    "../node_modules"
   ]
 }

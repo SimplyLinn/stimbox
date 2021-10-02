@@ -2,15 +2,37 @@
 // This file is not going through babel transformation.
 // So, we write it in vanilla JS
 // (But you could use ES2015 features supported by your Node.js version)
+const fs = require('fs');
+const path = require('path');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const Git = require('nodegit');
 const resolveConfig = require('tailwindcss/resolveConfig');
-const tailwindConfig = require('./tailwind.config');
+const tailwindConfig = require('../tailwind.config');
+const createTM = require('next-transpile-modules')
 
 const resolvedTailwindConfig = resolveConfig(tailwindConfig);
 
+const boxDir = path.join(__dirname, '..', 'node_modules', '@boxes');
 
-module.exports = {
+function hasMeta(module) {
+  try {
+    return fs.statSync(path.join(boxDir, module, 'meta.json')).isFile();
+  } catch {
+    return false;
+  }
+}
+
+const boxes = fs.readdirSync(boxDir, { withFileTypes: true })
+    .map((dir) => {
+      if (!dir.name.startsWith('.') && dir.isDirectory() && hasMeta(dir.name)) {
+        return dir.name;
+      }
+      return null;
+    }).filter((s) => s != null);
+
+const withTM = createTM(boxes.map(box=>`@boxes/${box}`));
+
+module.exports = withTM({
   // Workaround for console error on every pageload
   trailingSlash: true,
   assetPrefix: '',
@@ -19,7 +41,7 @@ module.exports = {
   },
   generateBuildId: async () => {
     try {
-      const repo = await Git.Repository.open(__dirname);
+      const repo = await Git.Repository.open(path.join(__dirname, '..'));
       const head = await repo.getHeadCommit();
       const hash = head.sha();
       const tree = await head.getTree();
@@ -62,4 +84,4 @@ module.exports = {
     config.externals.push('serve-static');
     return config;
   },
-};
+});

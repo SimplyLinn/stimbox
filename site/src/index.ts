@@ -1,7 +1,7 @@
 import { EventEmitter } from 'events';
 import { useEffect, useState } from 'react';
 import getConfig from 'next/config';
-import config from '../config.json';
+import config from '../../config.json';
 
 export { useViewport } from 'stimbox/Components/ViewportContextProvider';
 
@@ -17,6 +17,7 @@ export type ReadonlyRecord<K extends string | number | symbol, T> = {
 
 export type MetaData = {
   readonly name: string;
+  readonly pathId: string;
   readonly moduleName: string;
   readonly shortDescription: string;
   readonly longDescription?: string;

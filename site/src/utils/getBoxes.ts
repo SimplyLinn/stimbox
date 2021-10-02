@@ -14,7 +14,10 @@ import cleanObject from './cleanObject';
 const readdir = promisify(readdirCb);
 const stat = promisify(statCb);
 const readFile = promisify(readFileCb);
-const boxDir = path.join(__dirname, '..', '..', 'boxes');
+const isDev = process.env.NODE_ENV === 'development';
+const boxDir = isDev
+  ? path.join(__dirname, '..', '..', 'boxes')
+  : path.join(__dirname, '..', '..', 'node_modules', '@boxes');
 let cache: readonly MetaData[] | null = null;
 
 let inFlight: Promise<readonly MetaData[]> | null = null;
@@ -75,7 +78,8 @@ function parseMetadata(data: unknown, moduleName: string): MetaData | void {
   }
   return cleanObject({
     name,
-    moduleName,
+    pathId: moduleName,
+    moduleName: isDev ? moduleName : `@boxes/${moduleName}`,
     shortDescription,
     longDescription,
     thumbnail,
@@ -93,7 +97,6 @@ function fetchBoxesSync(): MetaData[] {
   const res = readdirSync(boxDir, { withFileTypes: true })
     .map((dir) => {
       if (!dir.name.startsWith('.') && dir.isDirectory() && hasMeta(dir.name)) {
-        if (!module) return null;
         const data = JSON.parse(
           readFileSync(path.join(boxDir, dir.name, 'meta.json'), {
             encoding: 'utf-8',
@@ -132,7 +135,6 @@ async function fetchBoxes(): Promise<readonly MetaData[]> {
           dir.isDirectory() &&
           (await hasMeta(dir.name))
         ) {
-          if (!module) return null;
           const data = JSON.parse(
             await readFile(path.join(boxDir, dir.name, 'meta.json'), {
               encoding: 'utf-8',
