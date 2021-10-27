@@ -89,8 +89,6 @@ function copyFolderRecursiveSync(source, target, depth = 0) {
       console.log(`${box} built!`);
     }),
   );
-  // eslint-disable-next-line no-console
-  console.log('Injecting boxes into node_modules...');
 })().catch((err) => {
   console.error(err);
   process.exit(1);
