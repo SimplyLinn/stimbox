@@ -1,6 +1,6 @@
 import React, { PropsWithChildren } from 'react';
 import Title from 'stimbox/Components/Title';
-import styles from './page.module.css';
+import styles from './Page.module.css';
 
 export { styles as pageStyles };
 

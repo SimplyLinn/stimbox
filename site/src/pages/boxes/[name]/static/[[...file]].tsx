@@ -59,7 +59,6 @@ const getServerSideProps: GetServerSideProps<never> | undefined =
             }
             context.res.once('finish', finish);
             middleware(proxyReq, context.res, (...args) => {
-              // eslint-disable-next-line no-console
               console.warn('Static file, next called', ...args);
               resolve();
             });

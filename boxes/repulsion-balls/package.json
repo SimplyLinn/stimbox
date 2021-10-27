@@ -1,7 +1,7 @@
 {
   "name": "@boxes/repulsion-balls",
   "version": "1.0.1",
-  "main": "index.tsx",
+  "main": "dist/index.js",
   "peerDependencies": {
     "next": "*",
     "react": "*",

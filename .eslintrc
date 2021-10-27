@@ -1,14 +1,13 @@
 {
   "extends": [
-    "airbnb",
     "airbnb-typescript",
     "airbnb/hooks",
     "plugin:@typescript-eslint/recommended",
     "plugin:prettier/recommended",
-    "plugin:@next/next/recommended",
-    "plugin:import/typescript"
+    "plugin:@next/next/recommended"
   ],
   "plugins": [],
+  "ignorePatterns": ["lib/*", "**/dist/*", "**/.next/*"],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "project": "./tsconfig.eslint.json"
@@ -18,6 +17,7 @@
       "argsIgnorePattern": "^_",
       "ignoreRestSiblings": true
     }],
+    "@next/next/no-html-link-for-pages": ["error", "site/src/pages"],
     "no-void": ["error", { "allowAsStatement": true }],
     "@typescript-eslint/no-floating-promises": ["error"],
     "class-methods-use-this": ["off"],
@@ -25,6 +25,7 @@
       "components": [ "Link" ],
       "aspects": [ "invalidHref", "preferButton" ]
     }],
+    "no-console": ["warn", { "allow": ["warn", "error"] }],
     "jsx-a11y/label-has-associated-control": ["error", {
       "labelComponents": [],
       "labelAttributes": [],
@@ -41,18 +42,23 @@
     "react/jsx-props-no-spreading": ["off"],
     "react/no-danger": ["off"],
     "react/require-default-props": ["error", {"ignoreFunctionalComponents": true, "forbidDefaultForRequired": true}],
-    "@next/next/no-img-element": ["off"],
-    "@next/next/no-document-import-in-page": "off"
+    "@next/next/no-img-element": ["off"]
   },
   "env": {
     "browser": true
   },
   "settings": {
     "import/resolver": {
+      "alias": {
+        "map": [
+          ["src", "./src"]
+        ],
+        "extensions": [".js", ".jsx", ".ts", ".tsx", ".json", ".mjs"]
+      },
       "node": {
-        "extensions": [".js", ".jsx", ".ts", ".tsx"],
-        "paths": ["./src"]
+        "extensions": [".js", ".jsx", ".ts", ".tsx", ".json", ".mjs"]
       }
-    }
+    },
+    "import/extensions": [".js", ".jsx", ".ts", ".tsx", ".json", ".mjs"]
   }
 }

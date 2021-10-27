@@ -18,10 +18,9 @@
   "include": [
     "next-env.d.ts",
     "**/*.ts",
-    "**/*.tsx"
+    "**/*.tsx",
   ],
   "exclude": [
-    "../boxes",
     "../node_modules"
-  ]
+  ],
 }

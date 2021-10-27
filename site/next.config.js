@@ -8,31 +8,10 @@ const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const Git = require('nodegit');
 const resolveConfig = require('tailwindcss/resolveConfig');
 const tailwindConfig = require('../tailwind.config');
-const createTM = require('next-transpile-modules')
 
 const resolvedTailwindConfig = resolveConfig(tailwindConfig);
 
-const boxDir = path.join(__dirname, '..', 'node_modules', '@boxes');
-
-function hasMeta(module) {
-  try {
-    return fs.statSync(path.join(boxDir, module, 'meta.json')).isFile();
-  } catch {
-    return false;
-  }
-}
-
-const boxes = fs.readdirSync(boxDir, { withFileTypes: true })
-    .map((dir) => {
-      if (!dir.name.startsWith('.') && dir.isDirectory() && hasMeta(dir.name)) {
-        return dir.name;
-      }
-      return null;
-    }).filter((s) => s != null);
-
-const withTM = createTM(boxes.map(box=>`@boxes/${box}`));
-
-module.exports = withTM({
+module.exports = {
   // Workaround for console error on every pageload
   trailingSlash: true,
   assetPrefix: '',
@@ -45,8 +24,11 @@ module.exports = withTM({
       const head = await repo.getHeadCommit();
       const hash = head.sha();
       const tree = await head.getTree();
-      const clean = (await Git.Diff.treeToWorkdirWithIndex(repo, tree, null)).numDeltas() === 0;
-      return `GIT-${hash.replace(/ad/g, 'NO')}${clean ? '' : '-DIRTY'}`
+      const clean =
+        (
+          await Git.Diff.treeToWorkdirWithIndex(repo, tree, null)
+        ).numDeltas() === 0;
+      return `GIT-${hash.replace(/ad/g, 'NO')}${clean ? '' : '-DIRTY'}`;
     } catch (err) {
       console.error(err);
       return null;
@@ -60,7 +42,10 @@ module.exports = withTM({
     config.plugins.push(
       new webpack.DefinePlugin({
         'process.env.NEXT_BUILD_ID': JSON.stringify(buildId),
-        'process.env.NEXT_BUILT_AT': webpack.DefinePlugin.runtimeValue(Date.now, true),
+        'process.env.NEXT_BUILT_AT': webpack.DefinePlugin.runtimeValue(
+          Date.now,
+          true,
+        ),
       }),
     );
     config.module.rules = config.module.rules.map((rule) => {
@@ -74,7 +59,12 @@ module.exports = withTM({
     } else {
       config.resolve.plugins = [new TsconfigPathsPlugin()];
     }
-    // Important: return the modified config
+    if (dev) {
+      config.module.rules.forEach((r) => {
+        if (!r.include || !r.include[0].startsWith(process.cwd())) return;
+        r.include.splice(1, 0, path.join(process.cwd(), 'boxes'));
+      });
+    }
     if (config.node == null) {
       config.node = {};
     }
@@ -82,6 +72,7 @@ module.exports = withTM({
     config.node.__dirname = true;
     config.externals = config.externals || [];
     config.externals.push('serve-static');
+    // Important: return the modified config
     return config;
   },
-});
+};

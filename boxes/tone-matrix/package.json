@@ -1,9 +1,9 @@
 {
   "name": "@boxes/tone-matrix",
   "version": "1.0.1",
-  "main": "index.tsx",
+  "main": "dist/index.js",
   "peerDependencies": {
-    "next": "",
+    "next": "*",
     "react": "*",
     "react-dom": "*"
   },

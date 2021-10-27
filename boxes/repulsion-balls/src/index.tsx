@@ -46,23 +46,21 @@ export default function TestBox(): JSX.Element {
     });
     const blurFilter = new PIXI.filters.BlurFilter(10);
     const blobFilter = new PIXI.filters.ColorMatrixFilter();
-    /* eslint-disable prettier/prettier */
+    // prettier-ignore
     blobFilter.matrix = [
       1, 0, 0, 0, 0,
       0, 1, 0, 0, 0,
       0, 0, 1, 0, 0,
       0, 0, 0, 30, -10
     ];
-    /* eslint-enable prettier/prettier */
     const colorFilter = new PIXI.filters.ColorMatrixFilter();
-    /* eslint-disable prettier/prettier */
+    // prettier-ignore
     colorFilter.matrix = [
       rd, 0,  0,  0, 0,
       0,  gn, 0,  0, 0,
       0,  0,  bl, 0, 0,
       0,  0,  0,  1, 0
     ];
-    /* eslint-enable prettier/prettier */
     pixi.stage.filters = [blurFilter, blobFilter, colorFilter];
     container.appendChild(pixi.view);
 

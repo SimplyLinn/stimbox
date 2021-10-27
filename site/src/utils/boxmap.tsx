@@ -27,7 +27,6 @@ function Failure(): JSX.Element {
 }
 
 const MODULE_PREFIX = '@boxes/';
-
 function importModule(module: string) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let doImport: () => Promise<any>;
@@ -35,22 +34,25 @@ function importModule(module: string) {
     const boxName = module.substring(MODULE_PREFIX.length);
     doImport = () =>
       import(
+        /* webpackExclude: /@boxes\/root(\/.*$)?$/ */
+        /* webpackInclude: /dist\/(.*)\.(js|json)$/ */
         /* webpackChunkName: "box-[request]" */
         /* webpackMode: "lazy" */
-        `node_modules/@boxes/${boxName}`
+        `node_modules/@boxes/${boxName}/dist/index.js`
       );
-  } else {
+  } else if (process.env.NODE_ENV === 'development') {
     doImport = () =>
       import(
         /* webpackChunkName: "box-[request]" */
         /* webpackMode: "lazy" */
-        `./${module}/index.tsx`
+        `../../../boxes/${module}/src/index.tsx`
       );
+  } else {
+    doImport = () => Promise.reject(new Error('Invalid box module'));
   }
   return dynamic(
     () =>
       doImport().catch((err) => {
-        // eslint-disable-next-line no-console
         console.error(err);
         return Failure;
       }),

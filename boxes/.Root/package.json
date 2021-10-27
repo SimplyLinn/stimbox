@@ -1,0 +1,8 @@
+{
+  "name": "@boxes/root",
+  "version": "0.0.0",
+  "dependencies": {
+    "@boxes/repulsion-balls": "file:../repulsion-balls",
+    "@boxes/tone-matrix": "file:../tone-matrix"
+  }
+}

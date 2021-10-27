@@ -36,7 +36,6 @@ class InvalidMetadataError extends Error {
 function parserError(message: string, fatal = true): void {
   const error = new InvalidMetadataError(message);
   if (process.env.NODE_ENV === 'development' || !fatal) {
-    // eslint-disable-next-line no-console
     console.error(error);
   } else {
     throw error;
