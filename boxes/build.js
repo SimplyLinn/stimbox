@@ -27,29 +27,6 @@ const boxes = fs
   })
   .filter((s) => s != null);
 
-function copyFolderRecursiveSync(source, target, depth = 0) {
-  let files = [];
-
-  // Check if folder needs to be created or integrated
-  const targetFolder = path.join(target, path.basename(source));
-  if (!fs.existsSync(targetFolder)) {
-    fs.mkdirSync(targetFolder);
-  }
-
-  // Copy
-  if (fs.lstatSync(source).isDirectory()) {
-    files = fs.readdirSync(source);
-    files.forEach((file) => {
-      const curSource = path.join(source, file);
-      if (fs.lstatSync(curSource).isDirectory()) {
-        copyFolderRecursiveSync(curSource, targetFolder, depth + 1);
-      } else {
-        fs.copyFileSync(curSource, path.join(targetFolder, file));
-      }
-    });
-  }
-}
-
 (async () => {
   await Promise.all(
     boxes.map(async (box) => {
@@ -75,16 +52,6 @@ function copyFolderRecursiveSync(source, target, depth = 0) {
         boxDistPath,
         path.join(boxDir, box, 'src'),
       ]);
-      // npm does symlinks, yarn does copy on install.
-      // symlink already has dist, copy needs another copy.
-      try {
-        fs.statSync(boxDistPath);
-      } catch (err) {
-        if (err.code === 'ENOENT') {
-          copyFolderRecursiveSync(boxDistPath, boxPath);
-        }
-        throw err;
-      }
       // eslint-disable-next-line no-console
       console.log(`${box} built!`);
     }),
