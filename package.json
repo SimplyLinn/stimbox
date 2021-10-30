@@ -26,6 +26,7 @@
   },
   "dependencies": {
     "@boxes/root": "file:boxes/.Root",
+    "@simplylinn/tonematrix": "^1.0.0",
     "classnames": "^2.3.1",
     "csstype": "^3.0.9",
     "elasticlunr": "^0.9.5",
