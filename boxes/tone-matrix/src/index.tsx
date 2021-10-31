@@ -14,6 +14,7 @@ export default function ToneMatrixBox(): JSX.Element {
     const instance = new ToneMatrix({
       noteLength: 1 / 16,
       canvasWrapperEl: containerRef,
+      autoPlay: true,
     });
     toneMatrix.current = instance;
     return () => {
@@ -30,17 +31,8 @@ export default function ToneMatrixBox(): JSX.Element {
     toneMatrix.current?.grid.setCurrentInstrument(instrument);
   }, [instrument]);
 
-  useEffect(() => {
-    setTimeout(() => {
-      // toneMatrix.current?.setWidth(10);
-    }, 5000);
-    setTimeout(() => {
-      // toneMatrix.current?.setWidth(16);
-    }, 10000);
-  }, []);
-
   return (
-    <>
+    <div style={{ overflowY: 'auto', overflowX: 'hidden' }}>
       <style>{`.ToneMatrix_wrapper {
   display: flex;
   align-items: center;
@@ -48,14 +40,16 @@ export default function ToneMatrixBox(): JSX.Element {
 }
 .ToneMatrix_wrapper > * {
   width: 500px;
-  max-width: 100vw;
+  max-width: 100%;
 }
 .ToneMatrix_container {
+  width: unset;
   align-self: center;
   overflow-x: auto;
   line-height: 0;
 }
 .ToneMatrix_inner {
+  display: inline-block;
   padding-bottom: 5px;
   padding-left: 5px;
   padding-right: 5px;
@@ -84,6 +78,6 @@ export default function ToneMatrixBox(): JSX.Element {
           </button>
         </div>
       </div>
-    </>
+    </div>
   );
 }

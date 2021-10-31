@@ -1055,13 +1055,13 @@
 "@boxes/root@file:boxes/.Root":
   version "0.0.0"
   dependencies:
-    "@boxes/repulsion-balls" "file:../.cache/yarn/v6/npm-@boxes-root-0.0.0-7e7e966d-ec0b-40aa-a069-8df0da5eeb8e-1635635690360/node_modules/@boxes/repulsion-balls"
-    "@boxes/tone-matrix" "file:../.cache/yarn/v6/npm-@boxes-root-0.0.0-7e7e966d-ec0b-40aa-a069-8df0da5eeb8e-1635635690360/node_modules/@boxes/tone-matrix"
+    "@boxes/repulsion-balls" "file:../.cache/yarn/v6/npm-@boxes-root-0.0.0-92d15eb8-e73b-4444-a914-181d8c406e5c-1635718873976/node_modules/@boxes/repulsion-balls"
+    "@boxes/tone-matrix" "file:../.cache/yarn/v6/npm-@boxes-root-0.0.0-92d15eb8-e73b-4444-a914-181d8c406e5c-1635718873976/node_modules/@boxes/tone-matrix"
 
 "@boxes/tone-matrix@file:boxes/tone-matrix":
   version "1.0.2"
   dependencies:
-    "@simplylinn/tonematrix" "1.0.0"
+    "@simplylinn/tonematrix" "^1.1.0"
     tone "^14.7.77"
 
 "@corex/deepmerge@^2.6.34":
@@ -1410,13 +1410,13 @@
     eventemitter3 "^3.1.0"
     url "^0.11.0"
 
-"@simplylinn/tonematrix@1.0.0", "@simplylinn/tonematrix@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@simplylinn/tonematrix/-/tonematrix-1.0.0.tgz#a6a4f4193f36061e3ac37c409623315ffb6a07c7"
-  integrity sha512-IHjqfdqfG2PKeNj+TSSM1quW/YqzkKpij/pvPVahkuv1U5GfP0wy08BWURZn324NGds01VmsiosnIqEuaRuMuw==
+"@simplylinn/tonematrix@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@simplylinn/tonematrix/-/tonematrix-1.1.0.tgz#434b93f49546f2b7c4d2e158a3d395de90d4f8af"
+  integrity sha512-tv0e32LMux1ImKIch9fF64clzi/AWYLyVLrM0M4PDZ60/ITRrkRvx2qdgeb/u3D/zbBHNvJ8Ya3hMyVaDaqG7Q==
   dependencies:
     eventemitter3 "^4.0.4"
-    tone "^14.7.39"
+    tone "^14.7.77"
 
 "@sindresorhus/is@^0.14.0":
   version "0.14.0"
@@ -8240,7 +8240,7 @@ toidentifier@1.0.0:
   resolved "https://registry.yarnpkg.com/toidentifier/-/toidentifier-1.0.0.tgz#7e1be3470f1e77948bc43d94a3c8f4d7752ba553"
   integrity sha512-yaOH/Pk/VEhBWWTlhI+qXxDFXlejDGcQipMlyxda9nthulaxLZUNcUqFxokp0vcYnvteJln5FNQDRrxj3YcbVw==
 
-tone@^14.7.39, tone@^14.7.77:
+tone@^14.7.77:
   version "14.7.77"
   resolved "https://registry.yarnpkg.com/tone/-/tone-14.7.77.tgz#12a2a9f033952ccdb552275a6384ca5d36d4b5ed"
   integrity sha512-tCfK73IkLHyzoKUvGq47gyDyxiKLFvKiVCOobynGgBB9Dl0NkxTM2p+eRJXyCYrjJwy9Y0XCMqD3uOYsYt2Fdg==
