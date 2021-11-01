@@ -1055,13 +1055,13 @@
 "@boxes/root@file:boxes/.Root":
   version "0.0.0"
   dependencies:
-    "@boxes/repulsion-balls" "file:../.cache/yarn/v6/npm-@boxes-root-0.0.0-19014bd6-f34a-457f-86ab-fd3071b6e629-1635799359459/node_modules/@boxes/repulsion-balls"
-    "@boxes/tone-matrix" "file:../.cache/yarn/v6/npm-@boxes-root-0.0.0-19014bd6-f34a-457f-86ab-fd3071b6e629-1635799359459/node_modules/@boxes/tone-matrix"
+    "@boxes/repulsion-balls" "file:../.cache/yarn/v6/npm-@boxes-root-0.0.0-3efb8718-0e8f-4903-98cc-4528671d4a3c-1635800852683/node_modules/@boxes/repulsion-balls"
+    "@boxes/tone-matrix" "file:../.cache/yarn/v6/npm-@boxes-root-0.0.0-3efb8718-0e8f-4903-98cc-4528671d4a3c-1635800852683/node_modules/@boxes/tone-matrix"
 
 "@boxes/tone-matrix@file:boxes/tone-matrix":
   version "1.0.2"
   dependencies:
-    "@simplylinn/tonematrix" "^1.1.1"
+    "@simplylinn/tonematrix" "^1.1.2"
     tone "^14.7.77"
 
 "@corex/deepmerge@^2.6.34":
@@ -1410,10 +1410,10 @@
     eventemitter3 "^3.1.0"
     url "^0.11.0"
 
-"@simplylinn/tonematrix@^1.1.1":
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/@simplylinn/tonematrix/-/tonematrix-1.1.1.tgz#9e395be4d2a34e89b3cb5b659c3395764e395650"
-  integrity sha512-Tyjg4tP7O8MAS3XZ6J5g3gCwHnv4pXAsCiqLOUgY9/qJutZxOqQ46A6AKJ5X29qD6CQVK4aUREXCGXQJPT3d1w==
+"@simplylinn/tonematrix@^1.1.2":
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/@simplylinn/tonematrix/-/tonematrix-1.1.2.tgz#cb564debd872a07052c54957dc07ef5b917855eb"
+  integrity sha512-QKyUDdgW9wTUk6RM75OzGYxyy5j2T19geSShOFEbnlF/vcaD4r3XKzmJyfHSwGFtrhkwSMDBeP2Bl7YnGLzJeA==
   dependencies:
     eventemitter3 "^4.0.4"
     tone "^14.7.77"
