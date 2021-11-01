@@ -117,11 +117,39 @@ class ThemeSwitcher extends EventEmitter {
     return super.emit(event, ev);
   }
 
+  public addListener<E extends keyof ThemeEventMap>(
+    event: E,
+    listener: (ev: ThemeEventMap[E]) => void,
+  ): this {
+    return super.addListener(event, listener);
+  }
+
+  public prependListener<E extends keyof ThemeEventMap>(
+    event: E,
+    listener: (ev: ThemeEventMap[E]) => void,
+  ): this {
+    return super.prependListener(event, listener);
+  }
+
+  public prependOnceListener<E extends keyof ThemeEventMap>(
+    event: E,
+    listener: (ev: ThemeEventMap[E]) => void,
+  ): this {
+    return super.prependListener(event, listener);
+  }
+
   public on<E extends keyof ThemeEventMap>(
     event: E,
     listener: (ev: ThemeEventMap[E]) => void,
   ): this {
     return super.on(event, listener);
+  }
+
+  public once<E extends keyof ThemeEventMap>(
+    event: E,
+    listener: (ev: ThemeEventMap[E]) => void,
+  ): this {
+    return super.once(event, listener);
   }
 
   constructor() {
