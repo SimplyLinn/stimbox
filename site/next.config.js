@@ -11,12 +11,33 @@ const tailwindConfig = require('../tailwind.config');
 
 const resolvedTailwindConfig = resolveConfig(tailwindConfig);
 
+const boxPath = path.join(process.cwd(), 'boxes');
+
+function mapRules(r) {
+  console.log(r);
+  if (Array.isArray(r.oneOf)) return r.oneOf.forEach(mapRules);
+  if (!r.include || !Array.isArray(r.include) || typeof r.include[0] !== 'string' || !r.include[0].startsWith(process.cwd()) || r.include.includes(boxPath)) return;
+  r.include.splice(1, 0, boxPath);
+}
+
 module.exports = {
   // Workaround for console error on every pageload
   trailingSlash: true,
   assetPrefix: '',
   publicRuntimeConfig: {
     resolvedTailwindConfig,
+  },
+  async rewrites () {
+    return {
+      afterFiles: [
+        // These rewrites are checked after pages/public files
+        // are checked but before dynamic routes
+        {
+          source: '/boxes/:name/static/:file*',
+          destination: '/api/static-box-file',
+        },
+      ],
+    }
   },
   generateBuildId: async () => {
     try {
@@ -60,10 +81,7 @@ module.exports = {
       config.resolve.plugins = [new TsconfigPathsPlugin()];
     }
     if (dev) {
-      config.module.rules.forEach((r) => {
-        if (!r.include || !r.include[0].startsWith(process.cwd())) return;
-        r.include.splice(1, 0, path.join(process.cwd(), 'boxes'));
-      });
+      config.module.rules.forEach(mapRules);
     }
     if (config.node == null) {
       config.node = {};
