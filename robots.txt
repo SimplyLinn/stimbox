@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://stimbox.space
+
+# Sitemaps
+Sitemap: https://stimbox.space/sitemap.xml
